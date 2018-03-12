@@ -1,0 +1,163 @@
+body
+{
+    padding: 0;
+    margin: 0;
+}
+
+.menu ul
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+}
+.menu ul li
+{
+    padding: 15px;
+    position: relative;
+    width: 200px;
+    background-color: grey;
+    border-right: 5px solid #F1C40f;
+    cursor:pointer;
+    border-top: 1px solid dodgerBlue;
+    -webkit-transition: all 0.3s;
+    -0-transition:all 0.3s;
+    transition: all 0.3s;
+}
+.menu ul li:hover
+{
+    background-color: dodgerBlue;
+}
+.menu > ul > li
+{
+    border-right: 5px solid #F1C40f; 
+    
+}
+.menu ul ul
+{
+    transition: all 0.3s;
+  opacity: 1;
+    position: absolute;
+    border-left: 5px solid #F1C40f;
+    
+    visibility: hidden;
+    left: 100%;
+    top: -2%;
+
+}
+.menu ul li:hover > ul
+{
+   opacity: 1;
+    visibility: visible;
+    
+    
+}
+.menu ul li a
+{
+    color: #fff;
+    text-decoration: none;
+        
+}
+span
+{
+    margin-right: 15px;
+}
+.menu > ul > li:nth-of-type(2)::after
+{
+    content: ">";
+    position: absolute;
+    margin-left: 20%;
+    color:  black;
+    font-size: 20px;
+    
+}
+.IconEdit input
+{
+    width: 100px;
+    height: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-family: "Cambria";
+    font-size: 16px;
+    text-align: right;
+    border-radius: 20px 20px 20px 20px;
+    margin-top: -10px;
+    margin-left: 100px;
+    background-color: dodgerBlue;
+    border:none;
+    position: static;
+    
+    
+}
+.IconEdit i
+{
+      position:absolute;
+    left: 160px;
+    top:212px;
+    padding:30px 8px;
+    color: white;
+    transition: 3s;
+   
+}
+.IconEdit input[type=Submit]:hover
+    {
+        background:maroon;
+        border-color: dodgerBlue;
+    }
+.IconEdit input[type=Submit]:focus{
+       border-color: dodgerBlue;
+}
+     
+.AdminpictureForm img
+{
+   
+    width: 150px;
+    height:150px;
+    margin-left: 3px;
+    margin-right: 50px;
+    margin-top: 5px;
+    
+ 
+}
+.Admincontainer
+{
+    background-color: rgb(2, 29, 35);
+    padding-top: 100px;
+    float: left;
+    width: 290px;
+    height:600px;
+    text-align: center;
+    border-radius: 4px;
+    margin: 0 auto;
+    margin-top: 70px;
+    margin-right: 45px;
+    margin-left: -1355px;
+
+   
+}
+
+.AdminpictureForm
+{
+    background-color:transparent ; 
+    width: 180px;
+    height: 150px;
+    margin-top: -80px;
+    margin-left: 80px;
+    margin-right: 50px;
+    padding-right: 50px;
+    padding-left: -50px;
+  
+}
+
+
+.PantayLabel{
+    float: left;
+    font-size: 50px;
+    background-color:rgb(2, 29, 35);
+    width: 1250px;
+    color: White;
+    border-color: maroon;
+    padding-left: 100px;
+    margin-left: -10px;
+        
+}
