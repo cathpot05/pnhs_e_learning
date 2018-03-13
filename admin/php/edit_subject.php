@@ -9,9 +9,12 @@
 include '../../db.inc.php';
 include "../../sessionLogout.php";
 
-$sql = "INSERT INTO tbl_subjects (subjDesc, gradeId)
-VALUES('".$_POST["subj_desc"]."','".$_POST["select_grade_add"]."')";
+$sql = "UPDATE tbl_subjects
+SET subjDesc = '".$_POST['edit_subj_desc']."'
+, gradeId ='".$_POST['select_grade_edit']."'
+WHERE subjectId = '".$_POST['edit_subj_id']."' ";
 $result = $conn->query($sql);
+//echo $conn->$error;
 header("Location:../subject.php");
 $conn->close();
 ?>

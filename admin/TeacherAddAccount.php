@@ -10,16 +10,11 @@
     
 <head>
     
-    <?php
-
-
-    include "../sessionLogout.php";
- 	include "validator.php";
-   include "../db.inc.php";
+<?php
+include "../sessionLogout.php";
+include "../db.inc.php";
 include"php/alphanum.php";
 include"php/alphanum1.php";
-//include"php/generate1.php";
-
 
 ?>
     
@@ -54,99 +49,86 @@ include"php/alphanum1.php";
 
 </head>
 <body>
-             
-
-        <!-- Left Panel -->
-
-    <aside id="left-panel" class="left-panel">
-        <nav class="navbar navbar-expand-sm navbar-default">
-
-            <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-                     <i class="fa fa-bars"></i>
-                </button>
-                
-               
-              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index1.php"><img src="../images/pantaylogo.png" alt="logor"></a>
-                
-                 
-                
-            </div>
-
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    
-                    <li class="active">
-                        <a href="index1.php"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
-                        
-                    </li>
-                    <?php
-
-
-    echo'
-        
-                    <h3 class="menu-title">Accounts</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Teacher</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="ListofTeachers.php">List of Teachers</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="TeacherAddAccount.php">Add Accounts</a></li>
-                            <li><i class="fa fa-book"></i><a href="Teachermodules.php">Modules</a></li>
-                            <li><i class="fa fa-share-square-o"></i><a href="ui-social-buttons.html">Request</a></li>
-                            <li><i class="fa fa-id-card-o"></i><a href="ui-cards.html">Schedules</a></li>
-
-                            
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Students</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-table"></i><a href="ListofStudent.php">List of Students</a>
-                                
-                            
-                            </li>
-                            <li><i class="fa fa-table"></i><a href="StudentAddAccount.php">Add Account</a></li>
-                              <li><i class="fa fa-table"></i><a href="tables-data.html">Subjects</a></li>
-                              <li><i class="fa fa-table"></i><a href="tables-data.html">Quizzes</a></li>
-                              
-                              <li><i class="fa fa-table"></i><a href="tables-data.html">Schedule</a></li>
-                        </ul>
-                    </li>
-                     <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
-                    
-                    <li>
-                        <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Data</a>
-                        
-                         <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
-                         <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Messages</a>
-                        
-                    </li>
-                    ';
+<script>
+    function lettersOnly(input){
+        var regex = /[^a-z]/gi;
+        input.value = input.value.replace(regex, "");
+    }
+</script>
 
 
 
-    ?>
-                    <h3 class="menu-title"></h3><!-- /.menu-title -->
-                    <li>
-                    
-                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>About</a>
-                        
-                    
-                    </li>
-                    
-                    
-                    <h3 class="menu-title"></h3>
-                      <li>
-                     
-                          
-                          <a href="../logout.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
-                        
-                         
-                    </li> 
-                 
-                     
-   
-    </aside><!-- /#left-panel -->
+<!-- Left Panel -->
+
+<aside id="left-panel" class="left-panel">
+    <nav class="navbar navbar-expand-sm navbar-default">
+        <div class="navbar-header">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="index1.php"><img src="../images/pantaylogo.png" alt="logo"></a>
+        </div>
+        <div id="main-menu" class="main-menu collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="index1.php"> <i class="menu-icon fa fa-dashboard">
+                        </i>
+                        Admin <?php echo $_SESSION['firstname']; ?>
+                    </a>
+                </li>
+                <h3 class="menu-title">Accounts</h3><!-- /.menu-title -->
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Teacher</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="ListofTeachers.php">List of Teachers</a></li>
+                        <li><i class="fa fa-plus-circle"></i><a href="TeacherAddAccount.php">Add Teacher</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-address-book "></i>Students</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="ListofStudent.php">List of Students</a></li>
+                        <li><i class="fa fa-plus-circle"></i><a href="StudentAddAccount.php">Add Student</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-pencil"></i>Course and Subjects</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="courses.php">View Courses</a></li>
+                        <li><i class="fa fa-table"></i><a href="subject.php">View Subjects</a></li>
+                        <li><i class="fa fa-table"></i><a href="schoolyear.php">View School Year</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-pencil"></i>School Year</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <?php
+                        $sql_sy = "SELECT * FROM tbl_sy";
+                        $result_sy = $conn->query($sql_sy);
+                        while($row_sy = $result_sy->fetch_assoc()){
+                            echo '
+     								<li><i class="fa fa-table"></i><a href="view_schoolyear.php?id='.$row_sy["syId"].'">'.$row_sy['SY_From'].' - '.$row_sy['SY_To'].'</a></li>
+     								';
+                        }
+                        ?>
+                    </ul>
+                </li>
+                <!--<li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-sort-numeric-asc"></i>School Year</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-eye"></i><a href="#">Add School Year</a></li>
+                        <li><i class="fa fa-table"></i><a href="#">List of</a></li>
+                    </ul>
+                </li>-->
+                <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
+                <li>
+                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
+                </li>
+                <h3 class="menu-title"></h3>
+                <li>
+                    <a href="../logout.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
+                </li>
+</aside>
 
     <!-- Left Panel -->
 
@@ -158,16 +140,7 @@ include"php/alphanum1.php";
                 
                 
                 
-                <script>
-    
-    function lettersOnly(input){
-        var regex = /[^a-z]/gi;
-        input.value = input.value.replace(regex, "");
-    }
-    
-    
-    </script>
-    
+
                 
                 
     <div id="right-panel" class="right-panel">
@@ -179,7 +152,7 @@ include"php/alphanum1.php";
 
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-                    <div class="header-left">
+                   <!-- <div class="header-left">
                         <button class="search-trigger"><i class="fa fa-search"></i></button>
                         <div class="form-inline">
                             <form class="search-form">
@@ -188,16 +161,12 @@ include"php/alphanum1.php";
                             </form>
                         </div>
 
-                    </div>
+                    </div>-->
                 </div>
-
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right"> 
                         <img class="user-avatar rounded-circle" src="../images/pantaylogo.png" alt="User Avatar">
-                       
-                   
              <style>
-                        
                 p
                  {
                      
@@ -209,19 +178,10 @@ include"php/alphanum1.php";
                  }
                         
                         </style>
-
-
-                 
-                             
-   
-    
-                        
-
                     </div>
 
                     <div class="language-select dropdown" id="language-select">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown"  id="language" aria-haspopup="true" aria-expanded="true">
-                           
                         </a>
                         
                     </div>
@@ -242,8 +202,6 @@ include"php/alphanum1.php";
                     <div class="page-title">
                         <h1>Teacher's Account Information: </h1>
                         <style>
-                            
-                            
                 .p
                  {
                     
@@ -256,22 +214,11 @@ include"php/alphanum1.php";
                  }
                         
                         </style>
-
-     
-                     
-                    
-                         
-                        
-                 
                     </div>
                 </div>
             </div>
-           
+
         </div>
-<?php 
-
-
-    echo'
         <div class="content mt-3">
 
             <div class="col-sm-12">
@@ -282,129 +229,88 @@ include"php/alphanum1.php";
                     </button>
                 </div>
                </div>
-            </div>';?>
+            </div>
     
 
 
       <div class="col-lg-12">
-                    <div class="card">
-                      <div class="card-header">
-                        <strong>Account's Information</strong> || Fill up the following:
-                      </div>
-                      <div class="card-body card-block">
-                        <form action="php/TeacherAddAccount.php"method="post" class="form-horizontal">
-                          <div class="row form-group">
-                          </div>
-                          <div class="row form-group">
-                            <div class="col col-md-3"><label for="firstname" class=" form-control-label">First Name:</label></div>
-                            <div class="col-12 col-md-9"><input required= "" type="text" id="firstname" name="firstname" placeholder="Enter Teacher's First Name" class="form-control" onkeyup="lettersOnly(this)" ></div>
-                          </div>
-                             <div class="row form-group">
-                            <div class="col col-md-3"><label for="middlename" class=" form-control-label">Middle Name:</label></div>
-                            <div class="col-12 col-md-9"><input required= "" type="text" id="middlename" name="middlename" placeholder="Enter Teacher's Middle Name" class="form-control" onkeyup="lettersOnly(this)"></div>
-                          </div>
-                            
-                           <div class="row form-group">
-                            <div class="col col-md-3"><label for="lastname" class=" form-control-label">Last Name:</label></div>
-                            <div class="col-12 col-md-9"><input required="" type="text" id="lastname" name="lastname" placeholder="Enter Teacher's Last Name" class="form-control" onkeyup="lettersOnly(this)"></div>
-                          </div>
-                            
-
-
-
-                             <div class="row form-group">
-                            <div class="col col-md-3"><label for="address" class=" form-control-label">Address:</label></div>
-                            <div class="col-12 col-md-9"><input required="" type="text" id="address" name="address" placeholder="Enter Teacher's Address" class="form-control"></div>
-                          </div>
-                             <div class="row form-group">
-                            <div class="col col-md-3"><label for="mno" class=" form-control-label">Mobile No.:</label></div>
-                            <div class="col-12 col-md-9"><input required="" type="text" id="mno" name="mno" placeholder="Enter Teacher's Mobile No." class="form-control" onkeyup="numbersOnly(this)"></div>
-                          </div>
-                             <div class="row form-group">
-                            <div class="col col-md-3"><label for="dbirth" class=" form-control-label">Date of Birth:</label></div>
-                            <div class="col-12 col-md-9"><input required="" type="text" id="dbirth" name="dbirth" placeholder="Enter Date of Birth" class="form-control" ></div>
-                          </div>
-                             <div class="row form-group">
-                            <div class="col col-md-3"><label for="age" class=" form-control-label">Age:</label></div>
-                            <div class="col-12 col-md-9"><input ondrop = "return false;" onpaste = "return false;" required = " " type="number" id="age" name="age" placeholder="Enter Student's Birth Date" class="form-control" min ="1" max = "30" value = "0" step = "1" ondrop = "return false;" onpaste = "return false;"></div>
-                          </div>
-                            
-                            
-                            <div class="row form-group">
-                            <div class="col col-md-3"><label class=" form-control-label">Gender</label></div>
-                             <div class="col-12 col-md-9">
-                                 <select  class="form-control" name="gender" id="gender" >
-                                     <option>Female</option>
-                                     <option>Male</option>
-                                 </select>
-                          </div>
-                                </div>
-                           
-                             <div class="row form-group">
-                            <div class="col col-md-3"><label for="emailaddress" class=" form-control-label">Email Address:</label></div>
-                            <div class="col-12 col-md-9"><input required= "" type="email" id="emailaddress" name="emailaddress" placeholder="Enter email address" class="form-control"><small class="form-text text-muted"> <i class="fa fa-info"></i> Please insert a valid e-mail address.</small></div>
-                          </div>
-                            <div class="row form-group">
-                                <div class="col col-md-3"><label for="username" class=" form-control-label">User Name:</label></div>
-                                <div class="col-12 col-md-9"><input required= "" type="text" id="username" name="username" placeholder="Enter Teacher's Username" class="form-control" onkeyup="lettersOnly(this)" ></div>
-                            </div>
-                            
-                            <div class="row form-group">
-                            <div class="col col-md-3"><label for="password" class=" form-control-label">Password</label></div>
-                            <div class="col-12 col-md-9"><input type="password" id="password" name="password" placeholder="Enter Password" class="form-control"><span class="help-block"> <i class="fa fa-info"></i> Password serves as default.</span></div>
-                          </div>
-                       
-                      </div>
-                          
-                      <div class="card-footer">
-                        <div class="col-6 col-md-6">
-                                    <button onclick="check()" class="btn btn-outline-primary btn-lg btn-block">Add Account</button></div>
-                                    
-                         
-                         <div class="col-6 col-md-6">
-                                    <button type="button" class="btn btn-outline-danger btn-lg btn-block">Cancel</button></div>
-                                    
-                      </div>
-                           </form>
+        <div class="card">
+          <div class="card-header">
+            <strong>Account's Information</strong> || Fill up the following:
+          </div>
+          <div class="card-body card-block">
+              <form action="php/TeacherAddAccount.php"method="post" class="form-horizontal">
+                  <div class="row form-group"></div>
+                  <div class="row form-group">
+                    <div class="col col-md-3"><label for="firstname" class=" form-control-label">First Name:</label></div>
+                    <div class="col-12 col-md-9"><input required= "" type="text" id="firstname" name="firstname" placeholder="Enter Teacher's First Name" class="form-control" onkeyup="lettersOnly(this)" ></div>
+                  </div>
+                     <div class="row form-group">
+                         <div class="col col-md-3"><label for="middlename" class=" form-control-label">Middle Name:</label></div>
+                    <div class="col-12 col-md-9"><input required= "" type="text" id="middlename" name="middlename" placeholder="Enter Teacher's Middle Name" class="form-control" onkeyup="lettersOnly(this)"></div>
+                  </div>
+                   <div class="row form-group">
+                    <div class="col col-md-3"><label for="lastname" class=" form-control-label">Last Name:</label></div>
+                    <div class="col-12 col-md-9"><input required="" type="text" id="lastname" name="lastname" placeholder="Enter Teacher's Last Name" class="form-control" onkeyup="lettersOnly(this)"></div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col col-md-3"><label for="address" class=" form-control-label">Address:</label></div>
+                    <div class="col-12 col-md-9"><input required="" type="text" id="address" name="address" placeholder="Enter Teacher's Address" class="form-control"></div>
+                  </div>
+                  <div class="row form-group">
+                      <div class="col col-md-3"><label for="mno" class=" form-control-label">Mobile No.:</label></div>
+                      <div class="col-12 col-md-9"><input required="" type="text" id="mno" name="mno" placeholder="Enter Teacher's Mobile No." class="form-control" onkeyup="numbersOnly(this)"></div>
                     </div>
-                    <div class="card">
-       
+                 <div class="row form-group">
+                <div class="col col-md-3"><label for="dbirth" class=" form-control-label">Date of Birth:</label></div>
+                <div class="col-12 col-md-9"><input required="" type="text" id="dbirth" name="dbirth" placeholder="Enter Date of Birth" class="form-control" ></div>
+              </div>
+                 <div class="row form-group">
+                <div class="col col-md-3"><label for="age" class=" form-control-label">Age:</label></div>
+                <div class="col-12 col-md-9"><input ondrop = "return false;" onpaste = "return false;" required = " " type="number" id="age" name="age" placeholder="Enter Student's Birth Date" class="form-control" min ="1" max = "30" value = "0" step = "1" ondrop = "return false;" onpaste = "return false;"></div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col col-md-3"><label class=" form-control-label">Gender</label></div>
+                 <div class="col-12 col-md-9">
+                     <select  class="form-control" name="gender" id="gender" >
+                         <option>Female</option>
+                         <option>Male</option>
+                     </select>
+              </div>
+                    </div>
+
+                 <div class="row form-group">
+                <div class="col col-md-3"><label for="emailaddress" class=" form-control-label">Email Address:</label></div>
+                <div class="col-12 col-md-9"><input required= "" type="email" id="emailaddress" name="emailaddress" placeholder="Enter email address" class="form-control"><small class="form-text text-muted"> <i class="fa fa-info"></i> Please insert a valid e-mail address.</small></div>
+              </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="username" class=" form-control-label">User Name:</label></div>
+                    <div class="col-12 col-md-9"><input required= "" type="text" id="username" name="username" placeholder="Enter Teacher's Username" class="form-control" onkeyup="lettersOnly(this)" ></div>
+                </div>
+
+                <div class="row form-group">
+                <div class="col col-md-3"><label for="password" class=" form-control-label">Password</label></div>
+                <div class="col-12 col-md-9"><input type="password" id="password" name="password" placeholder="Enter Password" class="form-control"><span class="help-block"> <i class="fa fa-info"></i> Password serves as default.</span></div>
+              </div>
+
+
+
+          <div class="card-footer">
+            <div class="col-6 col-md-6">
+                        <button onclick="check()" class="btn btn-outline-primary btn-lg btn-block">Add Account</button></div>
+             <div class="col-6 col-md-6">
+                        <button type="button" class="btn btn-outline-danger btn-lg btn-block">Cancel</button></div>
+          </div>
+               </form>
+        </div>
+        <div class="card">
                 </div>
             </div>
           
 
-                    </div>
-                </div>
-            </div>
-            
-                    </div>
-                </div>
-            </div>
-           
-            </div><!--/.col-->
+      </div>
 
-
-            </div><!--/.col-->
-
-
-            </div><!--/.col-->
-
-
-          
-                    </div>
-                </div>
-            </div>
-
-           
-            </div>
-
-
-                <!-- /# card -->
-            </div>
-
-
-        </div> <!-- .content -->
-    </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
 
@@ -416,11 +322,11 @@ include"php/alphanum1.php";
 
 
     <script src="../assets/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="../assets/js/jquery-ui.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-1.10.2.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
     <script src="../assets/js/plugins.js"></script>
     <script src="../assets/js/main.js"></script>
-
-
     <script src="../assets/js/lib/chart-js/Chart.bundle.js"></script>
     <script src="../assets/js/dashboard.js"></script>
     <script src="../assets/js/widgets.js"></script>
@@ -447,5 +353,21 @@ include"php/alphanum1.php";
         } )( jQuery );
     </script>
 
+<script type="text/javascript">
+    /*
+    jQuery(document).ready(function($){
+        //var body = $( 'body' );
+
+        $("#dbirth").datepicker({});
+    });
+     */
+  /*  $(function () {
+        $("#dbirth").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '-100:+0'
+        });
+    });*/
+</script>
 </body>
 </html>

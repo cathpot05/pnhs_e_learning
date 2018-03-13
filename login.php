@@ -15,18 +15,16 @@ if(isset($_POST['username']))
 {
 	$username = $_POST['username'];
 	$password = md5($_POST['password']);
-$sql = "SELECT * from tblaccount where username = '$username' and password = '$password' ";
+echo $sql = "SELECT * from tbl_account where username = '$username' and password = '$password' ";
 $result = $conn->query($sql);
-
 if ($result->num_rows > 0) 
 {
-	
 	$row = $result->fetch_assoc();
-	$_SESSION["id"] = $row["acctid"];
-
+	$_SESSION["id"] = $row["accountId"];
+    $_SESSION["firstname"] = $row["firstname"];
+    //echo $_SESSION["firstname"];
 
 	header("Location:admin/index1.php");
-
 } 
 else 
 {

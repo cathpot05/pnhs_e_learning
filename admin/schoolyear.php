@@ -193,36 +193,32 @@ include '../db.inc.php';
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <strong class="card-title">List of Subjects</strong>
-                <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#addsubject">
-                    Add New Subject
+                <strong class="card-title">List of School Year</strong>
+                <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#addschoolyear">
+                    Add New School Year
                 </button>
             </div>
             <div class="card-body">
                 <table class="table table">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Subject Title</th>
-                        <th scope="col">Grade</th>
+                        <th scope="col">School Year</th>
                         <th scope="col">Manage</th>
                     </tr>
                     </thead>
                     <tbody>
 
                     <?php
-                    $sql = "SELECT A.*, B.gradeDesc
-                            FROM tbl_subjects A
-                            INNER JOIN tbl_grade B ON A.gradeId = B.gradeId";
+                    $sql = "SELECT * FROM tbl_sy";
                     $result = $conn->query($sql);
                     while($row = $result->fetch_assoc()){
                         echo '
      								<tr>
-     								<td>'.$row["subjDesc"].'</td>
-     								<td>'.$row["gradeDesc"].'</td>
+     								<td>'.$row["SY_From"].' - '.$row["SY_To"].'</td>
      								<td>
      								<div class="btn-sm">
-     								<a class="btn btn-outline-primary btn-sm" onClick="edit_subjectFunc('.$row["subjectId"].', \''.$row["subjDesc"].'\', '.$row["gradeId"].' )" data-toggle="modal" data-target="#edit_subject">Change  </a>
-                                 <a href="php/remove_subject.php?id='.$row["subjectId"].'" class="btn btn-outline-danger btn-sm">Remove</a>
+     								<a class="btn btn-outline-primary btn-sm" onClick="edit_sy('.$row["syId"].', '.$row["SY_From"].', '.$row["SY_To"].' )" data-toggle="modal" data-target="#edit_schoolyear">Change  </a>
+                                 <a href="php/remove_sy.php?id='.$row["syId"].'" class="btn btn-outline-danger btn-sm">Remove</a>
                                  </div>
      								</td>
      								</tr>
@@ -242,40 +238,26 @@ include '../db.inc.php';
 
 <!--Modals-->
 
-<div class="modal fade" id="addsubject" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+<div class="modal fade" id="addschoolyear" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="mediumModalLabel">Add New Subject</h5>
+                <h5 class="modal-title" id="mediumModalLabel">Add New School Year</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="php/addsubject.php" method="post" class="form-horizontal">
+                <form action="add_schoolyear.php" method="post" class="form-horizontal">
                     <div class="row form-group">
-                        <div class="col col-md-3"><label for="subj_desc" class=" form-control-label">Subject Description:</label></div>
-                        <div class="col-12 col-md-9"><input required="" type="text" id="subj_desc" name="subj_desc" class="form-control"></div>
+                        <div class="col col-md-3"><label for="sy_from" class=" form-control-label">From:</label></div>
+                        <div class="col-12 col-md-9"><input required="" type="text" id="sy_from" name="sy_from" class="form-control" onkeyup="numbersOnly(this)"></div>
                     </div>
                     <div class="row form-group">
-                        <div class="col col-md-3"><label for="subj_grade" class=" form-control-label">Grade</label></div>
-                        <div class="col-12 col-md-9">
-                            <?php
-                            $sql_grade = "SELECT * FROM tbl_grade";
-                            $result_grade = $conn->query($sql_grade);
-                            echo '
-                        <select class="form-control" name="select_grade_add" id="select_grade_add" >
-                        ';
-                            if ($result_grade->num_rows > 0) {
-                                while($row_grade = $result_grade->fetch_assoc()){
-                                    echo '<option value='.$row_grade["gradeId"].'>'.$row_grade["gradeDesc"].'</option>';
-                                }
-                                echo '</select>';
-                            }
-                            ?>
-                        </div>
+                        <div class="col col-md-3"><label for="sy_to" class=" form-control-label">To:</label></div>
+                        <div class="col-12 col-md-9"><input required="" type="text" id="sy_to" name="sy_to" class="form-control" onkeyup="numbersOnly(this)"></div>
                     </div>
-             </div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn btn-primary">Add</button>
@@ -285,41 +267,25 @@ include '../db.inc.php';
     </div>
 </div>
 
-<div class="modal fade" id="edit_subject" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+<div class="modal fade" id="edit_schoolyear" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="mediumModalLabel">Edit Subject Desc</h5>
+                <h5 class="modal-title" id="mediumModalLabel">Edit School Year</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="php/edit_subject.php" method="post" class="form-horizontal">
-                    <input type="hidden" required="" type="text" id="edit_subj_id" name="edit_subj_id" class="form-control">
-                    <input type="hidden" required="" type="text" id="edit_subj_grade" name="edit_subj_grade" class="form-control">
+                <form action="php/edit_schoolyear.php" method="post" class="form-horizontal">
                     <div class="row form-group">
-                        <div class="col col-md-3"><label for="edit_subj_desc" class=" form-control-label">Subject Description:</label></div>
-                        <div class="col-12 col-md-9"><input required="" type="text" id="edit_subj_desc" name="edit_subj_desc" class="form-control"></div>
+                        <input type="hidden" required="" type="text" id="edit_sy_id" name="edit_sy_id" class="form-control">
+                        <div class="col col-md-3"><label for="sy_from" class=" form-control-label">From:</label></div>
+                        <div class="col-12 col-md-9"><input required="" type="text" id="edit_sy_from" name="edit_sy_from" class="form-control" value="" onkeyup="numbersOnly(this)"></div>
                     </div>
                     <div class="row form-group">
-                        <div class="col col-md-3"><label for="subj_grade" class=" form-control-label">Grade</label></div>
-                        <div class="col-12 col-md-9">
-                            <?php
-                            $sql_grade1 = "SELECT * FROM tbl_grade";
-                            $result_grade1 = $conn->query($sql_grade1);
-                            echo '
-                        <select class="form-control" name="select_grade_edit" id="select_grade_edit" >
-                        ';
-                            if ($result_grade1->num_rows > 0) {
-                                while($row_grade1 = $result_grade1->fetch_assoc()){
-                                    echo '<option value='.$row_grade1["gradeId"].'>'.$row_grade1["gradeDesc"].'</option>';
-                                }
-                                echo '</select>';
-                            }
-                            $conn->close();
-                            ?>
-                        </div>
+                        <div class="col col-md-3"><label for="sy_to" class=" form-control-label">To:</label></div>
+                        <div class="col-12 col-md-9"><input required="" type="text" id="edit_sy_to" name="edit_sy_to" class="form-control" value="" onkeyup="numbersOnly(this)"></div>
                     </div>
             </div>
             <div class="modal-footer">
@@ -330,7 +296,6 @@ include '../db.inc.php';
         </div>
     </div>
 </div>
-
 <!-- Right Panel -->
 
 <!---------------------------------Tables---->
@@ -365,14 +330,11 @@ include '../db.inc.php';
         } );
     } )( jQuery );
 
-    function edit_subjectFunc(id, desc, grade)
+    function edit_sy(id, from, to)
     {
-        //alert('test');
-        document.getElementById("edit_subj_id").value = id;
-        document.getElementById("edit_subj_desc").value = desc;
-        var element = document.getElementById('select_grade_edit');
-        element.value = grade;
-        //document.getElementById("select_grade_edit").selected = grade; //select_grade_edit edit_subj_grade
+        document.getElementById("edit_sy_id").value = id;
+        document.getElementById("edit_sy_from").value = from;
+        document.getElementById("edit_sy_to").value = to;
 
     }
 </script>

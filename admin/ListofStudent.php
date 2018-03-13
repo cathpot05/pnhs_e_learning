@@ -6,27 +6,21 @@
 
 
 
+<?php
+
+include "../sessionLogout.php";
+include '../db.inc.php';
+?>
+
+
 <html class="no-js" lang=""> <!--<![endif]-->
-
 <head>
-
-    <?php
-
-
-    include "../sessionLogout.php";
-    include "validator.php";
-    include "../db.inc.php";
-    ?>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Teacher's Account Information | Pantay National High School</title>
+    <title>Pantay National High School</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-    <link rel="shortcut icon" href="../images/pantaylogo1_.bmp">
-
+    <link rel="shortcut icon" href="../images/pantaylogo1.bmp">
     <link rel="stylesheet" href="../assets/css/normalize.css">
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
@@ -34,133 +28,96 @@
     <link rel="stylesheet" href="../assets/css/flag-icon.min.css">
     <link rel="stylesheet" href="../assets/css/cs-skin-elastic.css">
     <!-- <link rel="stylesheet" href="assets/css/bootstrap-select.less"> -->
-
-
     <link rel="stylesheet" href="../assets/scss/style.css">
     <link href="../assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
-
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-
-
-
-
-
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
-
 </head>
 <body>
 
 
-<!-- Left Panel -->
+
+<!--Main Design -->
 
 <aside id="left-panel" class="left-panel">
     <nav class="navbar navbar-expand-sm navbar-default">
-
         <div class="navbar-header">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-
-
-            <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index1.php"><img src="../images/pantaylogo.png" alt="logor"></a>
-
-
-
+            <a class="navbar-brand" href="index1.php"><img src="../images/pantaylogo.png" alt="logo"></a>
         </div>
-
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
-
                 <li class="active">
-                    <a href="index1.php"> <i class="menu-icon fa fa-dashboard"></i>Home </a>
-
+                    <a href="index1.php"> <i class="menu-icon fa fa-dashboard">
+                        </i>
+                        Admin <?php echo $_SESSION['firstname']; ?>
+                    </a>
                 </li>
-                <?php
-                echo'
-
-                    <h3 class="menu-title">Accounts</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Teacher</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="ListofTeachers.php">List of Teachers</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="TeacherAddAccount.php">Add Accounts</a></li>
-                            <li><i class="fa fa-book"></i><a href="Teachermodules.php">Modules</a></li>
-                            <li><i class="fa fa-share-square-o"></i><a href="reques.php">Request</a></li>
-                            <li><i class="fa fa-id-card-o"></i><a href="sched.php">Schedules</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Students</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-table"></i><a href="ListofStudent.php">List of Students</a>
-
-
-                            </li>
-                            <li><i class="fa fa-table"></i><a href="StudentAddAccount.php">Add Account</a></li>
-                              <li><i class="fa fa-table"></i><a href="subject.php">Subjects</a></li>
-                              <li><i class="fa fa-table"></i><a href="quizzes.php">Quizzes</a></li>
-
-                              <li><i class="fa fa-table"></i><a href="sched.php">Schedule</a></li>
-                        </ul>
-                    </li>
-                     <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
-
-                    <li>
-                        <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Data</a>
-
-                         <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
-                         <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Messages</a>
-
-                    </li>
-                    ';
-
-
-                ?>
-
-
-
-
-
-
-                <h3 class="menu-title"></h3><!-- /.menu-title -->
+                <h3 class="menu-title">Accounts</h3><!-- /.menu-title -->
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Teacher</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="ListofTeachers.php">List of Teachers</a></li>
+                        <li><i class="fa fa-plus-circle"></i><a href="TeacherAddAccount.php">Add Teacher</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-address-book "></i>Students</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="ListofStudent.php">List of Students</a></li>
+                        <li><i class="fa fa-plus-circle"></i><a href="StudentAddAccount.php">Add Student</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-pencil"></i>Course and Subjects</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="courses.php">View Courses</a></li>
+                        <li><i class="fa fa-table"></i><a href="subject.php">View Subjects</a></li>
+                        <li><i class="fa fa-table"></i><a href="schoolyear.php">View School Year</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-pencil"></i>School Year</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <?php
+                        $sql_sy = "SELECT * FROM tbl_sy";
+                        $result_sy = $conn->query($sql_sy);
+                        while($row_sy = $result_sy->fetch_assoc()){
+                            echo '
+     								<li><i class="fa fa-table"></i><a href="view_schoolyear.php?id='.$row_sy["syId"].'">'.$row_sy['SY_From'].' - '.$row_sy['SY_To'].'</a></li>
+     								';
+                        }
+                        ?>
+                    </ul>
+                </li>
+                <!--<li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-sort-numeric-asc"></i>School Year</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-eye"></i><a href="#">Add School Year</a></li>
+                        <li><i class="fa fa-table"></i><a href="#">List of</a></li>
+                    </ul>
+                </li>-->
+                <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
                 <li>
-
-                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>About</a>
-
-
+                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                 </li>
-
-
                 <h3 class="menu-title"></h3>
                 <li>
-
-
                     <a href="../logout.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
-
-
                 </li>
-
-
-
-</aside><!-- /#left-panel -->
-
-<!-- Left Panel -->
+</aside>
 
 <!-- Right Panel -->
-
-
-
-<!--Forms   last -->
 <div id="right-panel" class="right-panel">
 
     <!-- Header-->
     <header id="header" class="header">
-
         <div class="header-menu">
-
             <div class="col-sm-7">
                 <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-                <div class="header-left">
+                <!--<div class="header-left">
                     <button class="search-trigger"><i class="fa fa-search"></i></button>
                     <div class="form-inline">
                         <form class="search-form">
@@ -168,15 +125,12 @@
                             <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
                         </form>
                     </div>
-
-                </div>
+                </div>-->
             </div>
 
             <div class="col-sm-5">
                 <div class="user-area dropdown float-right">
                     <img class="user-avatar rounded-circle" src="../images/pantaylogo.png" alt="User Avatar">
-
-
                     <style>
 
                         p
@@ -190,6 +144,8 @@
                         }
 
                     </style>
+                    </p>
+
 
                 </div>
 
@@ -203,18 +159,14 @@
             </div>
         </div>
 
-
-
-
-
-    </header><!-- /header -->
+    </header>
     <!-- Header-->
 
     <div class="breadcrumbs">
         <div class="col-sm-4">
             <div class="page-header float-left">
                 <div class="page-title">
-                    <h1>Teacher's Account Information: </h1>
+                    <h1>Pantay National High School</h1>
                     <style>
 
 
@@ -230,34 +182,32 @@
                         }
 
                     </style>
-
                 </div>
             </div>
         </div>
 
     </div>
-    <?php
 
-    echo'
-        <div class="content mt-3">
-
-            <div class="col-sm-12">
-                <div class="alert  alert-success alert-dismissible fade show" role="alert">
-                  <span class="badge badge-pill badge-success">Note</span> Good Day, currently your are in Administrators page/view. Thank you!
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+    <div class="content mt-3">
+        <div class="col-sm-12">
+            <div class="alert  alert-success alert-dismissible fade show" role="alert">
+                <span class="badge badge-pill badge-success">Note</span> Good Day, currently your are in Administrators page/view. Thank you!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+        </div>
+    </div>
 
-                    </div>';
-    ?>
 
+    <!--Insert codes here-->
+
+    <!--Start of Main Content-->
     <div class="breadcrumbs">
         <div class="col-sm-4">
             <div class="page-header float-left">
                 <div class="page-title">
-                    <h1>Dashboard</h1>
+                    <!--<h1>Dashboard</h1>-->
                 </div>
             </div>
         </div>
@@ -265,8 +215,6 @@
             <div class="page-header float-right">
                 <div class="page-title">
                     <ol class="breadcrumb text-right">
-
-                        <li class="active">Data table</li>
                     </ol>
                 </div>
             </div>
@@ -282,48 +230,38 @@
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">Name</th>
-                        <!--<th scope="col">Address</th>
+                        <th scope="col">Address</th>
                         <th scope="col">Mobile No.:</th>
                         <th scope="col">Date of Birth</th>
                         <th scope="col">Age</th>
                         <th scope="col">Gender</th>
-                        <th scope="col">Email Address</th>-->
-                        <th scope="col">Grade</th>
-                        <th scope="col">Course</th>
-                        <th scope="col">username</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Username</th>
                         <th scope="col">Manage</th>
                     </tr>
                     </thead>
                     <tbody>
 
                     <?php
-                    $sql = "SELECT A.*, C.course as 'courseDesc', D.gradeDes
-FROM tbl_students A
-INNER JOIN tbl_studentinfo B ON A.studentId = B.studId
-INNER JOIN tbl_course C ON B.courseId = C.courseid
-INNER JOIN tbl_grade D ON B.gradeId = D.gradeid";
+                    $sql = "SELECT * FROM tbl_students";
                     $result = $conn->query($sql);
                     while($row = $result->fetch_assoc()){
                         echo '
      								<tr>
-     								<td> '.$row["frstName"].' '.$row["middleName"].' '.$row["lastName"].'</td>
-                                    <td>'.$row["courseDesc"].'</td>
-                                    <td>'.$row["gradeDes"].'</td>
-                                    <td>'.$row["username"].'</td>
+     								<td>'.$row["firstname"].' '.$row["middlename"].' '.$row["lastname"].'</td>
+     								<td>'.$row["address"].'</td>
+     								<td>'.$row["mobileno"].'</td>
+     								<td>'.$row["birthdate"].'</td>
+     								<td>'.$row["age"].'</td>
+     								<td>'.$row["gender"].'</td>
+     								<td>'.$row["emailaddress"].'</td>
+     								<td>'.$row["username"].'</td>
      								<td>
-     								<h3>
+                                                <div class="btn-sm">
+     							<a href="changestudentaccount.php?id='.$row["studId"].'" class="btn btn-outline-primary btn-sm">Change  </a>
+                                 <a href="php/removestudent.php?id='.$row["studId"].'" class="btn btn-outline-danger btn-sm">Remove</a>
+                                 </div>
 
-                                      <div class="content mt-3">
-            <div class="animated fadeIn">
-                <div class="row">
-
-                    <div class="btn-sm">
-
-     								<a href="changestudentaccount.php?id='.$row["studentId"].'"
-                                    class="btn btn-outline-primary btn-sm">Change  </a>
-                                 <br /><br />
-     								<a href="php/removestudent.php?id='.$row["studentId"].'" class="btn btn-outline-danger btn-sm">Remove</a>
-     								</h3>
      								</td>
      								</tr>
      								';
@@ -334,40 +272,11 @@ INNER JOIN tbl_grade D ON B.gradeId = D.gradeid";
             </div>
         </div>
     </div>
-    <div class="card">
-    </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div><!--/.col-->
-
-
-</div><!--/.col-->
-
-
-</div><!--/.col-->
-
-
-
-</div>
-</div>
-</div>
-
+    <!--Insert codes here-->
 
 </div>
 
-
-<!-- /# card -->
-</div>
-
-
-</div> <!-- .content -->
-</div><!-- /#right-panel -->
+<!--End of Main Design -->
 
 <!-- Right Panel -->
 

@@ -11,21 +11,10 @@
 <head>
 
     <?php
-
-
-
     include "../sessionLogout.php";
-    include "validator.php";
     include "../db.inc.php";
     include "php/alphanum.php";
     include "php/alphanum1.php";
-
-
-    $sql = "SELECT * FROM tbl_students where studentId = ".$_GET["id"];
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
-
-
     ?>
 
     <meta charset="utf-8">
@@ -65,89 +54,59 @@
 
 <aside id="left-panel" class="left-panel">
     <nav class="navbar navbar-expand-sm navbar-default">
-
         <div class="navbar-header">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-
-
-            <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index1.php"><img src="../images/pantaylogo.png" alt="logor"></a>
-
-
-
+            <a class="navbar-brand" href="index1.php"><img src="../images/pantaylogo.png" alt="logo"></a>
         </div>
-
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
-
                 <li class="active">
-                    <a href="index1.php"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
-
+                    <a href="index1.php"> <i class="menu-icon fa fa-dashboard">
+                        </i>
+                        Admin <?php echo $_SESSION['firstname']; ?>
+                    </a>
                 </li>
-                <?php
-                echo'
-
-                    <h3 class="menu-title">Accounts</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Teacher</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="ListofTeachers.php">List of Teachers</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="TeacherAddAccount.php">Add Accounts</a></li>
-                            <li><i class="fa fa-book"></i><a href="ui-tabs.html">Modules</a></li>
-                            <li><i class="fa fa-share-square-o"></i><a href="ui-social-buttons.html">Request</a></li>
-                            <li><i class="fa fa-id-card-o"></i><a href="ui-cards.html">Schedules</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i><a href="ui-alerts.html">Alerts</a></li>
-
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Students</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-table"></i><a href="ListofStudent.php">List of Students</a>
-
-
-                            </li>
-                            <li><i class="fa fa-table"></i><a href="StudentAddAccount.php">Add Account</a></li>
-                              <li><i class="fa fa-table"></i><a href="tables-data.html">Subjects</a></li>
-                              <li><i class="fa fa-table"></i><a href="tables-data.html">Quizzes</a></li>
-
-                              <li><i class="fa fa-table"></i><a href="tables-data.html">Schedule</a></li>
-                        </ul>
-                    </li>
-                     <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
-
-                    <li>
-                        <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Data</a>
-
-                         <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
-                         <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Messages</a>
-
-                    </li>
-                    ';
-
-                ?>
-                <h3 class="menu-title"></h3><!-- /.menu-title -->
+                <h3 class="menu-title">Accounts</h3><!-- /.menu-title -->
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Teacher</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="ListofTeachers.php">List of Teachers</a></li>
+                        <li><i class="fa fa-plus-circle"></i><a href="TeacherAddAccount.php">Add Teacher</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-address-book "></i>Students</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="ListofStudent.php">List of Students</a></li>
+                        <li><i class="fa fa-plus-circle"></i><a href="StudentAddAccount.php">Add Student</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-pencil"></i>Course and Subjects</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="#">Courses</a></li>
+                        <li><i class="fa fa-table"></i><a href="#">Subjects</a></li>
+                        <li><i class="fa fa-table"></i><a href="#">School Year</a></li>
+                    </ul>
+                </li>
+                <!--<li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-sort-numeric-asc"></i>School Year</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-eye"></i><a href="#">Add School Year</a></li>
+                        <li><i class="fa fa-table"></i><a href="#">List of</a></li>
+                    </ul>
+                </li>-->
+                <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
                 <li>
-
-                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>About</a>
-
-
+                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                 </li>
-
-
                 <h3 class="menu-title"></h3>
                 <li>
-
-
                     <a href="../logout.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
-
-
                 </li>
-
-
-
-</aside><!-- /#left-panel -->
+</aside>
 
 <!-- Left Panel -->
 
@@ -165,16 +124,6 @@
 
         <div class="col-sm-7">
             <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-            <div class="header-left">
-                <button class="search-trigger"><i class="fa fa-search"></i></button>
-                <div class="form-inline">
-                    <form class="search-form">
-                        <input required = "" class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
-                        <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
-                    </form>
-                </div>
-
-            </div>
         </div>
 
         <div class="col-sm-5">
@@ -196,19 +145,11 @@
 
                 </style>
 
-
-
-
-
-
-
             </div>
 
             <div class="language-select dropdown" id="language-select">
                 <a class="dropdown-toggle" href="#" data-toggle="dropdown"  id="language" aria-haspopup="true" aria-expanded="true">
-
                 </a>
-
             </div>
 
         </div>
@@ -247,213 +188,117 @@
     </div>
 
 </div>
-<?php
-echo'
-        <div class="content mt-3">
 
-            <div class="col-sm-12">
-                <div class="alert  alert-success alert-dismissible fade show" role="alert">
-                  <span class="badge badge-pill badge-success">Note</span> Good Day, currently your are in Administrators page/view. Thank you!
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
+<div class="content mt-3">
 
+    <div class="col-sm-12">
+        <div class="alert  alert-success alert-dismissible fade show" role="alert">
+            <span class="badge badge-pill badge-success">Note</span> Good Day, currently your are in Administrators page/view. Thank you!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
 
-
-
-                    </div>';?>
-
-<div class="col-lg-12">
+<div class="col-lg-12 main_container">
     <div class="card">
         <div class="card-header">
-            <strong>Account's Information</strong> || Fill up the following:
+            <strong>Update Student Account's Information</strong> || Fill up the following:
         </div>
         <div class="card-body card-block">
             <form action="php/changestudentaccount.php"method="post" class="form-horizontal">
+                <div class="row form-group"></div>
+                <?php
+                $sql = "SELECT * FROM tbl_students where studId = ".$_GET["id"];
+                $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
+                ?>
+
+                <input type="hidden" value="<?php echo $row['studId'];?>" name="id"/>
                 <div class="row form-group">
-                    <!-- <div class="col col-md-3"><label class=" form-control-label">Static</label></div>-->
-                    <!--<div class="col-12 col-md-9">
-                      <p class="form-control-static">Username</p>
-                    </div>-->
+                    <div class="col col-md-3"><label for="firstname" class=" form-control-label">First Name:</label></div>
+                    <div class="col-12 col-md-9"><input required= "" type="text" id="firstname" name="firstname" value = "<?php echo $row["firstname"];?>" placeholder="Enter Student's First Name" class="form-control" onkeyup="lettersOnly(this)" ></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="middlename" class=" form-control-label">Middle Name:</label></div>
+                    <div class="col-12 col-md-9"><input required= "" type="text" id="middlename" name="middlename" value = "<?php echo $row["middlename"];?>" placeholder="Enter Student's Middle Name" class="form-control" onkeyup="lettersOnly(this)"></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="lastname" class=" form-control-label">Last Name:</label></div>
+                    <div class="col-12 col-md-9"><input required="" type="text" id="lastname" name="lastname" value = "<?php echo $row["lastname"];?>" placeholder="Enter Student's Last Name" class="form-control" onkeyup="lettersOnly(this)"></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="address" class=" form-control-label">Address:</label></div>
+                    <div class="col-12 col-md-9"><input required="" type="text" id="address" name="address" value = "<?php echo $row["address"];?>" placeholder="Enter Student's Address" class="form-control"></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="mno" class=" form-control-label">Mobile No.:</label></div>
+                    <div class="col-12 col-md-9"><input required="" type="text" id="mno" name="mno" value = "<?php echo $row["mobileno"];?>" placeholder="Enter Student's Mobile No." class="form-control" onkeyup="numbersOnly(this)"></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="dbirth" class=" form-control-label">Date of Birth:</label></div>
+                    <div class="col-12 col-md-9"><input required="" type="text" id="dbirth" name="dbirth" value = "<?php echo $row["birthdate"];?>" placeholder="Enter Date of Birth" class="form-control" ></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="age" class=" form-control-label">Age:</label></div>
+                    <div class="col-12 col-md-9"><input ondrop = "return false;" onpaste = "return false;" required = " " type="number" id="age" name="age" value = "<?php echo $row["age"];?>" placeholder="Enter Age" class="form-control" min ="1" max = "30" value = "0" step = "1" ondrop = "return false;" onpaste = "return false;"></div>
                 </div>
 
-        </div>
-        <?php
+                <div class="row form-group">
+                    <div class="col col-md-3"><label class=" form-control-label">Gender</label></div>
+                    <div class="col-12 col-md-9">
+                        <select class="form-control" name="gender" id="gender" >
+                            <?php
+                            if($row['gender'] == "Male"){
+                                echo '
+                                           <option >Female</option>
+                                           <option selected>Male</option>
+                                           ';
+                            }else{
+                                echo '
+                                           <option selected>Female</option>
+                                           <option >Male</option>
+                                           ';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
 
 
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="emailaddress" class=" form-control-label">Email Address:</label></div>
+                    <div class="col-12 col-md-9"><input required= "" type="email" id="emailaddress" name="emailaddress" value = "<?php echo $row["emailaddress"];?>" placeholder="Enter email address" class="form-control"><small class="form-text text-muted"> <i class="fa fa-info"></i> Please insert a valid e-mail address.</small></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="username" class=" form-control-label">User Name:</label></div>
+                    <div class="col-12 col-md-9"><input required= "" type="text" id="username" name="username" value = "<?php echo $row["username"];?>" placeholder="Enter Student's Username" class="form-control" onkeyup="lettersOnly(this)" ></div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="password" class=" form-control-label">Password</label></div>
+                    <div class="col-12 col-md-9"><input type="password" id="password" name="password" placeholder="Enter Password" class="form-control"><span class="help-block"> <i class="fa fa-info"></i> Password serves as default.</span></div>
+                </div>
 
 
-        $sql = "SELECT * FROM tbl_students where studentId = ".$_GET["id"];
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
+                <div class="card-footer">
+                    <div class="col-6 col-md-6">
+                        <button type="submit" class="btn btn-outline-primary btn-lg btn-block">Update Student Information</button>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <a href="ListofStudent.php" class="btn btn-outline-danger btn-lg btn-block">Cancel</a>
+                    </div>
+                </div>
 
-        ?>
-        <input type="hidden" value="<?php echo $row['studentId'];?>" name="id"/>
-        <div class="row form-group">
-            <div class="col col-md-3"><label for="username" class=" form-control-label"> Username:</label></div>
-            <div class="col-7 col-md-9"><input required = " " type="text" id="username" value = "<?php echo $row["username"];?>" name="username" placeholder="Enter UserName" class="form-control" onkeyup="lettersOnly(this)"></div>
-        </div>
-        <div class="row form-group">
-            <div class="col col-md-3"><label for="firstname" class=" form-control-label"> First Name:</label></div>
-            <div class="col-7 col-md-9"><input required = " " type="text" id="frstname" value = "<?php echo $row["frstName"];?>" name="firstname" placeholder="Enter First Name" class="form-control" onkeyup="lettersOnly(this)"></div>
-        </div>
-        <div class="row form-group">
-            <div class="col col-md-3"><label for="middlename" class=" form-control-label"> Middle Name:</label></div>
-            <div class="col-12 col-md-9"><input required = "" type="text" id="middlename" value = "<?php echo $row["middleName"];?>" name="middlename" placeholder="Enter Middle Name" class="form-control" onkeyup="lettersOnly(this)"></div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col col-md-3"><label for="lastname" class=" form-control-label"> Last Name:</label></div>
-            <div class="col-12 col-md-9"><input required = " " type="text" id="lastname" value = "<?php echo $row["lastName"];?>" name="lastname" placeholder="Enter Last Name" class="form-control" onkeyup="lettersOnly(this)"></div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col col-md-3"><label for="address" class=" form-control-label"> Address:</label></div>
-            <div class="col-12 col-md-9"><input required = " " type="text" id="address" value = "<?php echo $row["address"];?>" name="address" placeholder="Enter Address" class="form-control"></div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col col-md-3"><label for="mno" class=" form-control-label"> Mobile no.:</label></div>
-            <div class="col-12 col-md-9"><input required = " " type="text" id="mno" value = "<?php echo $row["mobileno"];?>" name="mno" placeholder="Enter Mobile No." class="form-control" onkeyup="numbersOnly(this)"></div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col col-md-3"><label for="dbirth" class=" form-control-label"> Date of Birth:</label></div>
-            <div class="col-12 col-md-9"><input required = " " type="text" id="dbirth" value = "<?php echo $row["dateofBirth"];?>" name="dbirth" placeholder="Enter Date of Birth" class="form-control" onkeyup="numbersOnly(this)"></div>
-        </div>
-        <div class="row form-group">
-            <div class="col col-md-3"><label for="age" class=" form-control-label">Age:</label></div>
-            <div class="col-12 col-md-9"><input  value = "<?php echo $row["age"];?>" ondrop = "return false;" onpaste = "return false;" required = " " type="number" id="age" name="age" placeholder="Enter Age" class="form-control" min ="1" max = "30" value = "0" step = "1" ondrop = "return false;" onpaste = "return false;"></div>
-        </div>
-
-
-
-        <div class="row form-group">
-            <div class="col col-md-3"><label class=" form-control-label">Gender</label></div>
-            <div class="col-12 col-md-9">
-                <select class="form-control" name="gender" id="gender" >
-                    <?php
-                    if($row['gender'] == "Male"){
-                        echo '
-                   <option >Female</option>
-                   <option selected>Male</option>
-                   ';
-                    }else{
-                        echo '
-                   <option selected>Female</option>
-                   <option >Male</option>
-                   ';
-
-                    }
-
-                    ?>
-                </select>
-
-
-            </div>
-        </div>
-
-        <div class="row form-group">
-
-            <div class="col col-md-3"><label for="emailaddress" class=" form-control-label"> Email Address:</label></div>
-            <div class="col-12 col-md-9"><input required = " " type="email" id="emailaddress" value = " <?php echo $row["emailadress"];?>" name="emailaddress" placeholder="Enter email address" class="form-control"><small class="form-text text-muted"> <i class="fa fa-info"></i> Please insert a valid e-mail address.</small></div>
-        </div>
-
-
-
-        <div class="row form-group">
-            <div class="col col-md-3"><label class=" form-control-label">Grade</label></div>
-            <div class="col-12 col-md-9">
-                <select class="form-control" name="grade" id="grade" >
-                    <?php
-                    $sql = "SELECT * FROM tbl_grade";
-                    $result = $conn->query($sql);
-                    while($row1 = $result->fetch_assoc()){
-                        echo '
-                   <option value='.$row1["gradeid"].'>'.$row1["gradeDes"].'</option>
-                   ';
-                    }
-                    ?>
-                </select>
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col col-md-3"><label class=" form-control-label">Courses</label></div>
-            <div class="col-12 col-md-9">
-                <select class="form-control" name="courses" id="courses" >
-                    <?php
-                    $sql = "SELECT * FROM tbl_course";
-                    $result = $conn->query($sql);
-                    while($row2 = $result->fetch_assoc()){
-                        echo '
-                   <option value='.$row2["courseid"].'>'.$row2["course"].'</option>
-                   ';
-                    }
-                    ?>
-                </select>
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col col-md-3"><label for="password" class=" form-control-label">Password</label></div>
-            <div class="col-12 col-md-9">
-                <input required = "" type="password" id="password"  value = "<?php echo $row["password"];?>" name="password" placeholder="Enter Password" class="form-control"><span class="help-block">
-                    <i class="fa fa-info">
-                </i> Password serves as default.</span></div>
+                <br />
+                <br />
+                <br />
+                <br />
+            </form>
         </div>
     </div>
-
-    <div class="col-6 col-md-6">
-        <button type="submit" class="btn btn-outline-primary btn-lg btn-block">Update Student Information</button></div>
-
-    <div class="col-6 col-md-6">
-        <button type="button" class="btn btn-outline-danger btn-lg btn-block">Cancel</button></div>
-
-
-    <br />
-    <br />
-    <br />
-    <br />
 </div>
-</form>
-</div>
-
-
-</div>
-</div>
-</div>
-
-</div>
-</div>
-</div>
-
-</div><!--/.col-->
-
-
-</div><!--/.col-->
-
-
-</div><!--/.col-->
-
-
-
-</div>
-</div>
-</div>
-
-
-</div>
-
-
-<!-- /# card -->
-</div>
-
-
-</div> <!-- .content -->
-</div><!-- /#right-panel -->
 
 <!-- Right Panel -->
 

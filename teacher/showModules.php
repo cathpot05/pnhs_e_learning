@@ -399,7 +399,6 @@ $teacherinfo_id = $_GET['teacherinfo_id'];
 		function confirmDelete(id)
 		{
 			document.getElementById("deleteid").value = id;
-			
 		}
     </script>
 
