@@ -10,6 +10,8 @@
 
 include "../sessionLogout.php";
 include '../db.inc.php';
+$sy_courseId = $_GET['sy_courseid'];
+$sy_Id = $_GET['syId'];
 ?>
 
 
@@ -231,45 +233,62 @@ include '../db.inc.php';
             </div>
         </div>
     </div>
+
+    <?php
+    $sql_ = "SELECT A.*, C.course_description, B.SY_From, B.SY_To
+            FROM tbl_sy_course A
+            INNER JOIN tbl_sy B ON A.syId = B.syId
+            INNER JOIN tbl_course C ON A.courseId = C.courseId
+            WHERE A.sy_courseId = $sy_courseId AND A.syId = $sy_Id";
+    $result_ = $conn->query($sql_);
+    while($row_ = $result_->fetch_assoc()){
+        $desc =   $row_["SY_From"] .' - '.$row_["SY_To"].' : '.$row_["course_description"];
+        $course_desc = $row_["course_description"];
+    }
+    ?>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <strong class="card-title">List of Subjects</strong>
-                <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#addsubject">
-                    Add New Subject
+                <strong class="card-title">School Year <?php echo $desc ?></strong>
+                <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#addOfferedCourse">
+                    Add Subject for this Course
                 </button>
             </div>
             <div class="card-body">
                 <table class="table table">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Subject Title</th>
-                        <th scope="col">Grade</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Teacher</th>
                         <th scope="col">Manage</th>
                     </tr>
                     </thead>
                     <tbody>
-
                     <?php
-                    $sql = "SELECT A.*, B.gradeDesc
-                            FROM tbl_subjects A
-                            INNER JOIN tbl_grade B ON A.gradeId = B.gradeId";
-                    $result = $conn->query($sql);
-                    while($row = $result->fetch_assoc()){
+                    $sql_1 = "SELECT A.sy_course_subjId, B.*, CONCAT(E.firstname , ' ' ,E.lastname) AS teacher, E.teacherId
+                        FROM tbl_sy_course_subj A
+                        INNER JOIN tbl_subjects B ON A.subjectId = B.subjectId
+                        INNER JOIN tbl_sy_course C ON A.sy_courseId = C.sy_courseId
+                        INNER JOIN tbl_sy D ON C.syId = D.syId
+                        INNER JOIN tbl_teachers E ON A.teacherId = E.teacherId
+                        WHERE A.sy_courseId = $sy_courseId AND C.syId = $sy_Id";
+                    //var_dump($sql_1);
+                    $result_1 = $conn->query($sql_1);
+                    while($row_1 = $result_1->fetch_assoc()){
                         echo '
      								<tr>
-     								<td>'.$row["subjDesc"].'</td>
-     								<td>'.$row["gradeDesc"].'</td>
+     								<td>'.$row_1["subjDesc"].'</td>
+     								<td>'.$row_1["teacher"].'</td>
      								<td>
      								<div class="btn-sm">
-     								<a class="btn btn-outline-primary btn-sm" onClick="edit_subjectFunc('.$row["subjectId"].', \''.$row["subjDesc"].'\', '.$row["gradeId"].' )" data-toggle="modal" data-target="#edit_subject">Change  </a>
-                                 <a href="php/remove_subject.php?id='.$row["subjectId"].'" class="btn btn-outline-danger btn-sm">Remove</a>
+                                    <a class="btn btn-outline-danger btn-sm" onClick="removeData('.$row_1["sy_course_subjId"].')" data-toggle="modal" data-target="#deleteModal">Remove Subject</a>
                                  </div>
      								</td>
      								</tr>
      								';
                     }
                     ?>
+                    <!--<a href="php/remove_sy_course.php?sy_courseId='.$row_1["sy_courseId"].'&syId='.$_GET["id"].'" class="btn btn-outline-danger btn-sm">Remove Course</a>-->
                     </tbody>
                 </table>
             </div>
@@ -283,40 +302,96 @@ include '../db.inc.php';
 
 <!--Modals-->
 
-<div class="modal fade" id="addsubject" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+<div class="modal fade" id="addOfferedCourse" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="mediumModalLabel">Add New Subject</h5>
+                <h5 class="modal-title" id="mediumModalLabel">Add Subjects for <?php echo $course_desc?></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="php/addsubject.php" method="post" class="form-horizontal">
-                    <div class="row form-group">
-                        <div class="col col-md-3"><label for="subj_desc" class=" form-control-label">Subject Description:</label></div>
-                        <div class="col-12 col-md-9"><input required="" type="text" id="subj_desc" name="subj_desc" class="form-control"></div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3"><label for="subj_grade" class=" form-control-label">Grade</label></div>
-                        <div class="col-12 col-md-9">
-                            <?php
-                            $sql_grade = "SELECT * FROM tbl_grade";
-                            $result_grade = $conn->query($sql_grade);
-                            echo '
-                        <select class="form-control" name="select_grade_add" id="select_grade_add" >
-                        ';
-                            if ($result_grade->num_rows > 0) {
-                                while($row_grade = $result_grade->fetch_assoc()){
-                                    echo '<option value='.$row_grade["gradeId"].'>'.$row_grade["gradeDesc"].'</option>';
+                <form action="php/add_sy_course_subj.php" method="post" class="form-horizontal">
+                    <div class="card-body">
+                        <div class="form-group form-inline">
+                            <div class="col-md-2 col"><label><input type="checkbox" name="checkall" id="checkall" value="" />  Check All</label></div>
+                            <div class="col col-md-4"><label for="sy" class="pull-right form-control-label">Load Subject From</label></div>
+                            <div class="col-md-6 pull-right">
+                                <?php
+                                 $sql_sy_copy = "SELECT  C.sy_courseId, C.syId, F.courseId, CONCAT(D.SY_From, '-', D.SY_To, '-',F.course_description) AS Description
+                                FROM tbl_sy_course_subj A
+                                INNER JOIN tbl_subjects B ON A.subjectId = B.subjectId
+                                INNER JOIN tbl_sy_course C ON A.sy_courseId = C.sy_courseId
+                                INNER JOIN tbl_sy D ON C.syId = D.syId
+                                INNER JOIN tbl_teachers E ON A.teacherId = E.teacherId
+                                INNER JOIN tbl_Course F ON C.courseId = F.courseId
+                                WHERE A.sy_courseId <> $sy_courseId AND C.syId <> $sy_Id
+                                GROUP BY C.sy_courseId, C.syId, F.courseId, CONCAT(D.SY_From, '-', D.SY_To, '--',F.course_description)
+                                ";
+                                $result_sy_copy = $conn->query($sql_sy_copy);
+                                echo '<select class="form-control" name="sy_copy" id="sy_copy" >';
+                                if ($result_sy_copy->num_rows > 0) {
+                                    while($row_sy_copy = $result_sy_copy->fetch_assoc()){
+                                        echo '<option value='.$row_sy_copy["sy_courseId"].'>'.$row_sy_copy["Description"].'</option>';
+                                    }
                                 }
                                 echo '</select>';
-                            }
-                            ?>
+                                echo '<input type="hidden" name="sy_id" value="'.$sy_Id.'"/>';
+                                echo '<input type="hidden" name="sy_course_id" value="'.$sy_courseId.'"/>';
+                                ?>
+                                <a class="btn btn-outline-info btn-sm pull-right" id="btnreload" onClick="reloadData(<?php echo $sy_courseId;?>) ">Reload</a>
+                            </div>
                         </div>
+
+                        <div id="table_content">
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="subj" class=" form-control-label">Subject</label></div>
+                                <div class="col-12 col-md-9">
+                                    <input type="hidden" name="checker" id="checker" value="0"/>
+                                    <?php
+                                    $sql_2 = "SELECT A.*
+                                FROM tbl_subjects A
+                                WHERE A.subjectId  NOT IN
+                                (SELECT subjectId
+                                FROM tbl_sy_course_subj WHERE sy_courseId  = $sy_courseId)";
+                                    $result_2 = $conn->query($sql_2);
+                                    echo '
+                        <select class="form-control" name="select_subject" id="select_subject" >';
+                                    if ($result_2->num_rows > 0) {
+                                        while($row_2 = $result_2->fetch_assoc()){
+                                            echo '<option value='.$row_2["subjectId"].'>'.$row_2["subjDesc"].'</option>';
+                                        }
+                                        echo '</select>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="teacher" class=" form-control-label">Teacher</label></div>
+                                <div class="col-12 col-md-9">
+                                    <?php
+                                    $sql_3 = "SELECT A.* FROM tbl_teachers A";
+                                    $result_3 = $conn->query($sql_3);
+                                    echo '
+                        <select class="form-control" name="select_teacher" id="select_teacher" >
+                        ';
+                                    if ($result_3->num_rows > 0) {
+                                        while($row_3 = $result_3->fetch_assoc()){
+                                            echo '<option value='.$row_3["teacherId"].'>'.$row_3["firstname"].' '.$row_3["lastname"].'</option>';
+                                        }
+                                    }
+                                    echo '</select>';
+                                    ?>
+                                </div>
+                            </div>
+
+                        </div>
+
+
                     </div>
-             </div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn btn-primary">Add</button>
@@ -326,52 +401,32 @@ include '../db.inc.php';
     </div>
 </div>
 
-<div class="modal fade" id="edit_subject" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="mediumModalLabel">Edit Subject Desc</h5>
+                <h5 class="modal-title" id="mediumModalLabel">Delete?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="php/edit_subject.php" method="post" class="form-horizontal">
-                    <input type="hidden" required="" type="text" id="edit_subj_id" name="edit_subj_id" class="form-control">
-                    <input type="hidden" required="" type="text" id="edit_subj_grade" name="edit_subj_grade" class="form-control">
-                    <div class="row form-group">
-                        <div class="col col-md-3"><label for="edit_subj_desc" class=" form-control-label">Subject Description:</label></div>
-                        <div class="col-12 col-md-9"><input required="" type="text" id="edit_subj_desc" name="edit_subj_desc" class="form-control"></div>
+                <form action="php/remove_sy_course_subject.php?" method="post" class="form-horizontal" enctype = "multipart/form-data">
+                    <p>Are you sure you want to delete this subject?</p>
+                    <input type=hidden name=deleteid id=deleteid >
+                    <input type=hidden name=deletesyid id=deletesyid >
+                    <input type=hidden name=delete_syId value="<?php echo $sy_Id; ?>">
+                    <input type=hidden name=delete_syIdCourse  value="<?php echo $sy_courseId; ?>">
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                     </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3"><label for="subj_grade" class=" form-control-label">Grade</label></div>
-                        <div class="col-12 col-md-9">
-                            <?php
-                            $sql_grade1 = "SELECT * FROM tbl_grade";
-                            $result_grade1 = $conn->query($sql_grade1);
-                            echo '
-                        <select class="form-control" name="select_grade_edit" id="select_grade_edit" >
-                        ';
-                            if ($result_grade1->num_rows > 0) {
-                                while($row_grade1 = $result_grade1->fetch_assoc()){
-                                    echo '<option value='.$row_grade1["gradeId"].'>'.$row_grade1["gradeDesc"].'</option>';
-                                }
-                                echo '</select>';
-                            }
-                            $conn->close();
-                            ?>
-                        </div>
-                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Update</button>
-            </div>
-            </form>
         </div>
     </div>
-</div>
 
+</div>
 <!-- Right Panel -->
 
 <!---------------------------------Tables---->
@@ -391,7 +446,8 @@ include '../db.inc.php';
 <script>
     ( function ( $ ) {
         "use strict";
-
+        //$('#checkAll').attr("disabled", true);
+        $('#checkall').prop("disabled", true);
         jQuery( '#vmap' ).vectorMap( {
             map: 'world_en',
             backgroundColor: null,
@@ -404,18 +460,68 @@ include '../db.inc.php';
             scaleColors: [ '#1de9b6', '#03a9f5' ],
             normalizeFunction: 'polynomial'
         } );
+
+
+        $("#checkall").click(function(){
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+
+        $("#sy_copy").on('click', function() {
+            //alert( this.value );
+
+            if($("#sy_copy option").length > 0){
+
+            var x = this.value;
+
+            $('#checkall').prop("disabled", false);
+            $('#checker').val(1);
+            $.ajax({
+                type: "GET",
+                url: "php/reloadDataforsyCourseSubj.php?id="+x+"&status=1",
+                cache: false,
+                success: function(html){
+                    $("#table_content").empty(html);
+                    $("#table_content").append(html);
+                }
+            });
+            }
+
+        });
+
+
+
     } )( jQuery );
 
-    function edit_subjectFunc(id, desc, grade)
+
+
+    function removeData(sy_courseid, sy_id)
     {
+
         //alert('test');
-        document.getElementById("edit_subj_id").value = id;
-        document.getElementById("edit_subj_desc").value = desc;
-        var element = document.getElementById('select_grade_edit');
-        element.value = grade;
-        //document.getElementById("select_grade_edit").selected = grade; //select_grade_edit edit_subj_grade
+        document.getElementById("deleteid").value = sy_courseid;
+        //document.getElementById("deletesyid").value = sy_id;
+        //document.getElementById("edit_sy_to").value = to;
 
     }
+
+    function reloadData(id){
+        ( function ( $ ) {
+            $('#checker').val(0);
+            $('#checkall').prop("disabled", true);
+            $.ajax({
+                type: "GET",
+                url: "php/reloadDataforsyCourseSubj.php?id="+id+"&status=0",
+                cache: false,
+                success: function(html){
+                    $("#table_content").empty(html);
+                    $("#table_content").append(html);
+                }
+            });
+
+        } )( jQuery );
+    }
+
+
 </script>
 
 </body>

@@ -74,6 +74,15 @@ include "php/alphanum1.php";
                             <ul class="sub-menu children dropdown-menu">
                                 <li><i class="fa fa-table"></i><a href="ListofTeachers.php">List of Teachers</a></li>
                                 <li><i class="fa fa-plus-circle"></i><a href="TeacherAddAccount.php">Add Teacher</a></li>
+                                <?php
+                                $sql_sy = "SELECT * FROM tbl_sy";
+                                $result_sy = $conn->query($sql_sy);
+                                while($row_sy = $result_sy->fetch_assoc()){
+                                    echo '
+     								<li><i class="fa fa-table"></i><a href="view_teacher_peryear.php?id='.$row_sy["syId"].'">'.$row_sy['SY_From'].' - '.$row_sy['SY_To'].'</a></li>
+     								';
+                                }
+                                ?>
                             </ul>
                         </li>
                         <li class="menu-item-has-children dropdown">
@@ -81,14 +90,39 @@ include "php/alphanum1.php";
                             <ul class="sub-menu children dropdown-menu">
                                 <li><i class="fa fa-table"></i><a href="ListofStudent.php">List of Students</a></li>
                                 <li><i class="fa fa-plus-circle"></i><a href="StudentAddAccount.php">Add Student</a></li>
+                                <?php
+                                $sql_sy = "SELECT * FROM tbl_sy";
+                                $result_sy = $conn->query($sql_sy);
+                                while($row_sy = $result_sy->fetch_assoc()){
+                                    echo '
+     								<li><i class="fa fa-table"></i><a href="view_students_peryear.php?id='.$row_sy["syId"].'">'.$row_sy['SY_From'].' - '.$row_sy['SY_To'].'</a></li>
+     								';
+                                }
+                                ?>
+
                             </ul>
+
                         </li>
                         <li class="menu-item-has-children dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-pencil"></i>Course and Subjects</a>
                             <ul class="sub-menu children dropdown-menu">
-                                <li><i class="fa fa-table"></i><a href="#">Courses</a></li>
-                                <li><i class="fa fa-table"></i><a href="#">Subjects</a></li>
-                                <li><i class="fa fa-table"></i><a href="#">School Year</a></li>
+                                <li><i class="fa fa-table"></i><a href="courses.php">View Courses</a></li>
+                                <li><i class="fa fa-table"></i><a href="subject.php">View Subjects</a></li>
+                                <li><i class="fa fa-table"></i><a href="schoolyear.php">View School Year</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-item-has-children dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-pencil"></i>School Year</a>
+                            <ul class="sub-menu children dropdown-menu">
+                                <?php
+                                $sql_sy = "SELECT * FROM tbl_sy";
+                                $result_sy = $conn->query($sql_sy);
+                                while($row_sy = $result_sy->fetch_assoc()){
+                                    echo '
+     								<li><i class="fa fa-table"></i><a href="view_schoolyear.php?id='.$row_sy["syId"].'">'.$row_sy['SY_From'].' - '.$row_sy['SY_To'].'</a></li>
+     								';
+                                }
+                                ?>
                             </ul>
                         </li>
                         <!--<li class="menu-item-has-children dropdown">
