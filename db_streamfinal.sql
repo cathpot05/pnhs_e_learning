@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2018 at 09:37 PM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 7.1.10
+-- Generation Time: Mar 15, 2018 at 04:47 PM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.6.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -99,6 +97,14 @@ CREATE TABLE `tbl_files` (
   `directory` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tbl_files`
+--
+
+INSERT INTO `tbl_files` (`fileId`, `sy_course_subjId`, `description`, `week`, `quarter`, `directory`) VALUES
+(2, 1, 'awrawr', 2, 3, '../files/1/map1.png'),
+(3, 1, 'awrawr', 2, 3, '../files/1/map1.png');
+
 -- --------------------------------------------------------
 
 --
@@ -140,12 +146,7 @@ CREATE TABLE `tbl_gmessages` (
 --
 
 INSERT INTO `tbl_gmessages` (`g_msgs_Id`, `g_Id`, `senderId`, `message`, `senderType`, `date`, `time`) VALUES
-(1, 1, 1, 'wo', 0, '0000-00-00', '00:00:00'),
-(2, 1, 1, 'ye', 0, '0000-00-00', '00:00:00'),
-(3, 1, 1, 'qwr', 1, '2018-03-13', '16:17:54'),
-(4, 1, 1, 'qwtqt', 1, '2018-03-13', '16:18:01'),
-(5, 1, 1, 'sdhltalkwjethaw lkasehtjlakewwr awlkjrajlkawrjlkj talkwrjawrlkj awkawrkanwawr rlkjawrkjwkj', 1, '2018-03-13', '16:18:12'),
-(6, 1, 2, 'nice', 0, '2018-03-15', '00:36:41');
+(7, 1, 2, 'ohu\r\n', 0, '2018-03-15', '12:29:52');
 
 -- --------------------------------------------------------
 
@@ -223,14 +224,6 @@ CREATE TABLE `tbl_notif` (
   `time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tbl_notif`
---
-
-INSERT INTO `tbl_notif` (`notifId`, `sy_course_subjId`, `notif`, `date`, `time`) VALUES
-(1, 1, 'created something', '2018-03-15', '02:06:07'),
-(2, 1, 'kasjegakeh jeathakjetaew ;letakletaeskhae banembaent ekjtakje', '2018-03-14', '02:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -252,22 +245,7 @@ CREATE TABLE `tbl_pmessage` (
 --
 
 INSERT INTO `tbl_pmessage` (`pMsg_Id`, `teacherId`, `studentId`, `message`, `senderType`, `date`, `time`) VALUES
-(1, 1, 2, 'hi', 1, '0000-00-00', '00:00:00'),
-(2, 1, 1, 'yeah', 1, '2018-03-12', '10:04:13'),
-(3, 1, 1, 'awjfhawug auwgrjawg kauhw kjawhalkwjrwlak', 1, '2018-03-13', '10:25:12'),
-(4, 1, 1, 'wow', 1, '2018-03-13', '11:42:35'),
-(5, 1, 2, 'ye', 1, '2018-03-13', '11:43:52'),
-(6, 1, 3, 'wow', 1, '2018-03-13', '11:44:55'),
-(7, 1, 2, 'wwww', 1, '2018-03-13', '11:45:34'),
-(8, 1, 3, 'wwwq', 1, '2018-03-13', '11:46:29'),
-(9, 1, 1, 'yqyqy', 1, '2018-03-13', '11:48:10'),
-(10, 1, 2, 'asgag', 1, '2018-03-13', '11:57:26'),
-(11, 1, 3, 'asfagasg', 1, '2018-03-13', '11:57:47'),
-(12, 1, 1, 'qwr', 1, '2018-03-13', '12:00:15'),
-(13, 1, 3, 'asgasgas', 1, '2018-03-13', '12:02:13'),
-(14, 1, 1, 'ye ye ye', 1, '2018-03-13', '15:10:02'),
-(15, 1, 2, 'ye', 0, '2018-03-14', '22:39:28'),
-(16, 1, 1, 'yow', 1, '2018-03-15', '03:03:00');
+(19, 1, 2, 'w0w', 0, '2018-03-15', '11:56:41');
 
 -- --------------------------------------------------------
 
@@ -282,13 +260,6 @@ CREATE TABLE `tbl_quiz` (
   `timestart` datetime NOT NULL,
   `timeend` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbl_quiz`
---
-
-INSERT INTO `tbl_quiz` (`quizId`, `sy_course_subjId`, `quizDesc`, `timestart`, `timeend`) VALUES
-(2, 1, 'SDgsag', '2018-03-14 01:01:00', '2018-03-15 23:12:00');
 
 -- --------------------------------------------------------
 
@@ -347,6 +318,13 @@ CREATE TABLE `tbl_score` (
   `es_Id` int(11) NOT NULL,
   `score` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_score`
+--
+
+INSERT INTO `tbl_score` (`scoreId`, `quizId`, `es_Id`, `score`) VALUES
+(5, 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -416,7 +394,8 @@ CREATE TABLE `tbl_sy` (
 --
 
 INSERT INTO `tbl_sy` (`syId`, `SY_From`, `SY_To`) VALUES
-(1, '2017', '2018');
+(1, '2017', '2018'),
+(2, '2019', '2020');
 
 -- --------------------------------------------------------
 
@@ -436,7 +415,10 @@ CREATE TABLE `tbl_sy_course` (
 
 INSERT INTO `tbl_sy_course` (`sy_courseId`, `syId`, `courseId`) VALUES
 (1, 1, 1),
-(2, 1, 2);
+(2, 1, 2),
+(3, 2, 2),
+(4, 1, 1),
+(5, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -628,128 +610,106 @@ ALTER TABLE `tbl_teachers`
 --
 ALTER TABLE `tbl_account`
   MODIFY `accountId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `tbl_course`
 --
 ALTER TABLE `tbl_course`
   MODIFY `courseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `tbl_enrolledstudents`
 --
 ALTER TABLE `tbl_enrolledstudents`
   MODIFY `es_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `tbl_files`
 --
 ALTER TABLE `tbl_files`
-  MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tbl_gmembers`
 --
 ALTER TABLE `tbl_gmembers`
   MODIFY `gMem_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `tbl_gmessages`
 --
 ALTER TABLE `tbl_gmessages`
-  MODIFY `g_msgs_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
+  MODIFY `g_msgs_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `tbl_gposts`
 --
 ALTER TABLE `tbl_gposts`
   MODIFY `gPost_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `tbl_grade`
 --
 ALTER TABLE `tbl_grade`
   MODIFY `gradeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `tbl_group`
 --
 ALTER TABLE `tbl_group`
   MODIFY `g_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `tbl_notif`
 --
 ALTER TABLE `tbl_notif`
-  MODIFY `notifId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `notifId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `tbl_pmessage`
 --
 ALTER TABLE `tbl_pmessage`
-  MODIFY `pMsg_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
+  MODIFY `pMsg_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `tbl_quiz`
 --
 ALTER TABLE `tbl_quiz`
-  MODIFY `quizId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `quizId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `tbl_quiz_fill`
 --
 ALTER TABLE `tbl_quiz_fill`
   MODIFY `questionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `tbl_quiz_multiple`
 --
 ALTER TABLE `tbl_quiz_multiple`
   MODIFY `questionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `tbl_score`
 --
 ALTER TABLE `tbl_score`
-  MODIFY `scoreId` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `scoreId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `tbl_students`
 --
 ALTER TABLE `tbl_students`
   MODIFY `studId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `tbl_subjects`
 --
 ALTER TABLE `tbl_subjects`
   MODIFY `subjectId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `tbl_sy`
 --
 ALTER TABLE `tbl_sy`
-  MODIFY `syId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+  MODIFY `syId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_sy_course`
 --
 ALTER TABLE `tbl_sy_course`
-  MODIFY `sy_courseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `sy_courseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `tbl_sy_course_subj`
 --
 ALTER TABLE `tbl_sy_course_subj`
   MODIFY `sy_course_subjId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `tbl_teachers`
 --
 ALTER TABLE `tbl_teachers`
   MODIFY `teacherId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

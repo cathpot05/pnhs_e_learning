@@ -192,7 +192,7 @@ $g_Id = $_GET['g_Id'];
 							INNER JOIN tbl_notif C ON A.sy_course_subjId = C.sy_course_subjId
 							INNER JOIN tbl_sy_course D ON A.sy_courseId = D.sy_courseId
 							INNER JOIN tbl_enrolledstudents E ON E.sy_courseId = D.sy_courseId
-							WHERE E.studId = $id";
+							WHERE E.studId = $id  ORDER BY C.notifId DESC LIMIT 10";
 							
 							$result = $conn->query($sql);
 

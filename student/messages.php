@@ -194,7 +194,7 @@ if(isset($_GET['teacherId']))
 							INNER JOIN tbl_notif C ON A.sy_course_subjId = C.sy_course_subjId
 							INNER JOIN tbl_sy_course D ON A.sy_courseId = D.sy_courseId
 							INNER JOIN tbl_enrolledstudents E ON E.sy_courseId = D.sy_courseId
-							WHERE E.studId = $id";
+							WHERE E.studId = $id  ORDER BY C.notifId DESC LIMIT 10";
 							
 							$result = $conn->query($sql);
 
@@ -458,6 +458,7 @@ if(isset($_GET['teacherId']))
 <script src="../assets/js/lib/vector-map/jquery.vmap.min.js"></script>
 <script src="../assets/js/lib/vector-map/jquery.vmap.sampledata.js"></script>
 <script src="../assets/js/lib/vector-map/country/jquery.vmap.world.js"></script>
+
 <script>
     ( function ( $ ) {
         "use strict";
