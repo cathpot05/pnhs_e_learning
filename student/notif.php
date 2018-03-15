@@ -2,13 +2,25 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> 
+<!--[if gt IE 8]><!-->
+
 
 <?php
 
-session_start();
-//include"php/db.inc.php";
+
+include "../sessionLogout.php";
+include "../db.inc.php";
 ?>
+<?php
+//will remove this later
+//$_SESSION["id"] = 1;
+
+
+//$conn->close();
+?>
+
+
+
 
 <html class="no-js" lang=""> <!--<![endif]-->
 <head>
@@ -19,7 +31,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     
-    <link rel="shortcut icon" href="pantaylogo1.bmp">
+    <link rel="shortcut icon" href="../images/pantaylogo1_.bmp">
 
     <link rel="stylesheet" href="../assets/css/normalize.css">
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
@@ -52,7 +64,7 @@ session_start();
                 </button>
                 
                
-              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index.php"><img src="../images/pantaylogo.png" alt="logor"></a>
+              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index1.php"><img src="../images/pantaylogo.png" alt="logor"></a>
                 
                  
                 
@@ -62,11 +74,10 @@ session_start();
                 <ul class="nav navbar-nav">
                     
                     <li class="active">
-                        <a href="index.php"> <i class="menu-icon fa fa-dashboard"></i> 
-                            <?php echo $_SESSION["user"]; ?> 
-                          
-                            <?php echo $_SESSION["last"]; ?></a>
-                        
+                        <a href="index.php"> <i class="menu-icon fa fa-dashboard"></i>        Student
+                            <?php echo $_SESSION['firstname']; ?></a>
+
+
                     </li>
                     
                     
@@ -114,8 +125,8 @@ session_start();
                         <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Messages</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="chat.php">Group Chat</a></li>
-                            <li><i class="fa fa-id-message"></i><a href="personalchat.php">Personal Chat</a></li>
+                            <li><i class="fa fa-bars"></i><a href="groupMessages.php">Group Chat</a></li>
+                            <li><i class="fa fa-id-message"></i><a href="messages.php">Personal Chat</a></li>
                             
                             
                             </ul>
@@ -129,7 +140,6 @@ session_start();
                     
                   
                         
-                            
                     
                     
                     <h3 class="menu-title"></h3>
@@ -189,11 +199,7 @@ session_start();
                         
                         </style>
 
-                        
-                          <p><?php echo $_SESSION["user"];?> 
-       </p>      
-                        
-                 
+
                              
    
     
@@ -246,9 +252,71 @@ session_start();
             </div>
            
         </div>
-        
-        
-        
+
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">Notifications</strong>
+                </div>
+                <div class="card-body">
+                    <table class="table table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">School Year</th>
+                            <th scope="col">Subject</th>
+							<th scope="col" width=20%>Score</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <?php
+                      $sql = "SELECT  B.quizId, B.quizDesc, B.timestart,B.timeend, C.score
+					   FROM tbl_sy_course_subj A 
+					   INNER JOIN tbl_quiz B ON B.sy_course_subjId = A.sy_course_subjId
+					   INNER JOIN tbl_sy_course D ON A.sy_courseId = D.sy_courseId
+					   INNER JOIN tbl_enrolledstudents E ON E.sy_courseId = D.sy_courseId
+					   LEFT JOIN tbl_score C ON C.quizId = B.quizId  AND C.es_Id = E.es_Id
+					   WHERE E.studId = $id ORDER BY B.quizId DESC";
+                        $result = $conn->query($sql);
+
+                        while($row = $result->fetch_assoc()){
+                           ?>
+     								<tr>
+     								<td> <?php echo $row["quizDesc"]; ?></td>
+     								<td><?php echo "<strong>From: </strong>".$row['timestart'].' <br> <strong>To: </strong>'.$row['timeend']; ?></td>
+									
+									<td><?php
+									if($row['score'] == "")
+									{	
+										if(strtotime(date('Y-m-d H:i:s')) > strtotime($row['timestart'])  &&  strtotime(date('Y-m-d H:i:s')) < strtotime($row['timeend']))
+										{
+											?>
+											<a href="takequiz.php?quizId=<?php echo $row["quizId"] ?>"   class="btn btn-outline-primary btn-sm">Take Quiz</a>
+									<?php
+										}
+										else
+										{
+												
+											echo "<strong> Not Taken </strong>";
+										}										
+									}
+									else
+									{
+										echo $row['score']; 
+									}
+											?></td>
+     								</tr>
+									
+									<?php
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
             </div>
            
 
@@ -266,10 +334,10 @@ session_start();
 
     <script src="../assets/js/lib/chart-js/Chart.bundle.js"></script>
     <script src="../assets/js/dashboard.js"></script>
-    <script src="../ssets/js/widgets.js"></script>
+    <script src="../assets/js/widgets.js"></script>
     <script src="../assets/js/lib/vector-map/jquery.vmap.js"></script>
     <script src="../assets/js/lib/vector-map/jquery.vmap.min.js"></script>
-    <script src="..assets/js/lib/vector-map/jquery.vmap.sampledata.js"></script>
+    <script src="../assets/js/lib/vector-map/jquery.vmap.sampledata.js"></script>
     <script src="../assets/js/lib/vector-map/country/jquery.vmap.world.js"></script>
     <script>
         ( function ( $ ) {

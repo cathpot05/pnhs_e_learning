@@ -2,9 +2,9 @@
 include '../db.inc.php';
 session_start();
 
-$quizid= $_GET['quizid'];
-$deleteid = $_GET['deleteid'];
-$sql = "DELETE FROM tbl_question_multiple where id = $deleteid";
+$quizId= $_GET['quizId'];
+$deleteid = $_POST['deleteid_multiple'];
+echo $sql = "DELETE FROM tbl_quiz_multiple where questionId = $deleteid";
 $result = $conn->query($sql);
-header("Location:questions.php?quizid=$quizid");
+header("Location:questions.php?quizId=$quizId");
 ?>

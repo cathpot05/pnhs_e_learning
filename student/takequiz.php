@@ -2,13 +2,27 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> 
+<!--[if gt IE 8]><!-->
+
 
 <?php
 
-session_start();
 
+include "../sessionLogout.php";
+include "../db.inc.php";
 ?>
+<?php
+//will remove this later
+//$_SESSION["id"] = 1;
+
+
+//$conn->close();
+
+$quizId = $_GET['quizId'];
+?>
+
+
+
 
 <html class="no-js" lang=""> <!--<![endif]-->
 <head>
@@ -19,7 +33,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     
-    <link rel="shortcut icon" href="pantaylogo1.bmp">
+    <link rel="shortcut icon" href="../images/pantaylogo1_.bmp">
 
     <link rel="stylesheet" href="../assets/css/normalize.css">
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
@@ -52,7 +66,7 @@ session_start();
                 </button>
                 
                
-              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index.php"><img src="../images/pantaylogo.png" alt="logor"></a>
+              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="../index.php"><img src="../images/pantaylogo.png" alt="logor"></a>
                 
                  
                 
@@ -63,73 +77,90 @@ session_start();
                     
                     <li class="active">
                         <a href="index.php"> <i class="menu-icon fa fa-dashboard"></i>
-                          
-                            <?php echo $_SESSION["user"]; ?> 
-                          
-                            <?php echo $_SESSION["last"]; ?>
-             </a>
-                        
-    
-                        
-                        
+                            Student
+                            <?php echo $_SESSION['firstname']; ?>
+						</a>
                     </li>
                   
-                
-                    
-                 
-
-    
-
-
-     <h3 class="menu-title">My Account</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bars"></i>Subjects</a>
+						 <h3 class="menu-title">Account</h3><!-- /.menu-title -->
+						  <li class="menu-item-has-children dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>My Account</a>
+							<ul class="sub-menu children dropdown-menu">
+								 <li>
+									<a href="messages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Personal Messages</a>
+								 </li>
+								 <li>
+									<a href="groupMessages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Group Messages</a>
+								 </li>
+								 <li>
+									<a href="changePasswordForm.php"  aria-haspopup="true" aria-expanded="false"> <i class="fa fa-lock"></i>Change Password</a>
+								 </li>
+							</ul>
+						 </li>
+						 <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Groups</a>
                         <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-user"></i><a href="subjects.php">My Subjects</a></li>
-                        
-                        </ul>
-                        <h3 class="menu-title"></h3>
-                        <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Quizzes</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="viewquiz.php">View Quizzes</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="takequiz.php">Take a Quiz</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="newquiz.php">New Quizzes</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="score.php">Scores</a></li>
-                            
+                            <?php
+							$sql = "SELECT B.group_title,B.g_Id 
+							FROM tbl_gmembers A
+							INNER JOIN tbl_group B ON A.g_Id = B.g_Id
+							WHERE A.studentId = $id";
+							
+							$result = $conn->query($sql);
+
+							if ($result->num_rows > 0) 
+							{
+								while($row = $result->fetch_assoc())
+								{
+									?>
+									 <li><i class="fa fa-bars"></i><a href="group.php?g_Id=<?php echo $row['g_Id']; ?>" ><?php echo $row['group_title']; ?></a></li>
+									<?php
+								}
+							}
+								?>
                             </ul>
-                            <h3 class="menu-title"></h3>
-                             <li class="menu-item-has-children dropdown">
+							</li>
+						<li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Video Sessions</a>
-                                 
-                                 
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-bars"></i><a href="join.php">Join</a></li>
                             <li><i class="fa fa-bars"></i><a href="sched.php">Schedule</a></li>
                             <li><i class="fa fa-id-badge"></i><a href="history.php">History</a></li>
                            </ul>
-                            
-                                   <h3 class="menu-title"></h3>
-                             <li>
-                             <a href="ListofTeachers.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>Teachers</a>
-                             </li>
-                                 
-                                  <h3 class="menu-title"></h3>
-                             <li>
-                             <a href="notif.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>Notifications</a>
-                             </li>
-                                 
-                                   <h3 class="menu-title"></h3>
-                             <li>
-                             <a href="chat.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>Messages</a>
-                             </li>
-                             
-                             
- 
-                    
-                  
-                    
-                    <h3 class="menu-title"></h3>
+						   </li>
+						 	<li>
+						   <a href="ListofTeachers.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>Teachers</a>
+						 </li>
+						 <li>
+						   <a href="viewquiz.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>Quizzes</a>
+						 </li>
+						 <h3 class="menu-title"></h3>
+						 
+                        <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>School Year</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <?php
+							$sql = "SELECT tbl_enrolledstudents.es_Id, tbl_sy.SY_From, tbl_sy.SY_To FROM tbl_enrolledstudents
+							INNER JOIN tbl_sy_course ON tbl_enrolledstudents.sy_courseId = tbl_sy_course.sy_courseId 
+							INNER JOIN tbl_sy ON tbl_sy_course.syId = tbl_sy.syId
+							WHERE tbl_enrolledstudents.studId = $id ORDER BY tbl_sy.SY_To DESC";
+							
+							$result = $conn->query($sql);
+
+							if ($result->num_rows > 0) 
+							{
+								while($row = $result->fetch_assoc())
+								{
+									?>
+									 <li><i class="fa fa-bars"></i><a href="subjects.php?es_Id=<?php echo $row['es_Id']; ?>" ><?php echo $row['SY_From']." - ".$row['SY_To']; ?></a></li>
+									<?php
+								}
+							}
+								?>
+                            </ul>
+							</li>
+							<h3 class="menu-title"></h3>
+
                       <li>
                      
                           
@@ -139,7 +170,8 @@ session_start();
                     </li> 
                  
                      
-   
+   </div>
+   </nav>
     </aside><!-- /#left-panel -->
 
     <!-- Left Panel -->
@@ -153,16 +185,76 @@ session_start();
 
             <div class="header-menu">
 
-                <div class="col-sm-7">
+                              <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
                         <button class="search-trigger"><i class="fa fa-search"></i></button>
+						 <div class="dropdown for-message">
+                          <button class="btn btn-secondary dropdown-toggle" type="button"
+                                id="message"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="ti-bell"></i>
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="message">
+						   <?php
+					$sql = "SELECT B.subjDesc,C.notif,C.date,C.time 
+							FROM tbl_sy_course_subj A
+							INNER JOIN tbl_subjects B ON A.subjectId = B.subjectId
+							INNER JOIN tbl_notif C ON A.sy_course_subjId = C.sy_course_subjId
+							INNER JOIN tbl_sy_course D ON A.sy_courseId = D.sy_courseId
+							INNER JOIN tbl_enrolledstudents E ON E.sy_courseId = D.sy_courseId
+							WHERE E.studId = $id";
+							
+							$result = $conn->query($sql);
+
+							if ($result->num_rows > 0) 
+							{
+								while($row = $result->fetch_assoc())
+								{
+									$datetime = strtotime($row['date']." ".$row['time']);
+									if($row['date'] == date('Y-m-d'))
+									{
+									$newdatetime = date('g:i a',$datetime);
+									}
+									else
+									{
+										$newdatetime =date('M j, Y g:i a',$datetime);
+									}
+									?>
+									     <a class="dropdown-item media bg-flat" style="background-color:#e6e6e6" href="#">
+											<span class="message media-body">
+												<span class="name float-left"><strong><?php echo $row['subjDesc']; ?></strong></span>
+												<span class="time float-right"><?php echo $newdatetime; ?></span>
+													<p><?php echo $row['notif']; ?></p>
+											</span>
+										</a>
+										
+							<hr style="padding:0; margin:.5px;">
+									<?php
+								}
+							}
+							else
+							{
+								?>
+								<a class="dropdown-item media bg-flat" style="background-color:#e6e6e6" href="#">
+											<span class="message media-body">
+													<p>No Notifications</p>
+											</span>
+										</a>
+								<?php
+							}
+						?>
+						 
+
+                          </div>
+                        </div>
                         <div class="form-inline">
                             <form class="search-form">
                                 <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
                                 <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
                             </form>
                         </div>
+						
 
                     </div>
                 </div>
@@ -186,11 +278,7 @@ session_start();
                         
                         </style>
 
-                        
-                          <p><?php echo $_SESSION["privilege"];?> 
-       </p>      
-                        
-                 
+
                              
    
     
@@ -232,18 +320,104 @@ session_start();
                         
                         </style>
                         
-   
-      
+       
+                     
+                    
+                         
+                        
+                 
+                    </div>
                 </div>
             </div>
            
+        </div>
 
-                    </div>
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">Quiz</strong>
+                </div>
+                <div class="card-body">
+				<strong> I. Multiple Choice</strong>
+				<table width=100% class=table>
+				
+				 <?php
+					$sql = "SELECT *FROM tbl_quiz_multiple where quizId =$quizId ORDER BY RAND()";
+							
+							$result = $conn->query($sql);
+							$multipleId= array();
+							$multipleCounter = 0;
+							if ($result->num_rows > 0) 
+							{
+								while($row = $result->fetch_assoc())
+								{
+									$choices = array($row['ans1'],$row['ans2'],$row['ans3'],$row['ans4']);
+									shuffle($choices);
+									array_push($multipleId, $row['questionId']);
+									?>
+									 <tr>
+										<td colspan=2><?php echo $multipleCounter+1 .". ".$row['question']; ?></td>
+									 </tr>
+									 <tr>
+										<td width=50%>
+											<input type=radio name="multiple<?php echo $multipleId[$multipleCounter]; ?>" value="<?php echo $choices[0]; ?>" required> <?php echo $choices[0]; ?>
+											<br><br>
+											<input type=radio name="multiple<?php echo $multipleId[$multipleCounter]; ?>" value="<?php echo $choices[1]; ?>" required> <?php echo $choices[1]; ?></td>
+										<td width=50%>
+										<input type=radio name="multiple<?php echo $multipleId[$multipleCounter]; ?>" value="<?php echo $choices[2]; ?>" required> <?php echo $choices[2]; ?>
+										<br><br>
+										<input type=radio name="multiple<?php echo $multipleId[$multipleCounter]; ?>" value="<?php echo $choices[3]; ?>" required> <?php echo $choices[3]; ?>
+										</td>
+
+
+									 </tr>
+									<?php
+									$multipleCounter++;
+								}
+								
+							}
+								?>
+					</table>
+					<hr>
+					<strong >II. Fill in the Blanks </strong>
+				<table width=100% class=table>
+				
+				 <?php
+					$sql = "SELECT *FROM tbl_quiz_fill where quizId =$quizId ORDER BY RAND()";
+							
+							$result = $conn->query($sql);
+							$fillId = array();
+							$fillCounter = 0;
+							if ($result->num_rows > 0) 
+							{
+								while($row = $result->fetch_assoc())
+								{
+									array_push($multipleId, $row['questionId']);
+									?>
+									 <tr>
+										<td><?php echo $fillCounter+1 .". ".$row['question']; ?></td>
+									 </tr>
+									 <tr>
+										<td width=50%>
+											<input type=text name="fill<?php echo $multipleId[$multipleCounter]; ?>" class="form-control" required>
+											<br><br>
+										</td>
+									 </tr>
+									<?php
+									$multipleCounter++;
+								}
+							}
+								?>
+					</table>
                 </div>
             </div>
-            
-                    </div>
-       
+        </div>
+            </div>
+           
+
+                   </div>
+               
 
     <!-- Right Panel -->
 

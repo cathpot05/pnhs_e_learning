@@ -5,9 +5,10 @@
 <!--[if gt IE 8]><!--> 
 
 <?php
+include "../sessionLogout.php";
+include "../db.inc.php";
 
-session_start();
-
+		
 ?>
 
 <html class="no-js" lang=""> <!--<![endif]-->
@@ -34,113 +35,122 @@ session_start();
     <link href="../assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-    <script src = "http://code.jquery.com/jquery-1.9.0.js">
-    </script>
-    
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
 
 </head>
 <body>
-             
-
         <!-- Left Panel -->
-
     <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
-
             <div class="navbar-header">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                      <i class="fa fa-bars"></i>
-                </button>
-                
-               
-              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index.php"><img src="../images/pantaylogo.png" alt="logor"></a>
-                
-                 
-                
+                </button>      
+              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index1"><img src="../images/pantaylogo.png" alt="logor"></a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     
                     <li class="active">
-                        <a href="../index.php"> <i class="menu-icon fa fa-dashboard"></i>
-                          
-                            <?php echo $_SESSION["user"]; ?> 
-                       
-                            <?php echo $_SESSION["last"]; ?>
-             </a>
-                        
+                        <a href="index.php"> <i class="menu-icon fa fa-dashboard"></i><?php echo $_SESSION['firstname']; ?></a>   
                     </li>
-                   
-              
-                    
-                                   
-     <h3 class="menu-title">My Account</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Subjects</a>
+					<h3 class="menu-title">Account</h3><!-- /.menu-title -->
+                  <li class="menu-item-has-children dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>My Account</a>
+							<ul class="sub-menu children dropdown-menu">
+								 <li>
+									<a href="messages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Personal Messages</a>
+								 </li>
+								 <li>
+									<a href="groupMessages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Group Messages</a>
+								 </li>
+								 <li>
+									<a href="changePasswordForm.php"  aria-haspopup="true" aria-expanded="false"> <i class="fa fa-lock"></i>Change Password</a>
+								 </li>
+							</ul>
+						 </li>
+					 <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Groups</a>
                         <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-bars"></i><a href="subjects.php">My Subjects</a></li>
-                        
+						<?php
+						$sql = "SELECT *from tbl_group WHERE teacherId";
+							
+							$result = $conn->query($sql);
+
+							if ($result->num_rows > 0) 
+							{
+								while($row = $result->fetch_assoc())
+								{
+									?>
+									<li><i class="fa fa-id-badge"></i><a href="group.php?g_Id=<?php echo $row['g_Id']; ?>"><?php echo $row['group_title']; ?></a></li>
+									<?php
+								}
+							}
+						?>
+                             <li><i class="fa fa-plus"></i><a href="addGroup.php">Create Group</a></li>
                         </ul>
-                        <h3 class="menu-title"></h3>
-                        <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Quizzes</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="viewquiz.php">View Quizzes</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="takequiz.php">Take a Quiz</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="newquiz.php">New Quizzes</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="score.php">Scores</a></li>
-                            
-                            </ul>
-                            <h3 class="menu-title"></h3>
+                    </li>
                              <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Video Sessions</a>
-                                 
-                                 
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-bars"></i><a href="join.php">Join</a></li>
                             <li><i class="fa fa-bars"></i><a href="sched.php">Schedule</a></li>
                             <li><i class="fa fa-id-badge"></i><a href="history.php">History</a></li>
-                           </ul>
-                            
-                                   <h3 class="menu-title"></h3>
-                             <li>
-                             <a href="ListofTeachers.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>Teachers</a>
-                             </li>
-                                 
-                                  <h3 class="menu-title"></h3>
-                             <li>
-                             <a href="notif.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>Notifications</a>
-                             </li> <h3 class="menu-title"></h3>
-                             <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Messages</a>
-                                 
-                                 
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="chat.php">Group Chat</a></li>
-                            <li><i class="fa fa-bars"></i><a href="personalmessage.php">Personal Message</a></li>
-                           
-                           </ul>
-                             
-                             
-     
-                   
- 
-                    
-                  
+                           </ul>	
+				
+					<h3 class="menu-title">School Year</h3><!-- /.menu-title -->
+							<?php
+							$sql = "SELECT *from tbl_sy ORDER BY SY_To DESC";
+							
+							$result = $conn->query($sql);
+
+							if ($result->num_rows > 0) 
+							{
+								while($row = $result->fetch_assoc())
+								{
+									$syId = $row['syId'];
+								?>
+								 <li class="menu-item-has-children dropdown">
+								 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i><?php echo $row['SY_From']." - ".$row['SY_To']; ?></a>
+								<ul class="sub-menu children dropdown-menu">
+									<?php
+									$sql2 = "SELECT tbl_course.course_description,tbl_course.courseId, tbl_sy_course.sy_courseId 
+									from tbl_sy_course_subj
+									INNER JOIN tbl_sy_course ON tbl_sy_course_subj.sy_courseId = tbl_sy_course.sy_courseId 
+									INNER JOIN tbl_course ON tbl_sy_course.courseId = tbl_course.courseId
+									Where tbl_sy_course.syId = $syId AND tbl_sy_course_subj.teacherId = $id GROUP BY tbl_course.courseID";
+									
+									$result2 = $conn->query($sql2);
+
+									if ($result2->num_rows > 0) 
+									{
+										while($row2 = $result2->fetch_assoc())
+										{
+											
+										?>
+										<li><i class="fa fa-id-card-o"></i><a href="courseSubjects.php?sy_courseId=<?php echo $row2['sy_courseId']?>"><?php echo $row2['course_description']; ?></a></li>
+										<?php
+										}
+									}
+									?>
+								</ul> 
+							</li>
+							
+								<?php
+								}
+							}
+							?>
                         
-                    
-                    <h3 class="menu-title"></h3>
+					
+                   <h3 class="menu-title"></h3>
                       <li>
-                     
-                          
-                          <a href="../login.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
-                        
-                         
+                          <a href="../logout.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
                     </li> 
-                 
+					</ul>
+				</div>	
+                 </nav>
                      
    
     </aside><!-- /#left-panel -->
@@ -190,15 +200,8 @@ session_start();
                         </style>
 
                         
-                          <p><?php echo $_SESSION["user"];?> 
-       </p>      
+                          <p><?php echo "Teacher"; ?></p>      
                         
-                 
-                             
-   
-    
-                        
-
                     </div>
 
                     <div class="language-select dropdown" id="language-select">
@@ -234,141 +237,50 @@ session_start();
                  }
                         
                         </style>
-                   
-                     
-                    
-                         
-                        
-                 
                     </div>
                 </div>
             </div>
            
         </div>
 
-        
-           <script>
-        function submitChat(){
-            
-            
-            form.username.readOnly = true;
-            form.username.style.border = 'none';
-           //$('#imageload').show();
-            var username = form.username.value;
-            var msg = form.msg.value;
-            var xmlhttp = new XMLHttpRequest();
-            
-            
-            xmlhttp.onreadystatechange = function()
-            {
-                if(xmlhttp.readyState==4&&xmlhttp.status==200){
-                    
-                    document.getElementById('chatlogs').innerHTML = xmlhttp.responseText;
-                    //$('#imageload').hide();
-                }
-            }
-            xmlhttp.open('GET', 'php/insert.php?username='+username+'&msg='+msg+'&current_date',true);
-            xmlhttp.send();
-            
-            
-        }
-               
-               $(document).ready(function(e){
-                                  $.ajaxSetup({cache:false});
-               setInterval(function() {$('#chatlogs').load('php/logs.php');}, 2000);
-                               
-                                 });
-       
-        
-        </script>
-    <body>
-    <frame>
-        
-        
-       
-    
-       <form name = "form" action="insert.php"> 
-           
-           <br/>
-           <br/>
-           <br/>
-           <br/>
-        Enter your message: <input name="username"id="username" for ="username" value =" <?php echo $_SESSION["user"]; ?>  "style = "width: 200px"> <br />
-            Your Message: <br />
-            <textarea name ="msg"id="msg"for="msg"> </textarea><br />
-            <a href="#" onclick="submitChat()"> Send</a> <br /> <br />
-             <div class="content mt-3">
-
-            <div class="col-sm-6">
-                <div class="alert  alert-primary alert-dismissible fade show" role="alert">
-                  <span class="badge badge-pill badge-primary"></span> 
-                    
-                    
-                       <span aria-hidden="true"> <div id="chatlogs">
-            
-            loading please wait...</div></span>
-                    </button>
-                </div>
-            </div>
-
-
-          
-
+      <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <strong>Change Password</strong> || Fill up the following:
+                      </div>
+                      <div class="card-body card-block">
+                        <form action="changePassword.php"method="post" class="form-horizontal">
+                          <div class="row form-group">
+                            <div class="col col-md-3"><label for="oldpassword" class=" form-control-label">Old Password:</label></div>
+                            <div class="col-12 col-md-9"><input required= "" type="password" id="oldpassword" name="oldpassword" placeholder="" class="form-control" onkeyup="lettersOnly(this)" ></div>
+                          </div>
+							 <div class="row form-group">
+                            <div class="col col-md-3"><label for="newpassword" class=" form-control-label">New Password:</label></div>
+                            <div class="col-12 col-md-9"><input required= "" type="password" id="newpassword" name="newpassword" placeholder="" class="form-control" onkeyup="lettersOnly(this)" ></div>
+                          </div>
+						   <div class="row form-group">
+                            <div class="col col-md-3"><label for="newpassword2" class=" form-control-label">Confirm Password:</label></div>
+                            <div class="col-12 col-md-9"><input required= "" type="password" id="newpassword2" name="newpassword2" placeholder="" class="form-control" onkeyup="lettersOnly(this)" ></div>
+                          </div>
+                           
+                         
+                      </div>
+                          
+                      <div class="card-footer">
+                        <div class="col-6 col-md-6">
+                                    <button class="btn btn-outline-primary btn-lg btn-block">Save</button></div>
+                                    
+                         
+                         <div class="col-6 col-md-6">
+                                    <button type="button" class="btn btn-outline-danger btn-lg btn-block">Cancel</button></div>
+                                    
+                      </div>
+                           </form>
                     </div>
-           
-            
-           
-        
-           
-        </form>
-         </frame>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    
+                    <div class="card">
+       
                 </div>
             </div>
-           
-
-                  
-
 
     <!-- Right Panel -->
 
@@ -404,8 +316,8 @@ session_start();
             } );
         } )( jQuery );
     </script>
-
+<script type="text/javascript">
+	
+  </script>
 </body>
 </html>
-
-

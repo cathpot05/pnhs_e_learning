@@ -15,15 +15,15 @@ if(isset($_POST['username']))
 {
 	$username = $_POST['username'];
 	$password = md5($_POST['password']);
-$sql = "SELECT * from tblaccount where username = '$username' and password = '$password' ";
+$sql = "SELECT * from tbl_account where username = '$username' and password = '$password' ";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) 
 {
 	
 	$row = $result->fetch_assoc();
-	$_SESSION["id"] = $row["acctid"];
-
+	$_SESSION["id"] = $row["accountId"];
+	$_SESSION['firstname'] = $row['firstname'];
 
 	header("Location:admin/index1.php");
 
@@ -37,7 +37,8 @@ else
 	{
 		
 		$row = $result->fetch_assoc();
-		$_SESSION["id"] = $row["teacherid"];
+		$_SESSION["id"] = $row["teacherId"];
+		$_SESSION['firstname'] = $row['firstname'];
 
 
 		header("Location:teacher/index.php");
@@ -52,8 +53,8 @@ else
 		{
 			
 			$row = $result->fetch_assoc();
-			$_SESSION["id"] = $row["studentId"];
-
+			$_SESSION["id"] = $row["studId"];
+			$_SESSION['firstname'] = $row['firstname'];
 
 			header("Location:student/index.php");
 
@@ -167,7 +168,7 @@ input
        
     <div class = "inputWithIcon">
 
-        <input required= "" type = "text"  name = "username"  placeholder = "Enter Username">
+        <input required= "" type = "text"  name = "username"  placeholder = "Enter Username"  autofocus>
         <i class = "fa fa-user fa-lg fa-fw" aria-hidden = "true"> </i>
         </div>
         <div class = "inputlock">

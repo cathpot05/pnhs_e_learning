@@ -3,11 +3,10 @@ include '../db.inc.php';
 session_start();
 
 $quizDesc = $_POST['quizDesc'];
-$teacherinfoid = $_GET['teacherinfoid'];
+$sy_course_subjId = $_GET['sy_course_subjId'];
 $timeStart = $_POST['timeStart'];
 $timeEnd = $_POST['timeEnd'];
-
-echo $sql = "INSERT INTO tbl_quiz(quizDesc, teacherinfo_id,timeStart,timeEnd) VALUES('$quizDesc',$teacherinfoid,'$timeStart','$timeEnd')";
+$sql = "INSERT INTO tbl_quiz(quizDesc, sy_course_subjId,timestart,timeend) VALUES('$quizDesc',$sy_course_subjId,'$timeStart','$timeEnd')";
 $result = $conn->query($sql);
-header("Location:quiz.php?teacherinfoid=$teacherinfoid");
+header("Location:quiz.php?sy_course_subjId=$sy_course_subjId");
 ?>

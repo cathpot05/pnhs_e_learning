@@ -5,7 +5,7 @@ session_start();
 $description = $_POST['description'];
 $quarter = $_POST['quarter'];
 $week = $_POST['week'];
-$teacherinfoid = $_GET['teacherinfoid'];
+$sy_course_subjId = $_GET['sy_course_subjId'];
 
   $file_name = $_FILES['subtopic']['name'];
    $module_name = $_FILES['subtopic']['name'];
@@ -13,7 +13,11 @@ $teacherinfoid = $_GET['teacherinfoid'];
    $file_tmp = $_FILES['subtopic']['tmp_name'];
    $file_type = $_FILES['subtopic']['type'];
    $file_ext=strtolower(end(explode('.',$_FILES['subtopic']['name'])));
-     $directory = "../files/".$file_name;
+   $directory = "../files/".$sy_course_subjId."/".$file_name;
+   
+   if(!is_dir("../files/".$sy_course_subjId."/")) {
+    mkdir("../files/".$sy_course_subjId."/");
+}
     if($file_size > 2097152) {
       //$errors[]='File size must be excately 2 MB';
    }
@@ -25,7 +29,7 @@ $teacherinfoid = $_GET['teacherinfoid'];
       print_r($errors);
    }
 
-$sql = "INSERT INTO tbl_files(teacherinfoid, quarter,week,description,directory) VALUES($teacherinfoid,$quarter,$week,'$description','$directory')";
+$sql = "INSERT INTO tbl_files(sy_course_subjId, quarter,week,description,directory) VALUES($sy_course_subjId,$quarter,$week,'$description','$directory')";
 $result = $conn->query($sql);
-header("Location:showModules.php?teacherinfo_id=$teacherinfoid");
+header("Location:showModules.php?sy_course_subjId=$sy_course_subjId");
 ?>

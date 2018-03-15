@@ -2,7 +2,7 @@
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
-	$dbname = "db_finalstream";
+	$dbname = "db_streamfinal";
 
 	date_default_timezone_set("Asia/Manila");
 	$info = getdate();

@@ -8,11 +8,8 @@
 include "../sessionLogout.php";
 include "../db.inc.php";
 
-$studId =0;
-if(isset($_GET['studId']))
-{
-$studId = $_GET['studId'];
-}			
+$g_Id = $_GET['g_Id'];
+		
 ?>
 
 <html class="no-js" lang=""> <!--<![endif]-->
@@ -45,8 +42,7 @@ $studId = $_GET['studId'];
 </head>
 <body>
         <!-- Left Panel -->
-
-        <aside id="left-panel" class="left-panel">
+    <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div class="navbar-header">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -205,8 +201,7 @@ $studId = $_GET['studId'];
                         </style>
 
                         
-                          <p><?php echo "Teacher"; ?> 
-       </p>      
+                          <p><?php echo "Teacher"; ?></p>      
                         
                     </div>
 
@@ -254,77 +249,120 @@ $studId = $_GET['studId'];
                       <div class="card-header">
 					  
 					  <?php
-					    if(isset($_GET['studId'])){
-					  $sql = "SELECT *FROM tbl_students where studId = $studId";
+					  $sql = "SELECT tbl_group.group_title, tbl_teachers.firstname, tbl_teachers.lastname FROM tbl_group 
+					  INNER JOIN tbl_teachers ON tbl_group.teacherId = tbl_teachers.teacherId 
+					  where g_Id = $g_Id";
 								
 								$result = $conn->query($sql);
 
 								if ($result->num_rows > 0) 
 								{
 									$row = $result->fetch_assoc();
-									$studentName = $row['firstname']." ".$row['lastname'];
-									
+									$groupName = $row['group_title'];
+									$teacherName = $row['firstname']." ".$row['lastname'];
 								}
 					  
 					  ?>
-                        <strong><?php echo $studentName; ?></strong>
-                          <?php
-						}
-						else
-						{
-							?>
-							Please choose a student
-							<?php
-							
-						}
-						  ?>
+                        <strong><?php echo $groupName; ?></strong>
+						<a style="float:right" href="groupMessages.php?g_Id=<?php echo $g_Id; ?>" class="btn btn-outline-info btn-sm">Group Message</a>
                           
                       </div>
                       <div class="card-body">
-						<div style=" max-height: 400px; overflow-y: scroll;" id="messageDiv">
-						
-						</div>
-							<hr>
-							<?php if(isset($_GET['studId'])){?>
-							<form action="sendMessage.php?studId=<?php echo $studId; ?>" method="post">
+							<form action="post.php?g_Id=<?php echo $g_Id; ?>" method="post">
 							<div class="row form-group">
-                            <div class="col-12 col-md-10"><textarea name="message" id="textarea-input" rows="5" placeholder="Message..." class="form-control" required></textarea></div>
-							<div class="col-12 col-md-2"><button style="position: absolute; bottom: 0;" type="submit" class="btn btn-primary">Send</button> </div>
+                            <div class="col-12 col-md-12"><textarea name="message" id="textarea-input" rows=3 placeholder="Announcements" class="form-control" required></textarea></div>
+							</div>
+							<div class="row form-group">
+							<div class="col-12 col-md-12"><button style="float:right" type="submit" class="btn btn-primary">Post</button> </div>
 							</div>
 							</form>
+							<hr>
+							<?php
+							$sql = "SELECT *from tbl_gposts where g_Id = $g_Id";
+							$result = $conn->query($sql);
+							if ($result->num_rows > 0) 
+							{
+								while($row = $result->fetch_assoc())
+								{
+									$senderId = $row['senderId'];
+									if($row['senderType'] == 0)
+									{
+										$sql2 = "SELECT *from tbl_students where studId = $senderId";
+										$result2 = $conn->query($sql2);
+										if ($result2->num_rows > 0) 
+										{
+											while($row2 = $result2->fetch_assoc())
+											{
+												?>
+												<div class="card">
+												  <div class="card-header">
+													<strong><?php echo $row2['firstname']." ".$row2['lastname']; ?></strong> (Student)
+													<i style="float:right; font-size:.6em"><?php echo date('H:i a',strtotime($row['time']))."<br>".date('M j, Y',strtotime($row['date'])); ?></i></td>
+												  </div>
+												  <div class="card-body">
+													<?php echo $row2['post']; ?>
+												</div>
+												</div>
+												<?php
+											}
+										}	
+										
+									}
+									else
+									{
+										$sql2 = "SELECT *from tbl_teachers where teacherId = $senderId";
+										$result2 = $conn->query($sql2);
+										if ($result2->num_rows > 0) 
+										{
+											while($row2 = $result2->fetch_assoc())
+											{
+												?>
+												<div class="card">
+												  <div class="card-header">
+													<strong><?php echo $row2['firstname']." ".$row2['lastname']; ?></strong> (Teacher)
+													<i style="float:right; font-size:.6em"><?php echo date('M j, Y',strtotime($row['date']))."<br>".date('h:i a',strtotime($row['time'])); ?></i></td>
+												  </div>
+												<div class="card-body">
+													<?php echo $row['post']; ?>
+												</div>
+												</div>
+												<?php
+											}
+										}	
+									}
+											?>
+											
+											<?php
+												
+								}		
+							}
 							
-						<?php }?>
+							
+							?>
                     </div>
             </div>
   </div>
       <div class="col-lg-4">
                     <div class="card">
                       <div class="card-header">
-                        <strong>Messages History</strong>
+                        <strong>Members</strong>
+						<a style="float:right" href=# data-toggle="modal" data-target="#addMemberModal" class="btn btn-outline-info btn-sm">Add Members</a>
                       </div>
                       <div class="card-body">
 					  <table width=100%>
-					  <?php if(isset($_GET['studId'])){?>
-					 <tr  >
+					 <tr>
 									
-										<td ><a href="messages.php?studId=<?php echo $studId ;?>" ><?php echo $studentName; ?></a>
-											</td>
-											<td><i style="float:right; font-size:.6em"><?php echo "Current"; ?></i></td>
+										<td><?php echo $teacherName; ?></td>
+											<td><i style="float:right; font-size:.6em"><?php echo "You"; ?></i></td>
 											</tr>
 											<tr>
 												<td colspan=2><hr width=100%></td>
 											</tr>
-						<?php }?>
 						<?php
-						 $sql = "SELECT tbl_students.studId, tbl_students.firstName, tbl_students.lastName, tbl_students.middleName ,tbl_pmessage.date,tbl_pmessage.time
-						 FROM tbl_pmessage
-						 INNER JOIN tbl_students ON tbl_pmessage.studentId = tbl_students.studId
-						 WHERE tbl_pmessage.teacherId = $id AND tbl_students.studId != $studId  AND
-						 pMsg_Id IN (
-						SELECT MAX(pMsg_Id)
-						FROM tbl_pmessage
-						GROUP BY studentId
-						) ORDER BY tbl_pmessage.pMsg_Id DESC";
+						 $sql = "SELECT tbl_students.firstname,tbl_students.lastname,tbl_students.studId 
+						 FROM tbl_gmembers 
+						 INNER JOIN tbl_students ON tbl_gmembers.studentId = tbl_students.studId
+						 WHERE tbl_gmembers.g_Id = $g_Id";
 								
 								$result = $conn->query($sql);
 
@@ -336,8 +374,8 @@ $studId = $_GET['studId'];
 										
 										
 											<tr>
-											<td><a href="messages.php?studId=<?php echo $row['studId']; ?>" > <?php echo $row['firstName']." ".$row['lastName']; ?> </a></td>
-											<td><i style="float:right; font-size:.6em"><?php echo date('h:i a',strtotime($row['time']))."<br>".date('M j, Y',strtotime($row['date'])); ?></i></td>
+											<td><?php echo $row['firstname']." ".$row['lastname']; ?></td>
+											<td width=20%><a  style="float:right; font-size:.6em" href="messages.php?studId=<?php echo $row['studId']; ?>" class="btn btn-outline-primary btn-sm">Send Message</a></td>
 											</tr>
 											<tr>
 											<td colspan=2><hr width=100%></td>
@@ -359,7 +397,24 @@ $studId = $_GET['studId'];
                 </div>
             </div>
   </div>
-
+				<div class="modal fade" id="addMemberModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mediumModalLabel">Add Member</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                              <form action="deleteFill.php?quizId=<?php echo $quizId; ?>" method="post" class="form-horizontal" >
+							   </form>
+                            </div>
+                            
+                        </div>
+                    </div>
+					
+                </div>  
 
          
     <!-- Right Panel -->

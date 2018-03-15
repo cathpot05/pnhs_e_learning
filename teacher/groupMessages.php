@@ -7,18 +7,10 @@
 <?php
 include "../sessionLogout.php";
 include "../db.inc.php";
-
-$sql = "SELECT *from tbl_teachers where teacherid = $id";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) 
+$g_Id =0;
+if(isset($_GET['g_Id']))
 {
-	$row = $result->fetch_assoc();
-	$name = $row['firstName']." ". $row['lastName'];
-}
-$courseid =0;
-if(isset($_GET['courseid']))
-{
-	$courseid = $_GET['courseid'];
+$g_Id = $_GET['g_Id'];
 }			
 ?>
 
@@ -52,7 +44,6 @@ if(isset($_GET['courseid']))
 </head>
 <body>
         <!-- Left Panel -->
-
     <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div class="navbar-header">
@@ -66,29 +57,28 @@ if(isset($_GET['courseid']))
                 <ul class="nav navbar-nav">
                     
                     <li class="active">
-                        <a href="index.php"> <i class="menu-icon fa fa-dashboard"></i><?php echo $name; ?></a>   
+                        <a href="index.php"> <i class="menu-icon fa fa-dashboard"></i><?php echo $_SESSION['firstname']; ?></a>   
                     </li>
 					<h3 class="menu-title">Account</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>My Account</a>
+                  <li class="menu-item-has-children dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>My Account</a>
+							<ul class="sub-menu children dropdown-menu">
+								 <li>
+									<a href="messages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Personal Messages</a>
+								 </li>
+								 <li>
+									<a href="groupMessages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Group Messages</a>
+								 </li>
+								 <li>
+									<a href="changePasswordForm.php"  aria-haspopup="true" aria-expanded="false"> <i class="fa fa-lock"></i>Change Password</a>
+								 </li>
+							</ul>
+						 </li>
+					 <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Groups</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-id-badge"></i><a href="quiz.php">Quizzes</a></li>
-                            <li><i class="fa fa-book"></i><a href="notification.php">Notifications</a></li>
-                            <li><i class="fa fa-id-card-o"></i><a href="schedule.php">Schedules</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i><a href="messages.php">Personal Messages</a></li>
-							<li><i class="fa fa-exclamation-triangle"></i><a href="groupMessages.php">Group Messages</a></li>
-                             <li><i class="fa fa-exclamation-triangle"></i><a href="videostream.php">Stream</a></li>
-                            </ul>
-                        
-                    </li>
-				
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Courses</a>
-                        <ul class="sub-menu children dropdown-menu">
-							<?php
-							$sql = "SELECT tbl_course.courseid, tbl_course.course from tbl_teacherinfo 
-							INNER JOIN tbl_course ON tbl_teacherinfo.courseid = tbl_course.courseid
-							WHERE tbl_teacherinfo.teacher_id = $id GROUP by tbl_course.courseid";
+						<?php
+						$sql = "SELECT *from tbl_group WHERE teacherId";
 							
 							$result = $conn->query($sql);
 
@@ -96,16 +86,67 @@ if(isset($_GET['courseid']))
 							{
 								while($row = $result->fetch_assoc())
 								{
+									?>
+									<li><i class="fa fa-id-badge"></i><a href="group.php?g_Id=<?php echo $row['g_Id']; ?>"><?php echo $row['group_title']; ?></a></li>
+									<?php
+								}
+							}
+						?>
+                             <li><i class="fa fa-plus"></i><a href="addGroup.php">Create Group</a></li>
+                        </ul>
+                    </li>
+                             <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Video Sessions</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-bars"></i><a href="join.php">Join</a></li>
+                            <li><i class="fa fa-bars"></i><a href="sched.php">Schedule</a></li>
+                            <li><i class="fa fa-id-badge"></i><a href="history.php">History</a></li>
+                           </ul>	
+				
+					<h3 class="menu-title">School Year</h3><!-- /.menu-title -->
+							<?php
+							$sql = "SELECT *from tbl_sy ORDER BY SY_To DESC";
+							
+							$result = $conn->query($sql);
+
+							if ($result->num_rows > 0) 
+							{
+								while($row = $result->fetch_assoc())
+								{
+									$syId = $row['syId'];
 								?>
-								<li><i class="fa fa-id-card-o"></i><a href="courseSubjects.php?courseid=<?php echo $row['courseid']; ?>"><?php echo $row['course']; ?></a></li>
+								 <li class="menu-item-has-children dropdown">
+								 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i><?php echo $row['SY_From']." - ".$row['SY_To']; ?></a>
+								<ul class="sub-menu children dropdown-menu">
+									<?php
+									$sql2 = "SELECT tbl_course.course_description,tbl_course.courseId, tbl_sy_course.sy_courseId 
+									from tbl_sy_course_subj
+									INNER JOIN tbl_sy_course ON tbl_sy_course_subj.sy_courseId = tbl_sy_course.sy_courseId 
+									INNER JOIN tbl_course ON tbl_sy_course.courseId = tbl_course.courseId
+									Where tbl_sy_course.syId = $syId AND tbl_sy_course_subj.teacherId = $id GROUP BY tbl_course.courseID";
+									
+									$result2 = $conn->query($sql2);
+
+									if ($result2->num_rows > 0) 
+									{
+										while($row2 = $result2->fetch_assoc())
+										{
+											
+										?>
+										<li><i class="fa fa-id-card-o"></i><a href="courseSubjects.php?sy_courseId=<?php echo $row2['sy_courseId']?>"><?php echo $row2['course_description']; ?></a></li>
+										<?php
+										}
+									}
+									?>
+								</ul> 
+							</li>
+							
 								<?php
 								}
 							}
 							?>
-                        </ul>
                         
-                    </li>
-
+					
                    <h3 class="menu-title"></h3>
                       <li>
                           <a href="../logout.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
@@ -209,82 +250,104 @@ if(isset($_GET['courseid']))
       <div class="col-lg-8">
                     <div class="card">
                       <div class="card-header">
-					  
+					   
 					  <?php
-					    if(isset($_GET['courseid'])){
-						$sql = "SELECT *FROM tbl_course where courseid = $courseid";	
-						$result = $conn->query($sql);
-						if ($result->num_rows > 0) 
-						{
-							$row = $result->fetch_assoc();
-							$courseName = $row['course'];
-						}
+					  if(isset($_GET['g_Id']))
+					  {
+					  $sql = "SELECT tbl_group.group_title, tbl_teachers.firstname, tbl_teachers.lastname FROM tbl_group 
+					  INNER JOIN tbl_teachers ON tbl_group.teacherId = tbl_teachers.teacherId 
+					  where g_Id = $g_Id";
+								
+								$result = $conn->query($sql);
+
+								if ($result->num_rows > 0) 
+								{
+									$row = $result->fetch_assoc();
+									$groupName = $row['group_title'];
+									$teacherName = $row['firstname']." ".$row['lastname'];
+								}
 					  
 					  ?>
-                        <strong><?php echo $courseName; ?></strong>
-                          <?php
-						}
-						  ?>
-                          
+                        <strong><?php echo $groupName; ?></strong>
+                        <?php
+					  }
+					  else
+					  {
+						  echo "Please choose a group";
+						  
+					  }   
+					  ?>
                       </div>
                       <div class="card-body">
 						<div style=" max-height: 400px; overflow-y: scroll;" id="groupMessageDiv">
 						
 						</div>
 							<hr>
-							<?php if(isset($_GET['courseid'])){?>
-							<form action="sendGroupMessage.php?teacherid=<?php echo $id; ?>&courseid=<?php echo $courseid; ?>" method="post">
+							 <?php
+							if(isset($_GET['g_Id'])){
+							?>
+							<form action="sendGroupMessage.php?g_Id=<?php echo $g_Id; ?>" method="post">
 							<div class="row form-group">
                             <div class="col-12 col-md-10"><textarea name="message" id="textarea-input" rows="5" placeholder="Message..." class="form-control" required></textarea></div>
 							<div class="col-12 col-md-2"><button style="position: absolute; bottom: 0;" type="submit" class="btn btn-primary">Send</button> </div>
 							</div>
 							</form>
-							
-						<?php }?>
+							<?php
+							  }
+							  ?>
+						
                     </div>
             </div>
   </div>
+      <?php
+	if(isset($_GET['g_Id']))
+	{
+		?>
       <div class="col-lg-4">
                     <div class="card">
                       <div class="card-header">
-                        <strong>Courses</strong>
+                        <strong>Members</strong>
                       </div>
                       <div class="card-body">
 					  <table width=100%>
-					  <?php if(isset($_GET['courseid'])){?>
 					 <tr>
 									
-										<td width=100%><a href="groupMessages.php?courseid=<?php echo $courseid ;?>" ><?php echo $courseName; ?></a>
-											<hr width=100%></td>
-											
+										<td><?php echo $teacherName; ?></td>
+											<td><i style="float:right; font-size:.6em"><?php echo "You"; ?></i></td>
 											</tr>
-									<?php }?>
-						<?php
-						 $sql = "SELECT tbl_course.courseid, tbl_course.course from tbl_teacherinfo 
-							INNER JOIN tbl_course ON tbl_teacherinfo.courseid = tbl_course.courseid
-							WHERE tbl_teacherinfo.teacher_id = $id and tbl_course.courseid != $courseid GROUP by tbl_course.courseid";
-								
-								$result = $conn->query($sql);
-
-								if ($result->num_rows > 0) 
-								{
-									while($row = $result->fetch_assoc())
-									{
-										?>
-										
-										
 											<tr>
-											<td><a href="groupMessages.php?courseid=<?php echo $row['courseid']; ?>" > <?php echo $row['course']; ?> </a></td>
+												<td colspan=2><hr width=100%></td>
 											</tr>
-										
-										
-										<?php
+											<?php
+											 $sql = "SELECT tbl_students.firstname,tbl_students.lastname,tbl_students.studId 
+											 FROM tbl_gmembers 
+											 INNER JOIN tbl_students ON tbl_gmembers.studentId = tbl_students.studId
+											 WHERE tbl_gmembers.g_Id = $g_Id";
+													
+													$result = $conn->query($sql);
+
+													if ($result->num_rows > 0) 
+													{
+														while($row = $result->fetch_assoc())
+														{
+															?>
+															
+															
+																<tr>
+																<td><?php echo $row['firstname']." ".$row['lastname']; ?></td>
+																<td width=20%><a  style="float:right; font-size:.6em" href="messages.php?studId=<?php echo $row['studId']; ?>" class="btn btn-outline-primary btn-sm">Send Message</a></td>
+																</tr>
+																<tr>
+																<td colspan=2><hr width=100%></td>
+																</tr>
+															
+															<?php
+																
+														}
+														
+													}
 											
-									}
-									
-								}
-						
-						
+											
 						?>
 						</table>
 						
@@ -294,7 +357,46 @@ if(isset($_GET['courseid']))
                 </div>
             </div>
   </div>
+<?php
+	}
+	else
+	{
+		?>
+		      <div class="col-lg-4">
+                    <div class="card">
+                      <div class="card-header">
+                        <strong>Groups</strong>
+						
+                      </div>
+                      <div class="card-body">
+					  <table width=100%>
+					 <?php
+							$sql = "SELECT *from tbl_group WHERE teacherId = $id";
+							
+							$result = $conn->query($sql);
 
+							if ($result->num_rows > 0) 
+							{
+								while($row = $result->fetch_assoc())
+								{
+									?>
+									 <td><a href="groupMessages.php?g_Id=<?php echo $row['g_Id']; ?>" ><?php echo $row['group_title']; ?></a></td>
+									<?php
+								}
+							}
+								?>
+						</table>
+						
+                    </div>
+                    <div class="card">
+       
+                </div>
+            </div>
+  </div>
+		
+		<?php
+	}
+?>
 
          
     <!-- Right Panel -->
@@ -338,7 +440,7 @@ if(isset($_GET['courseid']))
         var xhr;
 			if (window.XMLHttpRequest) xhr = new XMLHttpRequest(); // all browsers 
 			else xhr = new ActiveXObject("Microsoft.XMLHTTP"); 	// for IE
-			var url = 'refreshGroupMessage.php?courseid=<?php echo $courseid; ?>';
+			var url = 'refreshGroupMessage.php?g_Id=<?php echo $g_Id; ?>';
 			xhr.open('GET', url, false);
 			xhr.onreadystatechange = function () {
 				document.getElementById("groupMessageDiv").innerHTML = xhr.responseText;
@@ -350,7 +452,7 @@ if(isset($_GET['courseid']))
     }
 	refreshData();
 	var myVar = setInterval(function(){ refreshData(); }, 2000);
-			var objDiv = document.getElementById("messageDiv");
+			var objDiv = document.getElementById("groupMessageDiv");
 objDiv.scrollTop = objDiv.scrollHeight;
   </script>
 </body>

@@ -4,16 +4,24 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->
 
+
 <?php
+
+
 include "../sessionLogout.php";
 include "../db.inc.php";
-
-$teacherId =0;
-if(isset($_GET['teacherId']))
-{
-    $teacherId = $_GET['teacherId'];
-}
 ?>
+<?php
+//will remove this later
+//$_SESSION["id"] = 1;
+
+
+//$conn->close();
+
+$es_Id = $_GET['es_Id'];
+$sy_course_subjId = $_GET['sy_course_subjId'];
+?>
+
 
 
 
@@ -22,10 +30,10 @@ if(isset($_GET['teacherId']))
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Pantay National High School</title>
-
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+    
     <link rel="shortcut icon" href="../images/pantaylogo1_.bmp">
 
     <link rel="stylesheet" href="../assets/css/normalize.css">
@@ -35,9 +43,9 @@ if(isset($_GET['teacherId']))
     <link rel="stylesheet" href="../assets/css/flag-icon.min.css">
     <link rel="stylesheet" href="../assets/css/cs-skin-elastic.css">
     <!-- <link rel="stylesheet" href="assets/css/bootstrap-select.less"> -->
+       
 
-
-    <link rel="stylesheet" href="../assets/scss/style.css">
+     <link rel="stylesheet" href="../assets/scss/style.css">
     <link href="../assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
@@ -46,10 +54,11 @@ if(isset($_GET['teacherId']))
 
 </head>
 <body>
+             
 
+        <!-- Left Panel -->
 
-<!-- Left Panel -->
-    <aside id="left-panel" class="left-panel">
+      <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
 
             <div class="navbar-header">
@@ -165,18 +174,18 @@ if(isset($_GET['teacherId']))
    </div>
    </nav>
     </aside><!-- /#left-panel -->
-<!-- Left Panel -->
 
-<!-- Right Panel -->
+    <!-- Left Panel -->
 
-<div id="right-panel" class="right-panel">
+    <!-- Right Panel -->
 
-    <!-- Header-->
-    <header id="header" class="header">
+    <div id="right-panel" class="right-panel">
 
-        <div class="header-menu">
+        <!-- Header-->
+        <header id="header" class="header">
 
-                          <div class="col-sm-7">
+            <div class="header-menu">
+                <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
                         <button class="search-trigger"><i class="fa fa-search"></i></button>
@@ -250,253 +259,181 @@ if(isset($_GET['teacherId']))
                     </div>
                 </div>
 
-            <div class="col-sm-5">
-                <div class="user-area dropdown float-right">
-                    <img class="user-avatar rounded-circle" src="../images/pantaylogo.png" alt="User Avatar">
+                <div class="col-sm-5">
+                    <div class="user-area dropdown float-right"> 
+                        <img class="user-avatar rounded-circle" src="../images/pantaylogo.png" alt="User Avatar">
+                       
+                   
+             <style>
+                        
+                p
+                 {
+                     
+                     font-size: 25px;
+                     margin-right: 40px;
+                     color: black;
+                     padding-top: 10px;
+                   
+                 }
+                        
+                        </style>
 
 
-                    <style>
+                             
+   
+    
+                        
 
-                        p
-                        {
-
-                            font-size: 25px;
-                            margin-right: 40px;
-                            color: black;
-                            padding-top: 10px;
-
-                        }
-
-                    </style>
-
-
-
-
-
-
-
-                </div>
-
-                <div class="language-select dropdown" id="language-select">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown"  id="language" aria-haspopup="true" aria-expanded="true">
-
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-
-    </header><!-- /header -->
-    <!-- Header-->
-
-    <div class="breadcrumbs">
-        <div class="col-sm-4">
-            <div class="page-header float-left">
-                <div class="page-title">
-                    <h1>Pantay National High School</h1>
-                    <style>
-
-
-                        .p
-                        {
-
-                            font-size: 25px;
-                            margin-left: 900px;
-                            color: black;
-                            margin-right: -90px;
-                            margin-top: -50px;
-
-                        }
-
-                    </style>
-
-
-
-
-
-
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-
-       <div class="col-lg-8">
-                    <div class="card">
-                      <div class="card-header">
-					  
-					  <?php
-					    if(isset($_GET['teacherId'])){
-					  $sql = "SELECT *FROM tbl_teachers where teacherId = $teacherId";
-								
-								$result = $conn->query($sql);
-
-								if ($result->num_rows > 0) 
-								{
-									$row = $result->fetch_assoc();
-									$teacherName = $row['firstname']." ".$row['lastname'];
-									
-								}
-					  
-					  ?>
-                        <strong><?php echo $teacherName; ?></strong>
-                          <?php
-						}
-						else
-						{
-							?>
-							Please choose a teacher
-							<?php
-							
-						}
-						  ?>
-                          
-                      </div>
-                      <div class="card-body">
-						<div style=" max-height: 400px; overflow-y: scroll;" id="messageDiv">
-						
-						</div>
-							<hr>
-							<?php if(isset($_GET['teacherId'])){?>
-							<form action="sendMessage.php?teacherId=<?php echo $teacherId; ?>" method="post">
-							<div class="row form-group">
-                            <div class="col-12 col-md-10"><textarea name="message" id="textarea-input" rows="5" placeholder="Message..." class="form-control" required></textarea></div>
-							<div class="col-12 col-md-2"><button style="position: absolute; bottom: 0;" type="submit" class="btn btn-primary">Send</button> </div>
-							</div>
-							</form>
-							
-						<?php }?>
                     </div>
-            </div>
-  </div>
-      <div class="col-lg-4">
-                    <div class="card">
-                      <div class="card-header">
-                        <strong>Messages History</strong>
-                      </div>
-                      <div class="card-body">
-					  <table width=100%>
-					  <?php if(isset($_GET['teacherId'])){?>
-					 <tr  >
-									
-										<td ><a href="messages.php?teacherId=<?php echo $teacherId ;?>" ><?php echo $teacherName; ?></a>
-											</td>
-											<td><i style="float:right; font-size:.6em"><?php echo "Current"; ?></i></td>
-											</tr>
-											<tr>
-												<td colspan=2><hr width=100%></td>
-											</tr>
-											<?php }?>
-											<?php
-											$sql = "SELECT tbl_teachers.teacherId, tbl_teachers.firstname, tbl_teachers.lastname, tbl_teachers.middlename ,tbl_pmessage.date,tbl_pmessage.time
-											 FROM tbl_pmessage
-											 INNER JOIN tbl_teachers ON tbl_pmessage.teacherId = tbl_teachers.teacherId
-											 WHERE tbl_pmessage.studentId = $id AND tbl_teachers.teacherId != $teacherId  AND
-											 pMsg_Id IN (
-											SELECT MAX(pMsg_Id)
-											FROM tbl_pmessage
-											GROUP BY teacherId
-											) ORDER BY tbl_pmessage.pMsg_Id DESC";
-													
-													$result = $conn->query($sql);
 
-													if ($result->num_rows > 0) 
-													{
-														while($row = $result->fetch_assoc())
-														{
-															?>
-															
-															
-																<tr>
-																<td><a href="messages.php?teacherId=<?php echo $row['teacherId']; ?>" > <?php echo $row['firstname']." ".$row['lastname']; ?> </a></td>
-																<td><i style="float:right; font-size:.6em"><?php echo date('h:i a',strtotime($row['time']))."<br>".date('M j, Y',strtotime($row['date'])); ?></i></td>
-																</tr>
-																<tr>
-																<td colspan=2><hr width=100%></td>
-																</tr>
-															
-															<?php
-																
-														}
-														
-													}
-											
-											
-											?>
-											</table>
-											
-										</div>
-                    <div class="card">
-       
+                    <div class="language-select dropdown" id="language-select">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown"  id="language" aria-haspopup="true" aria-expanded="true">
+                           
+                        </a>
+                        
+                    </div>
+
                 </div>
             </div>
-  </div>
+
+        </header><!-- /header -->
+        <!-- Header-->
+
+        <div class="breadcrumbs">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Pantay National High School</h1>
+                        <style>
+                            
+                            
+                .p
+                 {
+                    
+                     font-size: 25px;
+                     margin-left: 900px;
+                     color: black;
+                     margin-right: -90px;
+                     margin-top: -50px;
+                   
+                 }
+                        
+                        </style>
+                        
+       
+                     
+                    
+                         
+                        
+                 
+                    </div>
+                </div>
+            </div>
+           
+        </div>
 
 
-</div>
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">Quizzes List</strong>
+                </div>
+                <div class="card-body">
+                    <table class="table table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Quiz</th>
+                            <th scope="col">Schedule</th>
+							<th scope="col" width=20%>Score</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <?php
+                       $sql = "SELECT B.quizDesc, B.timestart,B.timeend, C.score, B.quizId
+					   FROM tbl_sy_course_subj A 
+					   INNER JOIN tbl_quiz B ON B.sy_course_subjId = A.sy_course_subjId
+					   LEFT JOIN tbl_score C ON C.quizId = B.quizId  AND C.es_Id = $es_Id
+					   WHERE A.sy_course_subjId = $sy_course_subjId";
+                        $result = $conn->query($sql);
+
+                        while($row = $result->fetch_assoc()){
+                           ?>
+     								<tr>
+     								<td> <?php echo $row["quizDesc"]; ?></td>
+     								<td><?php echo "<strong>From: </strong>".$row['timestart'].' <br> <strong>To: </strong>'.$row['timeend']; ?></td>
+									
+									<td><?php
+									if($row['score'] == "")
+									{	
+										if(strtotime(date('Y-m-d H:i:s')) > strtotime($row['timestart'])  &&  strtotime(date('Y-m-d H:i:s')) < strtotime($row['timeend']))
+										{
+											?>
+											<a href="takequiz.php?quizId=<?php echo $row["quizId"] ?>"   class="btn btn-outline-primary btn-sm">Take Quiz</a>
+									<?php
+										}
+										else
+										{
+												
+											echo "<strong> Not Taken </strong>";
+										}										
+									}
+									else
+									{
+										echo $row['score']; 
+									}
+											?></td>
+     								</tr>
+									
+									<?php
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+            </div>
+           
+
+                   </div>
+               
+
+    <!-- Right Panel -->
 
 
-</div>
+    <script src="../assets/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="../assets/js/plugins.js"></script>
+    <script src="../assets/js/main.js"></script>
 
 
-<!-- Right Panel -->
+    <script src="../assets/js/lib/chart-js/Chart.bundle.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/widgets.js"></script>
+    <script src="../assets/js/lib/vector-map/jquery.vmap.js"></script>
+    <script src="../assets/js/lib/vector-map/jquery.vmap.min.js"></script>
+    <script src="../assets/js/lib/vector-map/jquery.vmap.sampledata.js"></script>
+    <script src="../assets/js/lib/vector-map/country/jquery.vmap.world.js"></script>
+    <script>
+        ( function ( $ ) {
+            "use strict";
 
+            jQuery( '#vmap' ).vectorMap( {
+                map: 'world_en',
+                backgroundColor: null,
+                color: '#ffffff',
+                hoverOpacity: 0.7,
+                selectedColor: '#1de9b6',
+                enableZoom: true,
+                showTooltip: true,
+                values: sample_data,
+                scaleColors: [ '#1de9b6', '#03a9f5' ],
+                normalizeFunction: 'polynomial'
+            } );
+        } )( jQuery );
+    </script>
 
-<script src="../assets/js/vendor/jquery-2.1.4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-<script src="../assets/js/plugins.js"></script>
-<script src="../assets/js/main.js"></script>
-
-
-<script src="../assets/js/lib/chart-js/Chart.bundle.js"></script>
-<script src="../assets/js/dashboard.js"></script>
-<script src="../assets/js/widgets.js"></script>
-<script src="../assets/js/lib/vector-map/jquery.vmap.js"></script>
-<script src="../assets/js/lib/vector-map/jquery.vmap.min.js"></script>
-<script src="../assets/js/lib/vector-map/jquery.vmap.sampledata.js"></script>
-<script src="../assets/js/lib/vector-map/country/jquery.vmap.world.js"></script>
-<script>
-    ( function ( $ ) {
-        "use strict";
-
-        jQuery( '#vmap' ).vectorMap( {
-            map: 'world_en',
-            backgroundColor: null,
-            color: '#ffffff',
-            hoverOpacity: 0.7,
-            selectedColor: '#1de9b6',
-            enableZoom: true,
-            showTooltip: true,
-            values: sample_data,
-            scaleColors: [ '#1de9b6', '#03a9f5' ],
-            normalizeFunction: 'polynomial'
-        } );
-    } )( jQuery );
-</script>
-
-<script type="text/javascript">
-    function refreshData(){
-        var xhr;
-        if (window.XMLHttpRequest) xhr = new XMLHttpRequest(); // all browsers
-        else xhr = new ActiveXObject("Microsoft.XMLHTTP"); 	// for IE
-        var url = 'refreshMessage.php?teacherId=<?php echo $teacherId; ?>';
-        xhr.open('GET', url, false);
-        xhr.onreadystatechange = function () {
-            document.getElementById("messageDiv").innerHTML = xhr.responseText;
-
-        }
-        xhr.send();
-        // ajax stop
-        return false;
-
-    }
-    refreshData();
-    var myVar = setInterval(function(){ refreshData(); }, 2000);
-    var objDiv = document.getElementById("messageDiv");
-    objDiv.scrollTop = objDiv.scrollHeight;
-</script>
 </body>
 </html>

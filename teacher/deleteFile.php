@@ -3,8 +3,18 @@ include '../db.inc.php';
 session_start();
 
 $deleteid= $_POST['deleteid'];
-$teacherinfoid = $_GET['teacherinfoid'];
-$sql = "DELETE FROM tbl_files where id = $deleteid";
+$sy_course_subjId = $_GET['sy_course_subjId'];
+
+$sql = "SELECT *FROM tbl_files where fileId = $deleteid";
 $result = $conn->query($sql);
-header("Location:showModules.php?teacherinfo_id=$teacherinfoid");
+
+if ($result->num_rows > 0) 
+{
+	$row = $result->fetch_assoc();
+unlink($row['directory']);
+
+$sql = "DELETE FROM tbl_files where fileId = $deleteid";
+$result = $conn->query($sql);
+}
+header("Location:showModules.php?sy_course_subjId=$sy_course_subjId");
 ?>

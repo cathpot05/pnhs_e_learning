@@ -8,14 +8,7 @@
 include "../sessionLogout.php";
 include "../db.inc.php";
 
-$sql = "SELECT *from tbl_teachers where teacherid = $id";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) 
-{
-	$row = $result->fetch_assoc();
-	$name = $row['firstName']." ". $row['lastName'];
-}
-$teacherinfo_id = $_GET['teacherinfo_id'];				
+$sy_course_subjId = $_GET['sy_course_subjId'];				
 ?>
 
 <html class="no-js" lang=""> <!--<![endif]-->
@@ -49,7 +42,7 @@ $teacherinfo_id = $_GET['teacherinfo_id'];
 <body>
         <!-- Left Panel -->
 
-    <aside id="left-panel" class="left-panel">
+        <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div class="navbar-header">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,30 +55,28 @@ $teacherinfo_id = $_GET['teacherinfo_id'];
                 <ul class="nav navbar-nav">
                     
                     <li class="active">
-                        <a href="index.php"> <i class="menu-icon fa fa-dashboard"></i><?php echo $name; ?></a>   
+                        <a href="index.php"> <i class="menu-icon fa fa-dashboard"></i><?php echo $_SESSION['firstname']; ?></a>   
                     </li>
 					<h3 class="menu-title">Account</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>My Account</a>
+                  <li class="menu-item-has-children dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>My Account</a>
+							<ul class="sub-menu children dropdown-menu">
+								 <li>
+									<a href="messages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Personal Messages</a>
+								 </li>
+								 <li>
+									<a href="groupMessages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Group Messages</a>
+								 </li>
+								 <li>
+									<a href="changePasswordForm.php"  aria-haspopup="true" aria-expanded="false"> <i class="fa fa-lock"></i>Change Password</a>
+								 </li>
+							</ul>
+						 </li>
+					 <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Groups</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Quizzes</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="quiz.php">Quizzes</a></li>
-                            <li><i class="fa fa-book"></i><a href="notification.php">Notifications</a></li>
-                            <li><i class="fa fa-id-card-o"></i><a href="schedule.php">Schedules</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i><a href="messages.php">Personal Messages</a></li>
-							<li><i class="fa fa-exclamation-triangle"></i><a href="groupMessages.php">Group Messages</a></li>
-                             <li><i class="fa fa-exclamation-triangle"></i><a href="videostream.php">Stream</a></li>
-                            </ul>
-                        
-                    </li>
-				
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Courses</a>
-                        <ul class="sub-menu children dropdown-menu">
-							<?php
-							$sql = "SELECT tbl_course.courseid, tbl_course.course from tbl_teacherinfo 
-							INNER JOIN tbl_course ON tbl_teacherinfo.courseid = tbl_course.courseid
-							WHERE tbl_teacherinfo.teacher_id = $id GROUP by tbl_course.courseid";
+						<?php
+						$sql = "SELECT *from tbl_group WHERE teacherId";
 							
 							$result = $conn->query($sql);
 
@@ -93,16 +84,67 @@ $teacherinfo_id = $_GET['teacherinfo_id'];
 							{
 								while($row = $result->fetch_assoc())
 								{
+									?>
+									<li><i class="fa fa-id-badge"></i><a href="group.php?g_Id=<?php echo $row['g_Id']; ?>"><?php echo $row['group_title']; ?></a></li>
+									<?php
+								}
+							}
+						?>
+                             <li><i class="fa fa-plus"></i><a href="addGroup.php">Create Group</a></li>
+                        </ul>
+                    </li>
+                             <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Video Sessions</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-bars"></i><a href="join.php">Join</a></li>
+                            <li><i class="fa fa-bars"></i><a href="sched.php">Schedule</a></li>
+                            <li><i class="fa fa-id-badge"></i><a href="history.php">History</a></li>
+                           </ul>	
+				
+					<h3 class="menu-title">School Year</h3><!-- /.menu-title -->
+							<?php
+							$sql = "SELECT *from tbl_sy ORDER BY SY_To DESC";
+							
+							$result = $conn->query($sql);
+
+							if ($result->num_rows > 0) 
+							{
+								while($row = $result->fetch_assoc())
+								{
+									$syId = $row['syId'];
 								?>
-								<li><i class="fa fa-id-card-o"></i><a href="courseSubjects.php?courseid=<?php echo $row['courseid']; ?>"><?php echo $row['course']; ?></a></li>
+								 <li class="menu-item-has-children dropdown">
+								 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i><?php echo $row['SY_From']." - ".$row['SY_To']; ?></a>
+								<ul class="sub-menu children dropdown-menu">
+									<?php
+									$sql2 = "SELECT tbl_course.course_description,tbl_course.courseId, tbl_sy_course.sy_courseId 
+									from tbl_sy_course_subj
+									INNER JOIN tbl_sy_course ON tbl_sy_course_subj.sy_courseId = tbl_sy_course.sy_courseId 
+									INNER JOIN tbl_course ON tbl_sy_course.courseId = tbl_course.courseId
+									Where tbl_sy_course.syId = $syId AND tbl_sy_course_subj.teacherId = $id GROUP BY tbl_course.courseID";
+									
+									$result2 = $conn->query($sql2);
+
+									if ($result2->num_rows > 0) 
+									{
+										while($row2 = $result2->fetch_assoc())
+										{
+											
+										?>
+										<li><i class="fa fa-id-card-o"></i><a href="courseSubjects.php?sy_courseId=<?php echo $row2['sy_courseId']?>"><?php echo $row2['course_description']; ?></a></li>
+										<?php
+										}
+									}
+									?>
+								</ul> 
+							</li>
+							
 								<?php
 								}
 							}
 							?>
-                        </ul>
                         
-                    </li>
-
+					
                    <h3 class="menu-title"></h3>
                       <li>
                           <a href="../logout.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
@@ -207,20 +249,19 @@ $teacherinfo_id = $_GET['teacherinfo_id'];
                     <div class="card">
                       <div class="card-header">
 					  <?php
-					  $sql = "SELECT tbl_subject.subjectDesc FROM tbl_teacherinfo 
-					  INNER JOIN tbl_subject ON tbl_teacherinfo.subjectid = tbl_subject.subjectid
-					  where tbl_teacherinfo.teacherinfo_id = $teacherinfo_id";
+					  $sql = "SELECT tbl_subjects.subjDesc FROM tbl_sy_course_subj
+					  INNER JOIN tbl_subjects ON tbl_sy_course_subj.subjectId = tbl_subjects.subjectId";
 								
 								$result = $conn->query($sql);
 
 								if ($result->num_rows > 0) 
 								{
 									$row = $result->fetch_assoc();
-									$courseName = $row['subjectDesc'];
+									$subjectName = $row['subjDesc'];
 								}
 					  
 					  ?>
-                        <strong>Subject : <?php echo $courseName; ?></strong>
+                        <strong>Subject : <?php echo $subjectName; ?></strong>
                           
 						  <button type="button" style="float:right" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#addFileModal">
                           Add New Topic
@@ -239,7 +280,7 @@ $teacherinfo_id = $_GET['teacherinfo_id'];
 							</thead>
 							<tbody>
 								<?php
-									$sql = "SELECT *FROM tbl_files where teacherinfoid = $teacherinfo_id ORDER BY quarter ASC, week ASC";
+								$sql = "SELECT *FROM tbl_files where sy_course_subjId = $sy_course_subjId ORDER BY quarter ASC, week ASC";
 								
 								$result = $conn->query($sql);
 
@@ -252,9 +293,9 @@ $teacherinfo_id = $_GET['teacherinfo_id'];
 									<td><?php echo $row['description']; ?></td>
 									<td><?php echo $row['quarter']; ?></td>
 									<td>Week <?php echo $row['week']; ?></td>
-									<td width=20%><a href="<?php echo $row['directory']; ?>"
+									<td width=20%><a href="<?php echo $row['directory']; ?>" target="_blank"
                                     class="btn btn-outline-primary btn-sm">Download</a>
-									<a class="btn btn-outline-danger btn-sm" onclick="confirmDelete(<?php echo $row['id']; ?>)" data-toggle="modal" data-target="#deleteFileModal">Delete</a></td>
+									<a class="btn btn-outline-danger btn-sm" onclick="confirmDelete(<?php echo $row['fileId']; ?>)" data-toggle="modal" data-target="#deleteFileModal">Delete</a></td>
 									</tr>
 									<?php
 									}
@@ -284,7 +325,7 @@ $teacherinfo_id = $_GET['teacherinfo_id'];
                                 </button>
                             </div>
                             <div class="modal-body">
-                              <form action="addFile.php?teacherinfoid=<?php echo $teacherinfo_id; ?>" method="post" class="form-horizontal" enctype = "multipart/form-data">
+                              <form action="addFile.php?sy_course_subjId=<?php echo $sy_course_subjId; ?>" method="post" class="form-horizontal" enctype = "multipart/form-data">
                            
                              <div class="row form-group">
                             <div class="col col-md-3"><label for="subtopic" class=" form-control-label">Subject Topic:</label></div>
@@ -297,7 +338,8 @@ $teacherinfo_id = $_GET['teacherinfo_id'];
                                 <option value="0">Please select assigned quarter</option>
                                 <option value="1">Quarter I</option>
                                 <option value="2">Quarter II</option>
-                               
+                               <option value="3">Quarter III</option>
+							   <option value="4">Quarter IV</option>
                               </select>
                             </div>
                           </div>
@@ -345,7 +387,7 @@ $teacherinfo_id = $_GET['teacherinfo_id'];
                                 </button>
                             </div>
                             <div class="modal-body">
-                              <form action="deleteFile.php?teacherinfoid=<?php echo $teacherinfo_id; ?>" method="post" class="form-horizontal" enctype = "multipart/form-data">
+                              <form action="deleteFile.php?sy_course_subjId=<?php echo $sy_course_subjId; ?>" method="post" class="form-horizontal" enctype = "multipart/form-data">
 							<p>Are you sure you want to delete this topic?</p>
 							<input type=hidden name=deleteid id=deleteid >
 							<div class="modal-footer">

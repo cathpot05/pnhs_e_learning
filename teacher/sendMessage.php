@@ -1,11 +1,11 @@
 <?php
 include '../db.inc.php';
-session_start();
-
-$studentid= $_GET['studentid'];
-$teacherid = $_GET['teacherid'];
+include "../sessionLogout.php";
+$date = date('Y-m-d');
+$time = date('H:i:s');
+$studId= $_GET['studId'];
 $message = $_POST['message'];
-$sql = "insert into tbl_pmessage(studentId, teacherId, message, sendertype) VALUES($studentid,$teacherid,'$message',1)";
+echo $sql = "Insert into tbl_pmessage(studentId, teacherId, message, senderType,date,time) VALUES($studId,$id,'$message',1,'$date','$time')";
 $result = $conn->query($sql);
-header("Location:messages.php?studentId=$studentid");
+header("Location:messages.php?studId=$studId");
 ?>

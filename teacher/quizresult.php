@@ -8,11 +8,8 @@
 include "../sessionLogout.php";
 include "../db.inc.php";
 
-$studId =0;
-if(isset($_GET['studId']))
-{
-$studId = $_GET['studId'];
-}			
+$quizId = $_GET['quizId'];
+				
 ?>
 
 <html class="no-js" lang=""> <!--<![endif]-->
@@ -45,8 +42,7 @@ $studId = $_GET['studId'];
 </head>
 <body>
         <!-- Left Panel -->
-
-        <aside id="left-panel" class="left-panel">
+    <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div class="navbar-header">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -249,82 +245,43 @@ $studId = $_GET['studId'];
            
         </div>
 
-      <div class="col-lg-8">
+      <div class="col-lg-12">
                     <div class="card">
                       <div class="card-header">
-					  
 					  <?php
-					    if(isset($_GET['studId'])){
-					  $sql = "SELECT *FROM tbl_students where studId = $studId";
+					 $sql = "SELECT *from tbl_quiz where quizId = $quizId";
 								
 								$result = $conn->query($sql);
 
 								if ($result->num_rows > 0) 
 								{
 									$row = $result->fetch_assoc();
-									$studentName = $row['firstname']." ".$row['lastname'];
-									
+									$quizName = $row['quizDesc'];
 								}
 					  
 					  ?>
-                        <strong><?php echo $studentName; ?></strong>
-                          <?php
-						}
-						else
-						{
-							?>
-							Please choose a student
-							<?php
-							
-						}
-						  ?>
-                          
+                        <strong>Quiz : <?php echo $quizName; ?></strong>
+                         
+                          <strong></strong>
                       </div>
                       <div class="card-body">
-						<div style=" max-height: 400px; overflow-y: scroll;" id="messageDiv">
-						
-						</div>
-							<hr>
-							<?php if(isset($_GET['studId'])){?>
-							<form action="sendMessage.php?studId=<?php echo $studId; ?>" method="post">
-							<div class="row form-group">
-                            <div class="col-12 col-md-10"><textarea name="message" id="textarea-input" rows="5" placeholder="Message..." class="form-control" required></textarea></div>
-							<div class="col-12 col-md-2"><button style="position: absolute; bottom: 0;" type="submit" class="btn btn-primary">Send</button> </div>
-							</div>
-							</form>
-							
-						<?php }?>
-                    </div>
-            </div>
-  </div>
-      <div class="col-lg-4">
-                    <div class="card">
-                      <div class="card-header">
-                        <strong>Messages History</strong>
-                      </div>
-                      <div class="card-body">
-					  <table width=100%>
-					  <?php if(isset($_GET['studId'])){?>
-					 <tr  >
-									
-										<td ><a href="messages.php?studId=<?php echo $studId ;?>" ><?php echo $studentName; ?></a>
-											</td>
-											<td><i style="float:right; font-size:.6em"><?php echo "Current"; ?></i></td>
-											</tr>
-											<tr>
-												<td colspan=2><hr width=100%></td>
-											</tr>
-						<?php }?>
-						<?php
-						 $sql = "SELECT tbl_students.studId, tbl_students.firstName, tbl_students.lastName, tbl_students.middleName ,tbl_pmessage.date,tbl_pmessage.time
-						 FROM tbl_pmessage
-						 INNER JOIN tbl_students ON tbl_pmessage.studentId = tbl_students.studId
-						 WHERE tbl_pmessage.teacherId = $id AND tbl_students.studId != $studId  AND
-						 pMsg_Id IN (
-						SELECT MAX(pMsg_Id)
-						FROM tbl_pmessage
-						GROUP BY studentId
-						) ORDER BY tbl_pmessage.pMsg_Id DESC";
+                        <table class="table table">
+							<thead class="thead-dark">
+								<tr>
+									<th>Name</th>
+									<th>Score</th>
+								</td>
+							</thead>
+							<tbody>
+								<?php
+							 $sql = "SELECT  B.quizId, B.quizDesc, B.timestart,B.timeend, C.score, F.firstname, F.lastname, F.middlename
+					   FROM tbl_sy_course_subj A 
+					   INNER JOIN tbl_quiz B ON B.sy_course_subjId = A.sy_course_subjId
+					   INNER JOIN tbl_sy_course D ON A.sy_courseId = D.sy_courseId
+					   INNER JOIN tbl_enrolledstudents E ON E.sy_courseId = D.sy_courseId
+					   INNER JOIN tbl_students F ON E.studId = F.studId
+					   LEFT JOIN tbl_score C ON C.quizId = B.quizId  AND C.es_Id = E.es_Id
+					   WHERE B.quizId = $quizId";
 								
 								$result = $conn->query($sql);
 
@@ -332,35 +289,94 @@ $studId = $_GET['studId'];
 								{
 									while($row = $result->fetch_assoc())
 									{
-										?>
-										
-										
-											<tr>
-											<td><a href="messages.php?studId=<?php echo $row['studId']; ?>" > <?php echo $row['firstName']." ".$row['lastName']; ?> </a></td>
-											<td><i style="float:right; font-size:.6em"><?php echo date('h:i a',strtotime($row['time']))."<br>".date('M j, Y',strtotime($row['date'])); ?></i></td>
-											</tr>
-											<tr>
-											<td colspan=2><hr width=100%></td>
-											</tr>
-										
-										<?php
-											
+									?>
+									<tr>
+									<td><?php echo $row['firstname']." ".$row['middlename']." ".$row['lastname']; ?></td>
+									<td width=20%><?php if($row['score']!= '') echo $row['score']; else  echo "N/A"; ?></td>
+									</tr>
+									<?php
 									}
-									
 								}
-						
-						
-						?>
+								?>
+							</tbody>
 						</table>
-						
                     </div>
                     <div class="card">
        
                 </div>
             </div>
+
+
+
+           
+
   </div>
+<div class="modal fade" id="addQuizModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mediumModalLabel">Add New Quiz</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                              <form action="addQuiz.php?sy_course_subjId=<?php echo $sy_course_subjId; ?>" method="post" class="form-horizontal" >
+                           <div class="row form-group">
+                            <div class="col col-md-3"><label for="quizDesc" class=" form-control-label">Quiz</label></div>
+                            <div class="col-12 col-md-9">
+                              <input type=text name=quizDesc placeholder="Quiz Description" class="form-control">
+                            </div>
+                          </div>
+							<div class="row form-group">
+                            <div class="col col-md-3"><label for="timeStart" class=" form-control-label">Time Start</label></div>
+                            <div class="col-12 col-md-9">
+                              <input type=datetime-local name=timeStart  class="form-control">
+                            </div>
+                          </div>
+                            <div class="row form-group">
+                            <div class="col col-md-3"><label for="timeEnd" class=" form-control-label">Time End</label></div>
+                            <div class="col-12 col-md-9">
+                              <input type=datetime-local name=timeEnd  class="form-control">
+                            </div>
+                          </div>
+              
+                      </div>
+                     <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Confirm</button>
+                            </div>
+                           </form>
+                            </div>
+                            
+                        </div>
+                    </div>
 
-
+					<div class="modal fade" id="deleteQuizModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mediumModalLabel">Delete Quiz</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                              <form action="deleteQuiz.php?sy_course_subjId=<?php echo $sy_course_subjId; ?>" method="post" class="form-horizontal" >
+							<p>Are you sure you want to delete this topic?</p>
+							<input type=hidden name=deleteid id=deleteid >
+							<div class="modal-footer">
+                                
+                                <button type="submit" class="btn btn-primary">Yes</button>
+								<button type="button" class="btn btn-secondary"  data-dismiss="modal">No</button>
+                            </div>
+                           </form>
+                            </div>
+                            
+                        </div>
+                    </div>
+					
+                </div>
          
     <!-- Right Panel -->
 
@@ -395,27 +411,12 @@ $studId = $_GET['studId'];
                 normalizeFunction: 'polynomial'
             } );
         } )( jQuery );
+		function confirmDelete(id)
+		{
+			document.getElementById("deleteid").value = id;
+			
+		}
     </script>
-<script type="text/javascript">
-	function refreshData(){
-        var xhr;
-			if (window.XMLHttpRequest) xhr = new XMLHttpRequest(); // all browsers 
-			else xhr = new ActiveXObject("Microsoft.XMLHTTP"); 	// for IE
-			var url = 'refreshMessage.php?studId=<?php echo $studId; ?>';
-			xhr.open('GET', url, false);
-			xhr.onreadystatechange = function () {
-				document.getElementById("messageDiv").innerHTML = xhr.responseText;
 
-			}
-			xhr.send();
-			// ajax stop
-			return false;
-  
-    }
-	refreshData();
-	var myVar = setInterval(function(){ refreshData(); }, 2000);
-						var objDiv = document.getElementById("messageDiv");
-objDiv.scrollTop = objDiv.scrollHeight;
-  </script>
 </body>
 </html>
