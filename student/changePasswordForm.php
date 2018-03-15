@@ -177,9 +177,11 @@ include "../db.inc.php";
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-        <header id="header" class="header">
+                <header id="header" class="header">
 
-                            <div class="col-sm-7">
+            <div class="header-menu">
+
+                              <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
                         <button class="search-trigger"><i class="fa fa-search"></i></button>
@@ -332,6 +334,7 @@ include "../db.inc.php";
                       <div class="card-header">
                         <strong>Change Password</strong> || Fill up the following:
                       </div>
+					  
                       <div class="card-body card-block">
                         <form action="changePassword.php"method="post" class="form-horizontal">
                           <div class="row form-group">
@@ -353,24 +356,14 @@ include "../db.inc.php";
                       <div class="card-footer">
                         <div class="col-6 col-md-6">
                                     <button class="btn btn-outline-primary btn-lg btn-block">Save</button></div>
-                                    
-                         
                          <div class="col-6 col-md-6">
                                     <button type="button" class="btn btn-outline-danger btn-lg btn-block">Cancel</button></div>
                                     
                       </div>
                            </form>
                     </div>
-                    <div class="card">
-       
-                </div>
-            </div>
             </div>
            
-
-                   </div>
-               
-
     <!-- Right Panel -->
 
 

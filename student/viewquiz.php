@@ -361,8 +361,7 @@ include "../db.inc.php";
                            ?>
      								<tr>
      								<td> <?php echo $row["quizDesc"]; ?></td>
-     								<td><?php echo "<strong>From: </strong>".$row['timestart'].' <br> <strong>To: </strong>'.$row['timeend']; ?></td>
-									
+     								<td><?php echo "<strong>From: </strong>".date('M j, Y - g:i a',strtotime($row['timestart'])).' <br> <strong>To: </strong>'.date('M j, Y - g:i a',strtotime($row['timeend'])); ?></td>
 									<td><?php
 									if($row['score'] == "")
 									{	

@@ -338,7 +338,9 @@ $quizId = $_GET['quizId'];
                 <div class="card-header">
                     <strong class="card-title">Quiz</strong>
                 </div>
+				<form action="checkquiz.php?quizId=<?php echo $quizId; ?>" method=post >
                 <div class="card-body">
+				
 				<strong> I. Multiple Choice</strong>
 				<table width=100% class=table>
 				
@@ -393,24 +395,35 @@ $quizId = $_GET['quizId'];
 							{
 								while($row = $result->fetch_assoc())
 								{
-									array_push($multipleId, $row['questionId']);
+									array_push($fillId, $row['questionId']);
 									?>
 									 <tr>
 										<td><?php echo $fillCounter+1 .". ".$row['question']; ?></td>
 									 </tr>
 									 <tr>
 										<td width=50%>
-											<input type=text name="fill<?php echo $multipleId[$multipleCounter]; ?>" class="form-control" required>
+											<input type=text name="fill<?php echo $fillId[$fillCounter]; ?>" class="form-control" required>
 											<br><br>
 										</td>
 									 </tr>
 									<?php
-									$multipleCounter++;
+									$fillCounter++;
 								}
 							}
 								?>
 					</table>
-                </div>
+					</div>
+					  <div class="card-footer">
+                        <div class="col-6 col-md-6">
+                                    <button class="btn btn-outline-primary btn-lg btn-block">Submit</button></div>
+                                   
+                         <div class="col-6 col-md-6">
+                            <button type="button" class="btn btn-outline-danger btn-lg btn-block">Cancel</button>
+						</div>
+                                    
+                      </div>
+					</form>
+                
             </div>
         </div>
             </div>

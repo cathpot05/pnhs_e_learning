@@ -15,23 +15,13 @@ if(isset($_POST['username']))
 {
 	$username = $_POST['username'];
 	$password = md5($_POST['password']);
-<<<<<<< HEAD
 $sql = "SELECT * from tbl_account where username = '$username' and password = '$password' ";
-=======
-echo $sql = "SELECT * from tbl_account where username = '$username' and password = '$password' ";
->>>>>>> 4c286d9e048866f004a304ab6bbfa09bf0faa9dc
 $result = $conn->query($sql);
 if ($result->num_rows > 0) 
 {
 	$row = $result->fetch_assoc();
 	$_SESSION["id"] = $row["accountId"];
-<<<<<<< HEAD
 	$_SESSION['firstname'] = $row['firstname'];
-=======
-    $_SESSION["firstname"] = $row["firstname"];
-    //echo $_SESSION["firstname"];
->>>>>>> 4c286d9e048866f004a304ab6bbfa09bf0faa9dc
-
 	header("Location:admin/index1.php");
 } 
 else 
