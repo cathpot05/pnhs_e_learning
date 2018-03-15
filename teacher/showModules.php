@@ -441,7 +441,6 @@ $sy_course_subjId = $_GET['sy_course_subjId'];
 		function confirmDelete(id)
 		{
 			document.getElementById("deleteid").value = id;
-			
 		}
     </script>
 

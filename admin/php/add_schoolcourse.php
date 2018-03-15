@@ -9,9 +9,9 @@
 include '../../db.inc.php';
 include "../../sessionLogout.php";
 
-$sql = "INSERT INTO tbl_subjects (subjDesc, gradeId)
-VALUES('".$_POST["subj_desc"]."','".$_POST["select_grade_add"]."')";
+$sql = "INSERT INTO tbl_course (course_description)
+VALUES('".$_POST["course"]."')";
 $result = $conn->query($sql);
-header("Location:../subject.php");
+header("Location:../courses.php");
 $conn->close();
 ?>

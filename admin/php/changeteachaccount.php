@@ -1,11 +1,8 @@
 <?php
 include '../../db.inc.php';
-
 include "../../sessionLogout.php";
 
 //echo $_SESSION["id"];
-
-
 
 $username = $_POST["username"];
 $firstname = $_POST["firstname"];
@@ -17,7 +14,6 @@ $dbirth = $_POST["dbirth"];
 $age = $_POST["age"];
 $gender = $_POST["gender"];
 $emailaddress = $_POST["emailaddress"];
-
 $privilege = 1;
 //$status = $_POST["status"];
 
@@ -29,12 +25,12 @@ username= '".$username."'
 ,lastname = '".$lastname."'
 ,address =  '".$address."'
 ,mobileno= '".$mno."'
-,dateofbirth= '".$dbirth."'
+,birthdate= '".$dbirth."'
 ,age= '".$age."'
 ,gender='".$gender."'
 ,emailaddress = '".$emailaddress."'
 ,privilege ='1'
-WHERE teacherid = '".$_POST["id"]."' ";
+WHERE teacherId = '".$_POST["id"]."' ";
 }
 else{
 
@@ -45,20 +41,16 @@ username= '".$username."'
 ,lastname = '".$lastname."'
 ,address =  '".$address."'
 ,mobileno= '".$mno."'
-,dateofbirth= '".$dbirth."'
+,birthdate= '".$dbirth."'
 ,age= '".$age."'
 ,gender='".$gender."'
 ,emailaddress = '".$emailaddress."'
 ,password ='".md5($_POST["password"])."'
 ,privilege ='1'
-WHERE teacherid = '".$_POST["id"]."' ";
+WHERE teacherId = '".$_POST["id"]."' ";
 }
-
 $result = $conn->query($sql);
 
-
-
-//echo $password
 header("Location:../ListofTeachers.php");
 
 

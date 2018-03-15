@@ -55,94 +55,93 @@
 
 <aside id="left-panel" class="left-panel">
     <nav class="navbar navbar-expand-sm navbar-default">
-
         <div class="navbar-header">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-
-
-            <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index1.php"><img src="../images/pantaylogo.png" alt="logor"></a>
-
-
-
+            <a class="navbar-brand" href="index1.php"><img src="../images/pantaylogo.png" alt="logo"></a>
         </div>
-
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
-
                 <li class="active">
-                    <a href="index1.php"> <i class="menu-icon fa fa-dashboard"></i>Home </a>
+                    <a href="index1.php"> <i class="menu-icon fa fa-dashboard">
+                        </i>
+                        Admin <?php echo $_SESSION['firstname']; ?>
+                    </a>
+                </li>
+                <h3 class="menu-title">Accounts</h3><!-- /.menu-title -->
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Teacher</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="ListofTeachers.php">List of Teachers</a></li>
+                        <li><i class="fa fa-plus-circle"></i><a href="TeacherAddAccount.php">Add Teacher</a></li>
+                        <?php
+                        $sql_sy = "SELECT * FROM tbl_sy";
+                        $result_sy = $conn->query($sql_sy);
+                        while($row_sy = $result_sy->fetch_assoc()){
+                            echo '
+     								<li><i class="fa fa-table"></i><a href="view_teacher_peryear.php?id='.$row_sy["syId"].'">'.$row_sy['SY_From'].' - '.$row_sy['SY_To'].'</a></li>
+     								';
+                        }
+                        ?>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-address-book "></i>Students</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="ListofStudent.php">List of Students</a></li>
+                        <li><i class="fa fa-plus-circle"></i><a href="StudentAddAccount.php">Add Student</a></li>
+                        <?php
+                        $sql_sy = "SELECT * FROM tbl_sy";
+                        $result_sy = $conn->query($sql_sy);
+                        while($row_sy = $result_sy->fetch_assoc()){
+                            echo '
+     								<li><i class="fa fa-table"></i><a href="view_students_peryear.php?id='.$row_sy["syId"].'">'.$row_sy['SY_From'].' - '.$row_sy['SY_To'].'</a></li>
+     								';
+                        }
+                        ?>
+
+                    </ul>
 
                 </li>
-                <?php
-                echo'
-
-                    <h3 class="menu-title">Accounts</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Teacher</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="ListofTeachers.php">List of Teachers</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="TeacherAddAccount.php">Add Accounts</a></li>
-                            <li><i class="fa fa-book"></i><a href="Teachermodules.php">Modules</a></li>
-                            <li><i class="fa fa-share-square-o"></i><a href="reques.php">Request</a></li>
-                            <li><i class="fa fa-id-card-o"></i><a href="sched.php">Schedules</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Students</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-table"></i><a href="ListofStudent.php">List of Students</a>
-
-
-                            </li>
-                            <li><i class="fa fa-table"></i><a href="StudentAddAccount.php">Add Account</a></li>
-                              <li><i class="fa fa-table"></i><a href="subject.php">Subjects</a></li>
-                              <li><i class="fa fa-table"></i><a href="quizzes.php">Quizzes</a></li>
-
-                              <li><i class="fa fa-table"></i><a href="sched.php">Schedule</a></li>
-                        </ul>
-                    </li>
-                     <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
-
-                    <li>
-                        <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Data</a>
-
-                         <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
-                         <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Messages</a>
-
-                    </li>
-                    ';
-
-
-                ?>
-
-
-
-
-
-
-                <h3 class="menu-title"></h3><!-- /.menu-title -->
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-pencil"></i>Course and Subjects</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="courses.php">View Courses</a></li>
+                        <li><i class="fa fa-table"></i><a href="subject.php">View Subjects</a></li>
+                        <li><i class="fa fa-table"></i><a href="schoolyear.php">View School Year</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-pencil"></i>School Year</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <?php
+                        $sql_sy = "SELECT * FROM tbl_sy";
+                        $result_sy = $conn->query($sql_sy);
+                        while($row_sy = $result_sy->fetch_assoc()){
+                            echo '
+     								<li><i class="fa fa-table"></i><a href="view_schoolyear.php?id='.$row_sy["syId"].'">'.$row_sy['SY_From'].' - '.$row_sy['SY_To'].'</a></li>
+     								';
+                        }
+                        ?>
+                    </ul>
+                </li>
+                <!--<li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-sort-numeric-asc"></i>School Year</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-eye"></i><a href="#">Add School Year</a></li>
+                        <li><i class="fa fa-table"></i><a href="#">List of</a></li>
+                    </ul>
+                </li>-->
+                <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
                 <li>
-
-                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>About</a>
-
-
+                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                 </li>
-
-
                 <h3 class="menu-title"></h3>
                 <li>
-
-
                     <a href="../logout.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
-
-
                 </li>
-
-
-
-</aside><!-- /#left-panel -->
+</aside>
 
 <!-- Left Panel -->
 
