@@ -78,7 +78,7 @@ $result = $conn->query($sql);
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Groups</a>
                         <ul class="sub-menu children dropdown-menu">
 						<?php
-						$sql = "SELECT *from tbl_group WHERE teacherId";
+						$sql = "SELECT * from tbl_group WHERE teacherId = $id";
 							
 							$result = $conn->query($sql);
 

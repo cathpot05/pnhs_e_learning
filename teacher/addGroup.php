@@ -250,19 +250,29 @@ include "../db.inc.php";
                         <strong>Group's Information</strong> || Fill up the following:
                       </div>
                       <div class="card-body card-block">
-                        <form action="php/TeacherAddAccount.php"method="post" class="form-horizontal">
+                        <form action="add_member_group.php"method="post" class="form-horizontal">
                           <div class="row form-group">
                           </div>
                           <div class="row form-group">
                             <div class="col col-md-3"><label for="groupname" class=" form-control-label">Group Name:</label></div>
                             <div class="col-12 col-md-9"><input required= "" type="text" id="groupname" name="groupname" placeholder="Enter Group's Name" class="form-control" onkeyup="lettersOnly(this)" ></div>
                           </div>
+                            <input required= "" type="hidden" id="teacherid_" name="teacherid_" class="form-control" value="<?php echo $id;?>" >
+
                             <div class="row form-group">
-                            <div class="col col-md-3"><label class=" form-control-label">Course</label></div>
+                            <div class="col col-md-3"><label class=" form-control-label">Course and Subject</label></div>
                              <div class="col-12 col-md-9">
-                                 <select  class="form-control" name="gender" id="gender" >
+                                 <select  class="form-control" name="select_course_subj" id="select_course_subj" >
 								 <?php
-									$sql = "SELECT *FROM tbl_course";
+									$sql = "SELECT A.firstname, A.lastname, CONCAT(E.SY_From, '-', E.SY_To, '-' ,D.course_description, '-', F.subjDesc) as description, A.teacherId, B.sy_course_subjId, C.sy_courseId, F.subjectId
+                                    FROM tbl_teachers A
+                                    INNER JOIN tbl_sy_course_subj B ON A.teacherId = B.teacherId
+                                    INNER JOIN tbl_sy_course  C ON B.sy_courseId  = C.sy_courseId
+                                    INNER JOIN tbl_course D ON C.courseId = D.courseId
+                                    INNER JOIN tbl_sy  E ON C.syId  = E.syId
+                                    INNER JOIN tbl_subjects F ON B.subjectId = F.subjectId
+                                    WHERE A.teacherId = $id
+                                    ORDER BY E.syId ASC";
 									
 									$result = $conn->query($sql);
 
@@ -272,7 +282,7 @@ include "../db.inc.php";
 										{
 											
 										?>
-										 <option value="<?php echo $row['courseId']; ?>"><?php echo $row['course_description']; ?></option>
+										 <option value="<?php echo $row['sy_courseId']; ?>"><?php echo $row['description']; ?></option>
 										<?php
 										}
 									}
@@ -281,9 +291,10 @@ include "../db.inc.php";
 							</div>
                            </div>
                            
-                           <div class="row form-group">
-                            <div class="col col-md-3"><label for="students" class=" form-control-label">Students:</label></div>
+                           <div class="row form-group" id="table_content">
+                            <!--<div class="col col-md-3"><label for="students" class=" form-control-label">Students:</label></div>
                             <div class="col-12 col-md-9"><input required= "" type="text" id="students" name="students" placeholder="Search students" class="form-control"><small class="form-text text-muted"></small></div>
+                            -->
                           </div>
                       </div>
                           
@@ -355,6 +366,26 @@ include "../db.inc.php";
                 scaleColors: [ '#1de9b6', '#03a9f5' ],
                 normalizeFunction: 'polynomial'
             } );
+
+
+
+            $("#select_course_subj").on('click', function() {
+
+                if($("#select_course_subj option").length > 0){
+
+                    var x = this.value;
+                    $.ajax({
+                        type: "GET",
+                        url: "load_students.php?courseId="+x,
+                        cache: false,
+                        success: function(html){
+                            $("#table_content").empty(html);
+                            $("#table_content").append(html);
+                        }
+                    });
+                }
+
+            });
         } )( jQuery );
     </script>
 <script type="text/javascript">

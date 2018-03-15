@@ -407,7 +407,42 @@ $g_Id = $_GET['g_Id'];
                                 </button>
                             </div>
                             <div class="modal-body">
-                              <form action="deleteFill.php?quizId=<?php echo $quizId; ?>" method="post" class="form-horizontal" >
+                              <form action="addmember_onebyone.php" method="post" class="form-horizontal" >
+                                  <div class="row form-group">
+                                      <div class="col col-md-3"><label class=" form-control-label">Student</label></div>
+                                      <div class="col-12 col-md-9">
+                                          <select  class="form-control" name="select_student" id="select_student" >
+                                              <?php
+                                            $sql = "SELECT A.es_Id, A.sy_courseId, CONCAT(B.firstname, ' ', B.lastname) AS name , B.studId , G.course_description, F.gradeDesc
+                                            FROM tbl_enrolledstudents A
+                                            INNER JOIN tbl_students B ON A.studId = B.studId
+                                            INNER JOIN tbl_sy_course C ON A.sy_courseId = C.sy_courseId
+                                            INNER JOIN tbl_grade F ON A.gradeId = F.gradeId
+                                            INNER JOIN tbl_course G ON C.courseId = G.courseId
+                                            INNER JOIN tbl_sy_course_subj H ON C.sy_courseId = H.sy_courseId
+                                            WHERE H.teacherId = $id AND B.studId NOT IN
+                                            (SELECT studentId FROM tbl_gmembers WHERE g_Id = '".$_GET['g_Id']."')";
+                                              $result = $conn->query($sql);
+                                              if ($result->num_rows > 0)
+                                              {
+                                                  while($row = $result->fetch_assoc())
+                                                  {
+                                                      ?>
+                                                      <option value="<?php echo $row['studId']; ?>"><?php echo $row['name']; ?></option>
+                                                  <?php
+                                                  }
+                                              }
+                                              ?>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <input type="hidden" name="teacherId"  value="<?php echo $id;?>"/>
+                                  <input type="hidden" name="groupId"  value="<?php echo $_GET['g_Id'];?>"/>
+                                  <label style="color: red;">**IF NO DATA DISPLAYED, ALL HANDLED STUDENTS ARE ALREADY ADDED ON THIS GROUP</label>
+                                  <div class="modal-footer">
+                                      <button type="submit" class="btn btn-primary">Add Member</button>
+                                      <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancel</button>
+                                  </div>
 							   </form>
                             </div>
                             
