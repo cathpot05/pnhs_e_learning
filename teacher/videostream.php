@@ -57,7 +57,7 @@ $firstname = $_GET['firstname'];
 			vidyoConnector.Connect({
 				host : "prod.vidyo.io",
 				token : "cHJvdmlzaW9uAGNhdGhwb3QwNUAzOGI1ZTcudmlkeW8uaW8ANjM2ODg0ODY2NTUAADVmMjBmOGRjMzEwZDc0ODU5MWQ3YWFkZDQzOWE3ZjE0MzhhZTVjMjRjMTU4MzFkNjdiYjAzNGRkYzA0OTgwNGYzZmJiYzc0OTljOTA5M2Y2ZmE5OTUwZWU2ODFlMzc3Ng==",
-				displayName : "<?php echo $firstname; ?>",
+				displayName : "<?php echo $firstname; ?> (Teacher)",
 				resourceId : "pnhs_room_<?php echo $id; ?>",
 				onSuccess : function (){
 					console.log("Connected!! ");

@@ -355,7 +355,7 @@ $es_Id = $_GET['es_Id'];
 						INNER JOIN tbl_sy_course_subj C ON B.sy_courseId = C.sy_courseId
 						INNER JOIN tbl_subjects D ON C.subjectId = D.subjectId
 						INNER JOIN tbl_teachers E ON C.teacherId = E.teacherId
-						LEFT JOIN tbl_stream F ON C.sy_course_subjId =  F.sy_course_subj
+						LEFT JOIN tbl_stream F ON C.sy_course_subjId =  F.sy_course_subjId
 						WHERE A.es_Id = $es_Id";
                         $result = $conn->query($sql);
 
