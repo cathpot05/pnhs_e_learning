@@ -265,12 +265,6 @@ include '../db.inc.php';
                  }
                         
                         </style>
-                        
-                 
-                             
-   
-    
-                        
 
                     </div>
 

@@ -31,7 +31,6 @@ $es_Id = $_GET['es_Id'];
     <title>Pantay National High School</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     
     <link rel="shortcut icon" href="../images/pantaylogo1_.bmp">
 
@@ -350,12 +349,13 @@ $es_Id = $_GET['es_Id'];
                         <tbody>
 
                         <?php
-                       $sql = "SELECT A.studId,C.sy_course_subjId, D.subjDesc, E.firstname,E.middlename,E.lastname 
+                       $sql = "SELECT A.studId,C.sy_course_subjId, D.subjDesc, E.firstname,E.middlename,E.lastname, F.id as videoId
 						FROM tbl_enrolledstudents A 
 						INNER JOIN tbl_sy_course B ON A.sy_courseId = B.sy_courseId
 						INNER JOIN tbl_sy_course_subj C ON B.sy_courseId = C.sy_courseId
 						INNER JOIN tbl_subjects D ON C.subjectId = D.subjectId
 						INNER JOIN tbl_teachers E ON C.teacherId = E.teacherId
+						LEFT JOIN tbl_stream F ON C.sy_course_subjId =  F.sy_course_subj
 						WHERE A.es_Id = $es_Id";
                         $result = $conn->query($sql);
 
@@ -373,8 +373,14 @@ $es_Id = $_GET['es_Id'];
                     <div class="btn-sm">
 
      								<a href="viewmodulesubj.php?sy_course_subjId='.$row["sy_course_subjId"].'"
-                                    class="btn btn-outline-primary btn-sm">View Modules  </a>
-                                 <br /><br />
+                                    class="btn btn-outline-primary btn-sm">View Modules  </a>';
+                            if($row['videoId']!=null){
+                                echo'
+                                    <br />
+                                    <a class="btn btn-outline-warning btn-sm" href="videostream.php?videoId='.$row["videoId"].'&name='.$row["firstname"].'&sub='.$row['subjDesc'].'">Join Video</a>
+                                ';
+                            }//<a class="btn btn-outline-info btn-sm" target="_blank" href="videostream.php?videoId='.$row["videoId"].'&name='.$row["firstname"].'">Join Video Conference</a>
+                                    echo'<br />
 								 <a href="viewquizsubj.php?sy_course_subjId='.$row["sy_course_subjId"].'&es_Id='.$es_Id.'"
                                     class="btn btn-outline-success btn-sm">View Quizzes</a>
 
@@ -431,6 +437,13 @@ $es_Id = $_GET['es_Id'];
                 normalizeFunction: 'polynomial'
             } );
         } )( jQuery );
+
+
+        function gotoWindow(id, name){
+            url = "localhost/eLearning/student/videostream.php?videoId="+id+"&name="+name;
+            var win = window.open(url, '_blank');
+            win.focus();
+        }
     </script>
 
 </body>
