@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2018 at 04:47 PM
+-- Generation Time: Mar 16, 2018 at 04:58 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -224,6 +224,15 @@ CREATE TABLE `tbl_notif` (
   `time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tbl_notif`
+--
+
+INSERT INTO `tbl_notif` (`notifId`, `sy_course_subjId`, `notif`, `date`, `time`) VALUES
+(1, 1, 'Video streaming started', '2018-03-16', '16:21:07'),
+(2, 2, 'Video streaming started', '2018-03-16', '16:41:54'),
+(3, 1, 'Video streaming started', '2018-03-16', '16:42:43');
+
 -- --------------------------------------------------------
 
 --
@@ -325,6 +334,17 @@ CREATE TABLE `tbl_score` (
 
 INSERT INTO `tbl_score` (`scoreId`, `quizId`, `es_Id`, `score`) VALUES
 (5, 2, 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_stream`
+--
+
+CREATE TABLE `tbl_stream` (
+  `id` int(11) NOT NULL,
+  `sy_course_subjId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -566,6 +586,12 @@ ALTER TABLE `tbl_score`
   ADD PRIMARY KEY (`scoreId`);
 
 --
+-- Indexes for table `tbl_stream`
+--
+ALTER TABLE `tbl_stream`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_students`
 --
 ALTER TABLE `tbl_students`
@@ -654,7 +680,7 @@ ALTER TABLE `tbl_group`
 -- AUTO_INCREMENT for table `tbl_notif`
 --
 ALTER TABLE `tbl_notif`
-  MODIFY `notifId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `notifId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tbl_pmessage`
 --
@@ -664,7 +690,7 @@ ALTER TABLE `tbl_pmessage`
 -- AUTO_INCREMENT for table `tbl_quiz`
 --
 ALTER TABLE `tbl_quiz`
-  MODIFY `quizId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `quizId` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_quiz_fill`
 --
@@ -680,6 +706,11 @@ ALTER TABLE `tbl_quiz_multiple`
 --
 ALTER TABLE `tbl_score`
   MODIFY `scoreId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `tbl_stream`
+--
+ALTER TABLE `tbl_stream`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tbl_students`
 --

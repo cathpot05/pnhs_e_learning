@@ -279,9 +279,10 @@ $sy_courseId = $_GET['sy_courseId'];
 							</thead>
 							<tbody>
 								<?php
-								$sql = "SELECT tbl_subjects.subjDesc, tbl_grade.gradeDesc, tbl_sy_course_subj.sy_course_subjId FROM tbl_sy_course_subj
+								$sql = "SELECT tbl_subjects.subjDesc, tbl_grade.gradeDesc, tbl_sy_course_subj.sy_course_subjId, tbl_stream.id FROM tbl_sy_course_subj
 								INNER JOIN tbl_subjects ON tbl_sy_course_subj.subjectId = tbl_subjects.subjectId
 								INNER JOIN tbl_grade ON tbl_subjects.gradeId = tbl_grade.gradeId
+								LEFT JOIN tbl_stream ON tbl_stream.sy_course_subjId = tbl_sy_course_subj.sy_course_subjId
 								WHERE tbl_sy_course_subj.sy_courseId = $sy_courseId AND tbl_sy_course_subj.teacherId = $id";
 								
 								$result = $conn->query($sql);
@@ -300,6 +301,33 @@ $sy_courseId = $_GET['sy_courseId'];
 									<br>
 									<a href="quiz.php?sy_course_subjId=<?php echo $row['sy_course_subjId'];?>"
                                     class="btn btn-outline-success btn-sm">Show Quizzes</a>
+									
+									<?php
+									if($row['id']== "")
+									{
+										
+									?>
+									<br>
+									<br>
+									<a href="addstream.php?sy_courseId=<?php echo $sy_courseId; ?>&sy_course_subjId=<?php echo $row['sy_course_subjId']; ?>"
+                                    class="btn btn-outline-info btn-sm">Start Stream</a>
+									<?php
+										
+										
+									}
+									else
+									{
+										?>
+									<br>
+									<br>
+									<a href="videostream.php?id=<?php echo $row['id']; ?>&firstname=<?php echo $_SESSION['firstname']?>"
+                                    class="btn btn-outline-info btn-sm">Join Stream</a>
+									<?php
+
+									}
+									
+									?>
+									
 									</td>
 									</tr>
 									<?php
