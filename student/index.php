@@ -54,7 +54,7 @@ include '../db.inc.php';
                 </button>
                 
                
-              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="../index.php"><img src="../images/pantaylogo.png" alt="logor"></a>
+              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index.php"><img src="../images/student.png" alt="logor"></a>
                 
                  
                 
@@ -75,7 +75,7 @@ include '../db.inc.php';
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>My Account</a>
 							<ul class="sub-menu children dropdown-menu">
 								 <li>
-									<a href="messages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Personal Messages</a>
+									<a href="messages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i> Messages</a>
 								 </li>
 								 <li>
 									<a href="groupMessages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Group Messages</a>
@@ -108,14 +108,7 @@ include '../db.inc.php';
 								?>
                             </ul>
 							</li>
-						<li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Video Sessions</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="join.php">Join</a></li>
-                            <li><i class="fa fa-bars"></i><a href="sched.php">Schedule</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="history.php">History</a></li>
-                           </ul>
-						   </li>
+						
 						 	<li>
 						   <a href="ListofTeachers.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>Teachers</a>
 						 </li>
@@ -176,7 +169,7 @@ include '../db.inc.php';
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
-                        <button class="search-trigger"><i class="fa fa-search"></i></button>
+ 
 						 <div class="dropdown for-message">
                           <button class="btn btn-secondary dropdown-toggle" type="button"
                                 id="message"
@@ -250,6 +243,8 @@ include '../db.inc.php';
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right"> 
                         <img class="user-avatar rounded-circle" src="../images/pantaylogo.png" alt="User Avatar">
+                        
+                        <p> Student</p>
                        
                    
              <style>

@@ -134,8 +134,11 @@
                 </li>-->
                 <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
                 <li>
-                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
+                    <a href="reports.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                 </li>
+                 <li>
+                         <a href="data.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Data</a>
+                    </li>
                 <h3 class="menu-title"></h3>
                 <li>
                     <a href="../logout.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
@@ -310,10 +313,10 @@
                     <div class="col-12 col-md-9"><input required= "" type="text" id="username" name="username" value = "<?php echo $row["username"];?>" placeholder="Enter Student's Username" class="form-control" onkeyup="lettersOnly(this)" ></div>
                 </div>
 
-                <div class="row form-group">
+                <!--<div class="row form-group">
                     <div class="col col-md-3"><label for="password" class=" form-control-label">Password</label></div>
                     <div class="col-12 col-md-9"><input type="password" id="password" name="password" placeholder="Enter Password" class="form-control"><span class="help-block"> <i class="fa fa-info"></i> Password serves as default.</span></div>
-                </div>
+                </div>-->
 
 
                 <div class="card-footer">

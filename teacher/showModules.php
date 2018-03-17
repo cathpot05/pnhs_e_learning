@@ -48,21 +48,21 @@ $sy_course_subjId = $_GET['sy_course_subjId'];
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                      <i class="fa fa-bars"></i>
                 </button>      
-              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index1"><img src="../images/pantaylogo.png" alt="logor"></a>
+              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index.php"><img src="../images/teacher.png" alt="logor"></a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     
                     <li class="active">
-                        <a href="index.php"> <i class="menu-icon fa fa-dashboard"></i><?php echo $_SESSION['firstname']; ?></a>   
+                        <a href="index.php"> <i class="menu-icon fa fa-dashboard"></i>Teacher <?php echo $_SESSION['firstname']; ?></a>   
                     </li>
 					<h3 class="menu-title">Account</h3><!-- /.menu-title -->
                   <li class="menu-item-has-children dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>My Account</a>
 							<ul class="sub-menu children dropdown-menu">
 								 <li>
-									<a href="messages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Personal Messages</a>
+									<a href="messages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Messages</a>
 								 </li>
 								 <li>
 									<a href="groupMessages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Group Messages</a>
@@ -93,13 +93,7 @@ $sy_course_subjId = $_GET['sy_course_subjId'];
                              <li><i class="fa fa-plus"></i><a href="addGroup.php">Create Group</a></li>
                         </ul>
                     </li>
-                             <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Video Sessions</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="join.php">Join</a></li>
-                            <li><i class="fa fa-bars"></i><a href="sched.php">Schedule</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="history.php">History</a></li>
-                           </ul>	
+                             
 				
 					<h3 class="menu-title">School Year</h3><!-- /.menu-title -->
 							<?php
@@ -169,16 +163,7 @@ $sy_course_subjId = $_GET['sy_course_subjId'];
 
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-                    <div class="header-left">
-                        <button class="search-trigger"><i class="fa fa-search"></i></button>
-                        <div class="form-inline">
-                            <form class="search-form">
-                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
-                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
-                            </form>
-                        </div>
-
-                    </div>
+                   
                 </div>
 
                 <div class="col-sm-5">

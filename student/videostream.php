@@ -56,7 +56,7 @@ $subj = $_GET['sub'];
     {
         vidyoConnector.Connect({
             host : "prod.vidyo.io",
-            token : "cHJvdmlzaW9uAGNhdGhwb3QwNUAzOGI1ZTcudmlkeW8uaW8ANjM2ODg0ODY2NTUAADVmMjBmOGRjMzEwZDc0ODU5MWQ3YWFkZDQzOWE3ZjE0MzhhZTVjMjRjMTU4MzFkNjdiYjAzNGRkYzA0OTgwNGYzZmJiYzc0OTljOTA5M2Y2ZmE5OTUwZWU2ODFlMzc3Ng==",
+            token : "cHJvdmlzaW9uAGVtZXJzb25AMzhiNWU3LnZpZHlvLmlvADYzNjg4NTUwNDY1AAA4MTM4Y2FiM2JkNmJjZGQzNTJiNjgzZjIwZDlmZWJiMjk2ZWVjM2M3ZTY1YzkwNDgxZTdlYTFmNmI3ZGViMTI4ZDc0YjU4ZjBhOTU4MWMzOGNkMzM5YzJmYmVmMTQ5MDc=",
             displayName : "<?php echo $name . ' (Student)';?>",
             resourceId : "<?php echo 'pnhs_room_'. $id ;?>",
             onSuccess : function (){

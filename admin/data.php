@@ -11,6 +11,7 @@
 
 include "../sessionLogout.php";
 include '../db.inc.php';
+//session_start();
 ?>
 
 
@@ -218,7 +219,31 @@ include '../db.inc.php';
             </div>
           </div>
 
+ <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <!--<h1>Dashboard</h1>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+                
+                <?php
 
+$result = mysql_query("SELECT * FROM tbl_students");
+echo mysql_num_rows($result);
+
+//echo "$num_rows Rows\n";
+//echo "There are " . $rows . " rows in my table.";?>
         <!--Insert codes here-->
         <!--Insert codes here-->
 

@@ -64,7 +64,7 @@ $es_Id = $_GET['es_Id'];
                 </button>
                 
                
-              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="../index.php"><img src="../images/pantaylogo.png" alt="logor"></a>
+              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index.php"><img src="../images/student.png" alt="logor"></a>
                 
                  
                 
@@ -85,7 +85,7 @@ $es_Id = $_GET['es_Id'];
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>My Account</a>
 							<ul class="sub-menu children dropdown-menu">
 								 <li>
-									<a href="messages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Personal Messages</a>
+									<a href="messages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Messages</a>
 								 </li>
 								 <li>
 									<a href="groupMessages.php"  aria-haspopup="true" aria-expanded="false"> <i class="ti-info-alt"></i>Group Messages</a>
@@ -117,15 +117,7 @@ $es_Id = $_GET['es_Id'];
 							}
 								?>
                             </ul>
-							</li>
-						<li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Video Sessions</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="join.php">Join</a></li>
-                            <li><i class="fa fa-bars"></i><a href="sched.php">Schedule</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="history.php">History</a></li>
-                           </ul>
-						   </li>
+						
 						 	<li>
 						   <a href="ListofTeachers.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>Teachers</a>
 						 </li>
@@ -186,7 +178,7 @@ $es_Id = $_GET['es_Id'];
                                <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
-                        <button class="search-trigger"><i class="fa fa-search"></i></button>
+                       
 						 <div class="dropdown for-message">
                           <button class="btn btn-secondary dropdown-toggle" type="button"
                                 id="message"
@@ -261,7 +253,7 @@ $es_Id = $_GET['es_Id'];
                     <div class="user-area dropdown float-right"> 
                         <img class="user-avatar rounded-circle" src="../images/pantaylogo.png" alt="User Avatar">
                        
-                   
+                   <p> Student</p>
              <style>
                         
                 p
@@ -349,12 +341,13 @@ $es_Id = $_GET['es_Id'];
                         <tbody>
 
                         <?php
-                       $sql = "SELECT A.studId,C.sy_course_subjId, D.subjDesc, E.firstname,E.middlename,E.lastname, F.id as videoId
+                       $sql = "SELECT A.studId,C.sy_course_subjId, D.subjDesc, E.firstname,E.middlename,E.lastname, F.id as videoId, G.firstname AS student
 						FROM tbl_enrolledstudents A 
 						INNER JOIN tbl_sy_course B ON A.sy_courseId = B.sy_courseId
 						INNER JOIN tbl_sy_course_subj C ON B.sy_courseId = C.sy_courseId
 						INNER JOIN tbl_subjects D ON C.subjectId = D.subjectId
 						INNER JOIN tbl_teachers E ON C.teacherId = E.teacherId
+						INNER JOIN tbl_students G ON A.studId = G.studId
 						LEFT JOIN tbl_stream F ON C.sy_course_subjId =  F.sy_course_subjId
 						WHERE A.es_Id = $es_Id";
                         $result = $conn->query($sql);
@@ -377,10 +370,16 @@ $es_Id = $_GET['es_Id'];
                             if($row['videoId']!=null){
                                 echo'
                                     <br />
-                                    <a class="btn btn-outline-warning btn-sm" href="videostream.php?videoId='.$row["videoId"].'&name='.$row["firstname"].'&sub='.$row['subjDesc'].'">Join Video</a>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <a class="btn btn-outline-warning btn-sm" href="videostream.php?videoId='.$row["videoId"].'&name='.$row["student"].'&sub='.$row['subjDesc'].'">Join Video</a>
                                 ';
                             }//<a class="btn btn-outline-info btn-sm" target="_blank" href="videostream.php?videoId='.$row["videoId"].'&name='.$row["firstname"].'">Join Video Conference</a>
-                                    echo'<br />
+                                    echo'
+                                    <br />
+                                    <br />
+                                   
 								 <a href="viewquizsubj.php?sy_course_subjId='.$row["sy_course_subjId"].'&es_Id='.$es_Id.'"
                                     class="btn btn-outline-success btn-sm">View Quizzes</a>
 

@@ -52,7 +52,7 @@ session_start();
                 </button>
                 
                
-              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index.php"><img src="../images/pantaylogo.png" alt="logor"></a>
+              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index.php"><img src="../images/student.png" alt="logor"></a>
                 
                  
                 
@@ -173,7 +173,7 @@ session_start();
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right"> 
                         <img class="user-avatar rounded-circle" src="../images/pantaylogo.png" alt="User Avatar">
-                       
+                      <p> Student</p> 
                    
              <style>
                         

@@ -121,8 +121,11 @@ include '../db.inc.php';
                 </li>-->
                 <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
                 <li>
-                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
+                    <a href="reports.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                 </li>
+                 <li>
+                         <a href="data.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Data</a>
+                    </li>
                 <h3 class="menu-title"></h3>
                 <li>
                     <a href="../logout.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
@@ -142,6 +145,8 @@ include '../db.inc.php';
             <div class="col-sm-5">
                 <div class="user-area dropdown float-right">
                     <img class="user-avatar rounded-circle" src="../images/pantaylogo.png" alt="User Avatar">
+                    
+                  <p> Admin <?php echo $_SESSION['firstname']; ?></p> 
                     <style>
 
                         p

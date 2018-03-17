@@ -121,16 +121,7 @@
 
 
                 ?>
-                <h3 class="menu-title"></h3><!-- /.menu-title -->
-                <li>
-
-                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-info-alt"></i>About</a>
-
-
-                </li>
-
-
-                <h3 class="menu-title"></h3>
+               
                 <li>
 
 

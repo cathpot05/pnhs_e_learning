@@ -52,7 +52,7 @@ session_start();
                 </button>
                 
                
-              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index.php"><img src="../images/pantaylogo.png" alt="logor"></a>
+              <!--note: mamaya remove yung sidebar image/text --> <a class="navbar-brand" href="index.php"><img src="../images/student.png" alt="logor"></a>
                 
                  
                 
@@ -90,16 +90,9 @@ session_start();
                             <li><i class="fa fa-id-badge"></i><a href="score.php">Scores</a></li>
                             
                             </ul>
-                            <h3 class="menu-title"></h3>
-                             <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>Video Sessions</a>
+                           
                                  
-                                 
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-bars"></i><a href="join.php">Join</a></li>
-                            <li><i class="fa fa-bars"></i><a href="sched.php">Schedule</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="history.php">History</a></li>
-                           </ul>
+                      
                             
                                    <h3 class="menu-title"></h3>
                              <li>

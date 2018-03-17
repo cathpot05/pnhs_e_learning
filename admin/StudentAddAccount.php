@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="../assets/css/themify-icons.css">
     <link rel="stylesheet" href="../assets/css/flag-icon.min.css">
     <link rel="stylesheet" href="../assets/css/cs-skin-elastic.css">
+    <link rel="text/css" href="../date.js">
     <!-- <link rel="stylesheet" href="assets/css/bootstrap-select.less"> -->
 
 
@@ -142,8 +143,11 @@
                 </li>-->
                 <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
                 <li>
-                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
+                    <a href="reports.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
                 </li>
+                 <li>
+                         <a href="data.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Data</a>
+                    </li>
                 <h3 class="menu-title"></h3>
                 <li>
                     <a href="../logout.php"> <i class="menu-icon ti-power-off"></i>Log out </a>
@@ -279,7 +283,7 @@
                 </div>
                 <div class="row form-group">
                     <div class="col col-md-3"><label for="mno" class=" form-control-label">Mobile No.:</label></div>
-                    <div class="col-12 col-md-9"><input required="" type="text" id="mno" name="mno" placeholder="Enter Student's Mobile No." class="form-control" onkeyup="numbersOnly(this)"></div>
+                    <div class="col-12 col-md-9"><input required="" type="text" id="mno" name="mno" placeholder="Enter Student's Mobile No." class="form-control" onkeyup="numbersOnly(this)" maxlength="11"></div>
                 </div>
                 <div class="row form-group">
                     <div class="col col-md-3"><label for="dbirth" class=" form-control-label">Date of Birth:</label></div>
@@ -302,7 +306,7 @@
 
                 <div class="row form-group">
                     <div class="col col-md-3"><label for="emailaddress" class=" form-control-label">Email Address:</label></div>
-                    <div class="col-12 col-md-9"><input required= "" type="email" id="emailaddress" name="emailaddress" placeholder="Enter email address" class="form-control"><small class="form-text text-muted"> <i class="fa fa-info"></i> Please insert a valid e-mail address.</small></div>
+                    <div class="col-12 col-md-9"><input required= "" type="email" id="emailaddress" name="emailaddress" placeholder="Enter email address" class="form-control"></div>
                 </div>
                 <div class="row form-group">
                     <div class="col col-md-3"><label for="username" class=" form-control-label">User Name:</label></div>
@@ -311,7 +315,7 @@
 
                 <div class="row form-group">
                     <div class="col col-md-3"><label for="password" class=" form-control-label">Password</label></div>
-                    <div class="col-12 col-md-9"><input type="password" id="password" name="password" placeholder="Enter Password" class="form-control"><span class="help-block"> <i class="fa fa-info"></i> Password serves as default.</span></div>
+                    <div class="col-12 col-md-9"><input type="password" id="password" name="password" placeholder="Enter Password" class="form-control"></div>
                 </div>
                 <div class="card-footer">
                     <div class="col-6 col-md-6">
@@ -367,6 +371,16 @@
             scaleColors: [ '#1de9b6', '#03a9f5' ],
             normalizeFunction: 'polynomial'
         } );
+
+        //$("#dbirth").datepicker({});
+        $( "#dbirth" ).blur(function() {
+            var birth =  new Date($( "#dbirth").val());
+            var today = new Date();
+            var age = Math.floor((today-birth) / (365.25 * 24 * 60 * 60 * 1000));
+            $('#age').val(age);
+        });
+
+
     } )( jQuery );
 </script>
 

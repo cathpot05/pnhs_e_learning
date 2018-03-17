@@ -33,6 +33,7 @@ include"php/alphanum1.php";
     <link rel="stylesheet" href="../assets/css/themify-icons.css">
     <link rel="stylesheet" href="../assets/css/flag-icon.min.css">
     <link rel="stylesheet" href="../assets/css/cs-skin-elastic.css">
+    <link rel="text/css" href="../date.js">
     <!-- <link rel="stylesheet" href="assets/css/bootstrap-select.less"> -->
        
 
@@ -48,7 +49,9 @@ include"php/alphanum1.php";
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
 
 </head>
-<body>
+    
+  
+<body onload="aaa">
 <script>
     function lettersOnly(input){
         var regex = /[^a-z]/gi;
@@ -142,7 +145,9 @@ include"php/alphanum1.php";
                 </li>-->
                 <h3 class="menu-title">Manage</h3><!-- /.menu-title -->
                 <li>
-                    <a href="#"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
+                    <a href="reports.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Reports</a>
+                </li> <li>
+                    <a href="data.php"  aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Data</a>
                 </li>
                 <h3 class="menu-title"></h3>
                 <li>
@@ -186,7 +191,11 @@ include"php/alphanum1.php";
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right"> 
                         <img class="user-avatar rounded-circle" src="../images/pantaylogo.png" alt="User Avatar">
+                        
+                        <p>   Admin <?php echo $_SESSION['firstname']; ?></p>
              <style>
+                 
+                 
                 p
                  {
                      
@@ -279,15 +288,23 @@ include"php/alphanum1.php";
                   </div>
                   <div class="row form-group">
                       <div class="col col-md-3"><label for="mno" class=" form-control-label">Mobile No.:</label></div>
-                      <div class="col-12 col-md-9"><input required="" type="text" id="mno" name="mno" placeholder="Enter Teacher's Mobile No." class="form-control" onkeyup="numbersOnly(this)"></div>
+                      <div class="col-12 col-md-9"><input required="" type="text" id="mno" name="mno" placeholder="Enter Teacher's Mobile No." class="form-control" onkeyup="numbersOnly(this)" maxlength="11"></div>
                     </div>
                  <div class="row form-group">
                 <div class="col col-md-3"><label for="dbirth" class=" form-control-label">Date of Birth:</label></div>
-                <div class="col-12 col-md-9"><input required="" type="text" id="dbirth" name="dbirth" placeholder="Enter Date of Birth" class="form-control" ></div>
+                <div class="col-12 col-md-9"><input required="" type="date"  id="dbirth" name="dob" placeholder="yyyy/mm/dd" class="form-control" placeholder="" ></div>
               </div>
+                  
+                  <script type = "text/javascript">
+                     $age = floor((time() - strto time('1986-09-16')) / 31556926);
+                  
+                  
+                  
+                  </script>
+                  
                  <div class="row form-group">
                 <div class="col col-md-3"><label for="age" class=" form-control-label">Age:</label></div>
-                <div class="col-12 col-md-9"><input ondrop = "return false;" onpaste = "return false;" required = " " type="number" id="age" name="age" placeholder="Enter Student's Birth Date" class="form-control" min ="1" max = "30" value = "0" step = "1" ondrop = "return false;" onpaste = "return false;"></div>
+                <div class="col-12 col-md-9"><input ondrop = "return false;" onpaste = "return false;" required = " " type="" id="age" name="age" placeholder="Enter Student's Birth Date" class="form-control" min ="1" max = "30" value = "" step = "1" ondrop = "return false;" onpaste = "return false;"></div>
               </div>
 
               <div class="row form-group">
@@ -302,7 +319,7 @@ include"php/alphanum1.php";
 
                  <div class="row form-group">
                 <div class="col col-md-3"><label for="emailaddress" class=" form-control-label">Email Address:</label></div>
-                <div class="col-12 col-md-9"><input required= "" type="email" id="emailaddress" name="emailaddress" placeholder="Enter email address" class="form-control"><small class="form-text text-muted"> <i class="fa fa-info"></i> Please insert a valid e-mail address.</small></div>
+                <div class="col-12 col-md-9"><input required= "" type="email" id="emailaddress" name="emailaddress" placeholder="Enter email address" class="form-control"></div>
               </div>
                 <div class="row form-group">
                     <div class="col col-md-3"><label for="username" class=" form-control-label">User Name:</label></div>
@@ -311,7 +328,7 @@ include"php/alphanum1.php";
 
                 <div class="row form-group">
                 <div class="col col-md-3"><label for="password" class=" form-control-label">Password</label></div>
-                <div class="col-12 col-md-9"><input type="password" id="password" name="password" placeholder="Enter Password" class="form-control"><span class="help-block"> <i class="fa fa-info"></i> Password serves as default.</span></div>
+                <div class="col-12 col-md-9"><input type="password" id="password" name="password" placeholder="Enter Password" class="form-control"></div>
               </div>
 
 

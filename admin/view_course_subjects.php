@@ -414,7 +414,6 @@ $sy_Id = $_GET['syId'];
                 <form action="php/remove_sy_course_subject.php?" method="post" class="form-horizontal" enctype = "multipart/form-data">
                     <p>Are you sure you want to delete this subject?</p>
                     <input type=hidden name=deleteid id=deleteid >
-                    <input type=hidden name=deletesyid id=deletesyid >
                     <input type=hidden name=delete_syId value="<?php echo $sy_Id; ?>">
                     <input type=hidden name=delete_syIdCourse  value="<?php echo $sy_courseId; ?>">
                     <div class="modal-footer">
@@ -494,11 +493,11 @@ $sy_Id = $_GET['syId'];
 
 
 
-    function removeData(sy_courseid, sy_id)
+    function removeData(id, sy_id)
     {
 
         //alert('test');
-        document.getElementById("deleteid").value = sy_courseid;
+        document.getElementById("deleteid").value = id;
         //document.getElementById("deletesyid").value = sy_id;
         //document.getElementById("edit_sy_to").value = to;
 
